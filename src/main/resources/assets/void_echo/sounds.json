@@ -1,0 +1,98 @@
+{
+  "entity.void_stalker.ambient": {
+    "sounds": [{"name": "void_echo:entity/void_stalker/ambient", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.void_stalker.ambient"
+  },
+  "entity.void_stalker.hurt": {
+    "sounds": [{"name": "void_echo:entity/void_stalker/hurt", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.void_stalker.hurt"
+  },
+  "entity.void_stalker.death": {
+    "sounds": [{"name": "void_echo:entity/void_stalker/death", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.void_stalker.death"
+  },
+  "entity.void_stalker.scream": {
+    "sounds": [{"name": "void_echo:entity/void_stalker/scream", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.void_stalker.scream"
+  },
+  "entity.void_stalker.phase_shift": {
+    "sounds": [{"name": "void_echo:entity/void_stalker/phase_shift", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.void_stalker.phase_shift"
+  },
+  "entity.echo_warden.ambient": {
+    "sounds": [{"name": "void_echo:entity/echo_warden/ambient", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.echo_warden.ambient"
+  },
+  "entity.echo_warden.hurt": {
+    "sounds": [{"name": "void_echo:entity/echo_warden/hurt", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.echo_warden.hurt"
+  },
+  "entity.echo_warden.death": {
+    "sounds": [{"name": "void_echo:entity/echo_warden/death", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.echo_warden.death"
+  },
+  "entity.echo_warden.slash": {
+    "sounds": [{"name": "void_echo:entity/echo_warden/slash", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.echo_warden.slash"
+  },
+  "entity.echo_warden.time_slow": {
+    "sounds": [{"name": "void_echo:entity/echo_warden/time_slow", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.echo_warden.time_slow"
+  },
+  "entity.void_worm.ambient": {
+    "sounds": [{"name": "void_echo:entity/void_worm/ambient", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.void_worm.ambient"
+  },
+  "entity.void_worm.hurt": {
+    "sounds": [{"name": "void_echo:entity/void_worm/hurt", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.void_worm.hurt"
+  },
+  "entity.void_worm.death": {
+    "sounds": [{"name": "void_echo:entity/void_worm/death", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.void_worm.death"
+  },
+  "entity.crystal_wraith.ambient": {
+    "sounds": [{"name": "void_echo:entity/crystal_wraith/ambient", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.crystal_wraith.ambient"
+  },
+  "entity.crystal_wraith.hurt": {
+    "sounds": [{"name": "void_echo:entity/crystal_wraith/hurt", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.crystal_wraith.hurt"
+  },
+  "entity.crystal_wraith.death": {
+    "sounds": [{"name": "void_echo:entity/crystal_wraith/death", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.crystal_wraith.death"
+  },
+  "entity.shard_guard.ambient": {
+    "sounds": [{"name": "void_echo:entity/shard_guard/ambient", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.shard_guard.ambient"
+  },
+  "entity.shard_guard.hurt": {
+    "sounds": [{"name": "void_echo:entity/shard_guard/hurt", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.shard_guard.hurt"
+  },
+  "entity.shard_guard.death": {
+    "sounds": [{"name": "void_echo:entity/shard_guard/death", "stream": false}],
+    "subtitle": "subtitles.void_echo.entity.shard_guard.death"
+  },
+  "item.void_staff.cast": {
+    "sounds": [{"name": "void_echo:item/void_staff/cast", "stream": false}],
+    "subtitle": "subtitles.void_echo.item.void_staff.cast"
+  },
+  "block.void_portal.activate": {
+    "sounds": [{"name": "void_echo:block/void_portal/activate", "stream": false}],
+    "subtitle": "subtitles.void_echo.block.void_portal.activate"
+  },
+  "block.void_portal.ambient": {
+    "sounds": [{"name": "void_echo:block/void_portal/ambient", "stream": true}],
+    "subtitle": "subtitles.void_echo.block.void_portal.ambient"
+  },
+  "music.voids_end": {
+    "sounds": [
+      {
+        "name": "void_echo:music/voids_end",
+        "stream": true
+      }
+    ]
+  }
+}

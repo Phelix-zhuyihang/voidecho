@@ -1,0 +1,1 @@
+{"parent": "minecraft:block/cube_bottom_top", "textures": {"top": "void_echo:block/echo_altar_top", "bottom": "void_echo:block/crystal_block", "side": "void_echo:block/echo_altar_side"}}

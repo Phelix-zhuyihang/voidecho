@@ -1,0 +1,59 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": {"type": "minecraft:uniform", "min": 3.0, "max": 6.0},
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "void_echo:void_alloy_ingot",
+          "weight": 3,
+          "functions": [
+            {"function": "minecraft:set_count", "count": {"type": "minecraft:uniform", "min": 1.0, "max": 3.0}}
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "void_echo:crystal_shard",
+          "weight": 5,
+          "functions": [
+            {"function": "minecraft:set_count", "count": {"type": "minecraft:uniform", "min": 3.0, "max": 8.0}}
+          ]
+        },
+        {"type": "minecraft:item", "name": "minecraft:diamond", "weight": 3, "functions": [{"function": "minecraft:set_count", "count": {"type": "minecraft:uniform", "min": 1.0, "max": 3.0}}]},
+        {"type": "minecraft:item", "name": "minecraft:emerald", "weight": 4, "functions": [{"function": "minecraft:set_count", "count": {"type": "minecraft:uniform", "min": 2.0, "max": 6.0}}]},
+        {"type": "minecraft:item", "name": "minecraft:golden_apple", "weight": 2},
+        {"type": "minecraft:item", "name": "minecraft:ender_pearl", "weight": 3, "functions": [{"function": "minecraft:set_count", "count": {"type": "minecraft:uniform", "min": 1.0, "max": 3.0}}]}
+      ]
+    },
+    {
+      "rolls": {"type": "minecraft:uniform", "min": 1.0, "max": 2.0},
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond_sword",
+          "weight": 2,
+          "functions": [
+            {"function": "minecraft:enchant_with_levels", "levels": {"type": "minecraft:uniform", "min": 15.0, "max": 25.0}, "treasure": false}
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond_chestplate",
+          "weight": 2,
+          "functions": [
+            {"function": "minecraft:enchant_with_levels", "levels": {"type": "minecraft:uniform", "min": 15.0, "max": 25.0}, "treasure": false}
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:enchanted_book",
+          "weight": 3,
+          "functions": [
+            {"function": "minecraft:enchant_with_levels", "levels": {"type": "minecraft:uniform", "min": 20.0, "max": 30.0}, "treasure": true}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {"item": "void_echo:crystal_shard"},
+    "P": {"item": "minecraft:ender_pearl"},
+    "Q": {"item": "minecraft:quartz"}
+  },
+  "pattern": [" C ", "CPC", " Q "],
+  "result": {"id": "void_echo:void_key", "count": 1}
+}

@@ -1,0 +1,48 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:echo_shard_1"},
+    "title": {"translate": "advancements.void_echo.collect_all_echo_shards.title"},
+    "description": {"translate": "advancements.void_echo.collect_all_echo_shards.description"},
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "void_echo:find_sanctum",
+  "criteria": {
+    "shard_1": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["void_echo:echo_shard_1"]}]
+      }
+    },
+    "shard_2": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["void_echo:echo_shard_2"]}]
+      }
+    },
+    "shard_3": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["void_echo:echo_shard_3"]}]
+      }
+    },
+    "shard_4": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["void_echo:echo_shard_4"]}]
+      }
+    },
+    "shard_5": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["void_echo:echo_shard_5"]}]
+      }
+    }
+  },
+  "requirements": [["shard_1"], ["shard_2"], ["shard_3"], ["shard_4"], ["shard_5"]],
+  "rewards": {
+    "experience": 500
+  }
+}

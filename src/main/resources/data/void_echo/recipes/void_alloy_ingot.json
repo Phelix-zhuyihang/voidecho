@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {"item": "void_echo:void_heart"},
+    {"item": "minecraft:netherite_scrap"},
+    {"item": "minecraft:diamond_block"}
+  ],
+  "result": {"count": 2, "id": "void_echo:void_alloy_ingot"}
+}

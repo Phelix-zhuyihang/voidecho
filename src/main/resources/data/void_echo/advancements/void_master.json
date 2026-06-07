@@ -1,0 +1,79 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:void_heart"},
+    "title": {"translate": "advancements.void_echo.void_master.title"},
+    "description": {"translate": "advancements.void_echo.void_master.description"},
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "void_echo:defeat_warden",
+  "criteria": {
+    "completed_root": {
+      "trigger": "minecraft:impossible"
+    },
+    "completed_find_crystal": {
+      "trigger": "minecraft:impossible"
+    },
+    "completed_craft_key": {
+      "trigger": "minecraft:impossible"
+    },
+    "completed_find_altar": {
+      "trigger": "minecraft:impossible"
+    },
+    "completed_enter_void": {
+      "trigger": "minecraft:impossible"
+    },
+    "completed_void_explorer": {
+      "trigger": "minecraft:impossible"
+    },
+    "completed_find_fortress": {
+      "trigger": "minecraft:impossible"
+    },
+    "completed_vault_loot": {
+      "trigger": "minecraft:impossible"
+    },
+    "completed_defeat_stalker": {
+      "trigger": "minecraft:impossible"
+    },
+    "completed_void_alloy": {
+      "trigger": "minecraft:impossible"
+    },
+    "completed_full_armor": {
+      "trigger": "minecraft:impossible"
+    },
+    "completed_all_weapons": {
+      "trigger": "minecraft:impossible"
+    },
+    "completed_find_sanctum": {
+      "trigger": "minecraft:impossible"
+    },
+    "completed_summon_warden": {
+      "trigger": "minecraft:impossible"
+    },
+    "completed_defeat_warden": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    ["completed_root"],
+    ["completed_find_crystal"],
+    ["completed_craft_key"],
+    ["completed_find_altar"],
+    ["completed_enter_void"],
+    ["completed_void_explorer"],
+    ["completed_find_fortress"],
+    ["completed_vault_loot"],
+    ["completed_defeat_stalker"],
+    ["completed_void_alloy"],
+    ["completed_full_armor"],
+    ["completed_all_weapons"],
+    ["completed_find_sanctum"],
+    ["completed_summon_warden"],
+    ["completed_defeat_warden"]
+  ],
+  "rewards": {
+    "experience": 1000
+  }
+}

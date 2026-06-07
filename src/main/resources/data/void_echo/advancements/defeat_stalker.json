@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:void_heart"},
+    "title": {"translate": "advancements.void_echo.defeat_stalker.title"},
+    "description": {"translate": "advancements.void_echo.defeat_stalker.description"},
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "void_echo:find_fortress",
+  "criteria": {
+    "killed_stalker": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "void_echo:void_stalker"
+        }
+      }
+    }
+  },
+  "requirements": [["killed_stalker"]]
+}

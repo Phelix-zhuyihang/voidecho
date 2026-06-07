@@ -1,0 +1,48 @@
+{
+  "processors": [
+    {
+      "processor_type": "minecraft:rule",
+      "rules": [
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_block_match",
+            "block": "void_echo:void_stone_bricks",
+            "probability": 0.25
+          },
+          "output_state": {
+            "Name": "void_echo:cracked_void_stone_bricks"
+          }
+        },
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_block_match",
+            "block": "void_echo:void_stone_bricks",
+            "probability": 0.05
+          },
+          "output_state": {
+            "Name": "minecraft:air"
+          }
+        },
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_block_match",
+            "block": "void_echo:void_stone",
+            "probability": 0.15
+          },
+          "output_state": {
+            "Name": "void_echo:cracked_void_stone_bricks"
+          }
+        }
+      ]
+    }
+  ]
+}

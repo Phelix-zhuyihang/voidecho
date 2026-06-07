@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "void_echo:echo_sanctum",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 50,
+    "separation": 30,
+    "salt": 1827364,
+    "spread_type": "linear"
+  }
+}

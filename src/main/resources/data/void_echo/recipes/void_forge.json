@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:shaped",
+  "pattern": [
+    "VCV",
+    "C C",
+    "VCV"
+  ],
+  "key": {
+    "V": {
+      "item": "void_echo:void_alloy_ingot"
+    },
+    "C": {
+      "item": "void_echo:crystal_block"
+    }
+  },
+  "result": {
+    "id": "void_echo:void_forge"
+  }
+}

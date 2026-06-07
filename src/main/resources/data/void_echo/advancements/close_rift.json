@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:rift_fragment"},
+    "title": {"translate": "advancements.void_echo.close_rift.title"},
+    "description": {"translate": "advancements.void_echo.close_rift.description"},
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "void_echo:enter_void",
+  "criteria": {
+    "has_fragment": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["void_echo:rift_fragment"]}]
+      }
+    }
+  },
+  "requirements": [["has_fragment"]],
+  "rewards": {
+    "experience": 100
+  }
+}

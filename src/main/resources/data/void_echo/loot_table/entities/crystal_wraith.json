@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "void_echo:crystal_shard",
+          "functions": [
+            {"function": "minecraft:set_count", "count": {"type": "minecraft:uniform", "min": 0.0, "max": 3.0}}
+          ]
+        }
+      ]
+    }
+  ]
+}

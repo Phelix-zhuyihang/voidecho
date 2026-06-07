@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:echo_core"},
+    "title": {"translate": "advancements.void_echo.summon_warden.title"},
+    "description": {"translate": "advancements.void_echo.summon_warden.description"},
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "void_echo:find_sanctum",
+  "criteria": {
+    "summoned_warden": {
+      "trigger": "minecraft:summoned_entity",
+      "conditions": {
+        "entity": {
+          "type": "void_echo:echo_warden"
+        }
+      }
+    }
+  },
+  "requirements": [["summoned_warden"]]
+}

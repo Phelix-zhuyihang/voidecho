@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:echo_altar"},
+    "title": {"translate": "advancements.void_echo.find_sanctum.title"},
+    "description": {"translate": "advancements.void_echo.find_sanctum.description"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "void_echo:defeat_stalker",
+  "criteria": {
+    "in_sanctum": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": {
+          "location": {
+            "structures": "void_echo:echo_sanctum"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [["in_sanctum"]]
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "void_echo:block/echo_shard_4"
+  }
+}

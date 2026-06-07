@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "void_echo:block/crystal_bloom"
+  }
+}

@@ -1,0 +1,1 @@
+{"parent": "minecraft:block/cube_bottom_top", "textures": {"top": "void_echo:block/void_portal_frame_top", "bottom": "void_echo:block/void_stone_bricks", "side": "void_echo:block/void_portal_frame_side"}}

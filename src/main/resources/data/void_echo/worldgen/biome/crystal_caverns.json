@@ -1,0 +1,64 @@
+{
+  "temperature": -0.3,
+  "downfall": 0.0,
+  "has_precipitation": false,
+  "effects": {
+    "sky_color": 1048624,
+    "fog_color": 1704016,
+    "water_color": 2621480,
+    "water_fog_color": 1704016,
+    "grass_color": 4202624,
+    "foliage_color": 3151968,
+    "particle": {
+      "options": { "type": "void_echo:void_ambient" },
+      "probability": 0.02
+    },
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    },
+    "music": {
+      "sound": "void_echo:music.voids_end",
+      "min_delay": 12000,
+      "max_delay": 24000,
+      "replace_current_music": false
+    }
+  },
+  "spawners": {
+    "monster": [
+      {
+        "type": "void_echo:crystal_wraith",
+        "weight": 80,
+        "minCount": 1,
+        "maxCount": 3
+      },
+      {
+        "type": "void_echo:shard_guard",
+        "weight": 50,
+        "minCount": 1,
+        "maxCount": 2
+      }
+    ]
+  },
+  "spawn_costs": {},
+  "carvers": {
+    "air": ["minecraft:cave", "minecraft:cave_extra_underground", "minecraft:canyon"]
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "void_echo:crystal_cluster_placed",
+      "void_echo:crystal_ore_placed"
+    ],
+    [],
+    [],
+    [],
+    []
+  ]
+}

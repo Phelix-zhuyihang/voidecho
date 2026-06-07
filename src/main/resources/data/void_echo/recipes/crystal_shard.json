@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [{"item": "void_echo:crystal_block"}],
+  "result": {"count": 9, "id": "void_echo:crystal_shard"}
+}

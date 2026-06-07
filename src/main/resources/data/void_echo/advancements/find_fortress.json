@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:void_stone_bricks"},
+    "title": {"translate": "advancements.void_echo.find_fortress.title"},
+    "description": {"translate": "advancements.void_echo.find_fortress.description"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "void_echo:enter_void",
+  "criteria": {
+    "in_fortress": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": {
+          "location": {
+            "structures": "void_echo:void_fortress"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [["in_fortress"]]
+}

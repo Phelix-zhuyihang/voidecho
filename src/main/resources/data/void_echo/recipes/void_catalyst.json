@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "V V",
+    "CEC",
+    "V V"
+  ],
+  "key": {
+    "V": {"item": "void_echo:void_alloy_ingot"},
+    "C": {"item": "void_echo:crystal_block"},
+    "E": {"item": "void_echo:echo_core"}
+  },
+  "result": {"count": 1, "id": "void_echo:void_catalyst"}
+}

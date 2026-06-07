@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {"item": "void_echo:crystal_shard"},
+    {"item": "void_echo:crystal_shard"},
+    {"item": "void_echo:crystal_shard"},
+    {"item": "void_echo:crystal_shard"},
+    {"item": "void_echo:crystal_shard"},
+    {"item": "void_echo:void_heart"}
+  ],
+  "result": {"count": 1, "id": "void_echo:echo_tome"}
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "cookingtime": 200,
+  "experience": 0.1,
+  "ingredient": {"item": "void_echo:void_stone_bricks"},
+  "result": {"id": "void_echo:cracked_void_stone_bricks"}
+}

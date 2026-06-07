@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {"item": "minecraft:book"},
+    {"item": "void_echo:crystal_shard"}
+  ],
+  "result": {"id": "void_echo:void_echo_journal", "count": 1}
+}

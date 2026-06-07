@@ -1,0 +1,23 @@
+{
+  "$schema": "https://opencode.ai/opencode-schema.json",
+  "agent": {
+    "name": "void-echo-coder",
+    "description": "Void Echo Mod - Fabric Minecraft mod. When using MCP bridge tools, use agent id 'void-echo'."
+  },
+  "mcpServers": {
+    "claude-coord-bridge": {
+      "command": "node",
+      "args": ["C:\\Users\\Administrator\\.claude-coord\\mcp-bridge\\server.js"]
+    }
+  },
+  "customCommands": {
+    "check-inbox": {
+      "command": "node -e \"const fs=require('fs'),d=require('os').homedir()+'/.claude-coord/data/messages';fs.readdirSync(d).filter(f=>f.endsWith('.json')).sort().forEach(f=>{const m=JSON.parse(fs.readFileSync(d+'/'+f));if(m.target==='void-echo'||m.target==='all')console.log('['+m.sender+'] '+m.subject+'\\n'+m.body.slice(0,300)+'\\n---')})\"",
+      "description": "Check messages from the coordination bridge"
+    },
+    "share-lesson": {
+      "command": "node -e \"const fs=require('fs'),p=require('path'),h=require('os').homedir();const a={source:'void-echo',category:process.argv[1]||'general',title:process.argv[2]||'untitled',body:process.argv[3]||'',tags:(process.argv[4]||'').split(',').map(t=>t.trim())};const id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);fs.writeFileSync(p.join(h,'.claude-coord/data/knowledge',id+'.json'),JSON.stringify({...a,id,timestamp:new Date().toISOString()},null,2));console.log('Saved:',id)\"",
+      "description": "Share a lesson learned with the other mod project"
+    }
+  }
+}

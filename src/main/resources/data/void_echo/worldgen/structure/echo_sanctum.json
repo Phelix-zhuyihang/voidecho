@@ -1,0 +1,7 @@
+{
+  "type": "void_echo:echo_sanctum",
+  "biomes": ["void_echo:crystal_forest"],
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin",
+  "spawn_overrides": {}
+}

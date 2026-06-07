@@ -1,0 +1,13 @@
+{
+  "values": [
+    "void_echo:void_stone",
+    "void_echo:void_dirt",
+    "void_echo:void_grass_block",
+    "minecraft:grass_block",
+    "minecraft:dirt",
+    "minecraft:stone",
+    "minecraft:coarse_dirt",
+    "minecraft:podzol",
+    "minecraft:rooted_dirt"
+  ]
+}

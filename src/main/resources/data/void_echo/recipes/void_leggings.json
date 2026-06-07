@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "V": {"item": "void_echo:void_alloy_ingot"}
+  },
+  "pattern": ["VVV", "V V", "V V"],
+  "result": {"id": "void_echo:void_leggings"}
+}

@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "void_echo:void_fortress",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 30,
+    "separation": 20,
+    "salt": 8273615,
+    "spread_type": "linear"
+  }
+}

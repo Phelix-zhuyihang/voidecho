@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "S": {"item": "void_echo:crystal_shard"}
+  },
+  "pattern": ["SSS", "SSS", "SSS"],
+  "result": {"id": "void_echo:crystal_block"}
+}

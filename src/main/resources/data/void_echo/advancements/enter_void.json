@@ -1,0 +1,21 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:void_grass_block"},
+    "title": {"translate": "advancements.void_echo.enter_void.title"},
+    "description": {"translate": "advancements.void_echo.enter_void.description"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "void_echo:find_altar",
+  "criteria": {
+    "entered_void": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "void_echo:voids_end"
+      }
+    }
+  },
+  "requirements": [["entered_void"]]
+}

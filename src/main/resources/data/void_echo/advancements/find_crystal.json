@@ -1,0 +1,21 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:crystal_shard"},
+    "title": {"translate": "advancements.void_echo.find_crystal.title"},
+    "description": {"translate": "advancements.void_echo.find_crystal.description"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "void_echo:root",
+  "criteria": {
+    "has_crystal_shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["void_echo:crystal_shard"]}]
+      }
+    }
+  },
+  "requirements": [["has_crystal_shard"]]
+}

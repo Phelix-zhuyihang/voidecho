@@ -1,0 +1,21 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:crystal_block"},
+    "title": {"translate": "advancements.void_echo.vault_loot.title"},
+    "description": {"translate": "advancements.void_echo.vault_loot.description"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "void_echo:find_fortress",
+  "criteria": {
+    "loot_vault": {
+      "trigger": "minecraft:player_generates_container_loot",
+      "conditions": {
+        "loot_table": "void_echo:chests/void_fortress_vault"
+      }
+    }
+  },
+  "requirements": [["loot_vault"]]
+}

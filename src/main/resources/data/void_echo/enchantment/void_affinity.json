@@ -1,0 +1,13 @@
+{
+  "description": {
+    "translate": "enchantment.void_echo.void_affinity"
+  },
+  "supported_items": "#void_echo:void_weapons",
+  "weight": 5,
+  "max_level": 3,
+  "min_cost": {"base": 10, "per_level_above_first": 10},
+  "max_cost": {"base": 30, "per_level_above_first": 10},
+  "anvil_cost": 4,
+  "slots": ["mainhand"],
+  "exclusive_set": "#minecraft:exclusive_set/damage"
+}

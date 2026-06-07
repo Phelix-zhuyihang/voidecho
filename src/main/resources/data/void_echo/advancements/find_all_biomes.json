@@ -1,0 +1,39 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:void_grass_block"},
+    "title": {"translate": "advancements.void_echo.find_all_biomes.title"},
+    "description": {"translate": "advancements.void_echo.find_all_biomes.description"},
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "void_echo:void_explorer",
+  "criteria": {
+    "void_plains": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [{"condition": "minecraft:entity_properties", "entity": "this", "predicate": {"location": {"biomes": "void_echo:void_plains"}}}]
+      }
+    },
+    "crystal_forest": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [{"condition": "minecraft:entity_properties", "entity": "this", "predicate": {"location": {"biomes": "void_echo:crystal_forest"}}}]
+      }
+    },
+    "void_wastes": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [{"condition": "minecraft:entity_properties", "entity": "this", "predicate": {"location": {"biomes": "void_echo:void_wastes"}}}]
+      }
+    },
+    "crystal_caverns": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [{"condition": "minecraft:entity_properties", "entity": "this", "predicate": {"location": {"biomes": "void_echo:crystal_caverns"}}}]
+      }
+    }
+  },
+  "requirements": [["void_plains"], ["crystal_forest"], ["void_wastes"], ["crystal_caverns"]]
+}

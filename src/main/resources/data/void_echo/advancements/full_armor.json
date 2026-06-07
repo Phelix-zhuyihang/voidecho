@@ -1,0 +1,39 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:void_chestplate"},
+    "title": {"translate": "advancements.void_echo.full_armor.title"},
+    "description": {"translate": "advancements.void_echo.full_armor.description"},
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "void_echo:void_alloy",
+  "criteria": {
+    "has_helmet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["void_echo:void_helmet"]}]
+      }
+    },
+    "has_chestplate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["void_echo:void_chestplate"]}]
+      }
+    },
+    "has_leggings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["void_echo:void_leggings"]}]
+      }
+    },
+    "has_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["void_echo:void_boots"]}]
+      }
+    }
+  },
+  "requirements": [["has_helmet"], ["has_chestplate"], ["has_leggings"], ["has_boots"]]
+}

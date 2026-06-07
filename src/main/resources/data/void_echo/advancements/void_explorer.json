@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:void_grass_block"},
+    "title": {"translate": "advancements.void_echo.void_explorer.title"},
+    "description": {"translate": "advancements.void_echo.void_explorer.description"},
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "void_echo:enter_void",
+  "criteria": {
+    "visited_void_plains": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": {
+          "location": {
+            "biomes": "void_echo:void_plains"
+          }
+        }
+      }
+    },
+    "visited_crystal_forest": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": {
+          "location": {
+            "biomes": "void_echo:crystal_forest"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [["visited_void_plains", "visited_crystal_forest"]]
+}

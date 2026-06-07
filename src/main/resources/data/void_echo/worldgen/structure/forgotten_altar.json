@@ -1,0 +1,7 @@
+{
+  "type": "void_echo:forgotten_altar",
+  "biomes": "#void_echo:has_structure/forgotten_altar",
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin",
+  "spawn_overrides": {}
+}

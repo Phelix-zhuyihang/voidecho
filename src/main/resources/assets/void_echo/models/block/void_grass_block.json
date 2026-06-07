@@ -1,0 +1,1 @@
+{"parent": "minecraft:block/cube_bottom_top", "textures": {"top": "void_echo:block/void_grass_block_top", "bottom": "void_echo:block/void_dirt", "side": "void_echo:block/void_grass_block_side"}}

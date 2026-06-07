@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:void_sword"},
+    "title": {"translate": "advancements.void_echo.all_weapons.title"},
+    "description": {"translate": "advancements.void_echo.all_weapons.description"},
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "void_echo:void_alloy",
+  "criteria": {
+    "has_sword": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["void_echo:void_sword"]}]
+      }
+    },
+    "has_bow": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["void_echo:void_bow"]}]
+      }
+    },
+    "has_staff": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["void_echo:void_staff"]}]
+      }
+    }
+  },
+  "requirements": [["has_sword"], ["has_bow"], ["has_staff"]],
+  "rewards": {
+    "experience": 100
+  }
+}

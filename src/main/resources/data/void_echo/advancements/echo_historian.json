@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:echo_tome"},
+    "title": {"translate": "advancements.void_echo.echo_historian.title"},
+    "description": {"translate": "advancements.void_echo.echo_historian.description"},
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "void_echo:defeat_stalker",
+  "criteria": {
+    "has_tome": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {"items": ["void_echo:echo_tome"]}
+        ]
+      }
+    }
+  },
+  "requirements": [["has_tome"]]
+}

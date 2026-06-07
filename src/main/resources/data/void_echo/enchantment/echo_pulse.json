@@ -1,0 +1,13 @@
+{
+  "description": {
+    "translate": "enchantment.void_echo.echo_pulse"
+  },
+  "supported_items": "#minecraft:chest_armor",
+  "weight": 3,
+  "max_level": 2,
+  "min_cost": {"base": 10, "per_level_above_first": 10},
+  "max_cost": {"base": 30, "per_level_above_first": 10},
+  "anvil_cost": 4,
+  "slots": ["chest"],
+  "exclusive_set": "#minecraft:exclusive_set/armor"
+}
