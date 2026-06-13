@@ -42,6 +42,11 @@ public class ModStructures {
             (StructureType<EchoSanctumStructure>) registerStructureType("echo_sanctum",
                     EchoSanctumStructure.CODEC);
 
+    @SuppressWarnings("unchecked")
+    public static final StructureType<VoidRiftCoreStructure> VOID_RIFT_CORE_TYPE =
+            (StructureType<VoidRiftCoreStructure>) registerStructureType("void_rift_core",
+                    VoidRiftCoreStructure.CODEC);
+
     private static Identifier id(String path) {
         return Identifier.of(VoidEcho.MOD_ID, path);
     }

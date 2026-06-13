@@ -254,5 +254,8 @@
 
   "item.void_echo.rift_core": "Rift Core",
   "item.void_echo.void_shade_spawn_egg": "Void Shade Spawn Egg",
-  "entity.void_echo.void_shade": "Void Shade"
+  "entity.void_echo.void_shade": "Void Shade",
+
+  "message.void_echo.forge_void_resonance": "Void Resonance applied! 15% chance for void pulse on attack.",
+  "message.void_echo.forge_crystal_barrier": "Crystal Barrier applied! Generates a shield every 60 seconds."
 }

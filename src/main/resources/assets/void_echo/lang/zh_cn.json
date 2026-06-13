@@ -261,6 +261,7 @@
   "message.void_echo.forge_need_catalyst": "还需要在背包中有虚空触媒。",
   "item.void_echo.rift_core": "裂隙核心",
   "item.void_echo.void_shade_spawn_egg": "虚空之影刷怪蛋",
-  "entity.void_echo.void_shade": "虚空之影",
-  "block.void_echo.rift_core": "裂隙核心"
+  "block.void_echo.rift_core": "裂隙核心",
+  "message.void_echo.forge_void_resonance": "虚空共鸣已应用！攻击时有15%概率释放虚空脉冲。",
+  "message.void_echo.forge_crystal_barrier": "水晶屏障已应用！每60秒生成一个吸收伤害的护盾。"
 }

@@ -27,6 +27,14 @@ public class ModStructurePieceTypes {
                             nbt.getInt("maxX"), nbt.getInt("maxY"), nbt.getInt("maxZ"))
             );
 
+    public static final StructurePieceType RIFT_CORE_PIECE = (ctx, nbt) ->
+            new VoidRiftCoreStructure.RiftCorePiece(
+                    ModStructurePieceTypes.RIFT_CORE_PIECE, nbt.getInt("length"),
+                    new net.minecraft.util.math.BlockBox(
+                            nbt.getInt("minX"), nbt.getInt("minY"), nbt.getInt("minZ"),
+                            nbt.getInt("maxX"), nbt.getInt("maxY"), nbt.getInt("maxZ"))
+            );
+
     public static final StructurePieceType SANCTUM_PIECE = (ctx, nbt) ->
             new EchoSanctumStructure.SanctumPiece(
                     ModStructurePieceTypes.SANCTUM_PIECE, nbt.getInt("length"),
@@ -42,6 +50,8 @@ public class ModStructurePieceTypes {
                 Identifier.of(VoidEcho.MOD_ID, "fortress_piece"), FORTRESS_PIECE);
         Registry.register(Registries.STRUCTURE_PIECE,
                 Identifier.of(VoidEcho.MOD_ID, "sanctum_piece"), SANCTUM_PIECE);
+        Registry.register(Registries.STRUCTURE_PIECE,
+                Identifier.of(VoidEcho.MOD_ID, "rift_core_piece"), RIFT_CORE_PIECE);
     }
 
     private ModStructurePieceTypes() {}

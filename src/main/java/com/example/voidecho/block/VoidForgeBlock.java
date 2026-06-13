@@ -140,6 +140,29 @@ public class VoidForgeBlock extends Block {
                 return NbtComponent.of(nbt);
             }
 
+            // ---- Tier 3: Rift Core upgrades ----
+
+            // Void Resonance (weapon — Rift Core ×1, requires existing echo or rift upgrade)
+            if (offHand.isOf(ModItems.RIFT_CORE)
+                    && (nbt.contains("void_echo:echo_upgrade", NbtElement.BYTE_TYPE)
+                        || nbt.contains("void_echo:rift_upgrade", NbtElement.BYTE_TYPE))
+                    && !nbt.contains("void_echo:void_resonance", NbtElement.BYTE_TYPE)) {
+                nbt.putBoolean("void_echo:void_resonance", true);
+                appliedUpgrade[0] = "void_resonance";
+                return NbtComponent.of(nbt);
+            }
+
+            // Crystal Barrier (chestplate — Rift Core ×1 + 3 Crystal Blocks)
+            if (offHand.isOf(ModItems.RIFT_CORE) && player.getInventory()
+                    .count(ModBlocks.CRYSTAL_BLOCK.asItem()) >= 3
+                    && mainHand.getItem() instanceof com.example.voidecho.item.armor.VoidArmorItem armor
+                    && armor.getSlotType() == net.minecraft.entity.EquipmentSlot.CHEST
+                    && !nbt.contains("void_echo:crystal_barrier", NbtElement.BYTE_TYPE)) {
+                nbt.putBoolean("void_echo:crystal_barrier", true);
+                appliedUpgrade[0] = "crystal_barrier";
+                return NbtComponent.of(nbt);
+            }
+
             return existing; // No matching upgrade
         });
 
@@ -177,6 +200,15 @@ public class VoidForgeBlock extends Block {
                     player.getInventory().remove(s -> s.isOf(ModItems.VOID_CATALYST), 1);
                     offHand.decrement(1);
                     player.sendMessage(Text.translatable("message.void_echo.forge_rift_fury"), true);
+                }
+                case "void_resonance" -> {
+                    offHand.decrement(1);
+                    player.sendMessage(Text.translatable("message.void_echo.forge_void_resonance"), true);
+                }
+                case "crystal_barrier" -> {
+                    offHand.decrement(1);
+                    player.getInventory().remove(s -> s.isOf(ModBlocks.CRYSTAL_BLOCK.asItem()), 3);
+                    player.sendMessage(Text.translatable("message.void_echo.forge_crystal_barrier"), true);
                 }
             }
             playForgeEffects(world, pos);
