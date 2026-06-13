@@ -31,6 +31,9 @@ public final class ModEntityRenderers {
         EntityModelLayerRegistry.registerModelLayer(
                 CrystalGuardianModel.LAYER_LOCATION, CrystalGuardianModel::getTexturedModelData
         );
+        EntityModelLayerRegistry.registerModelLayer(
+                VoidShadeModel.LAYER_LOCATION, VoidShadeModel::getTexturedModelData
+        );
 
         // --- Register renderers ---
         EntityRendererRegistry.register(ModEntities.VOID_WORM, VoidWormRenderer::new);
@@ -40,6 +43,7 @@ public final class ModEntityRenderers {
         EntityRendererRegistry.register(ModEntities.ECHO_WARDEN, EchoWardenRenderer::new);
         EntityRendererRegistry.register(ModEntities.CRYSTAL_SPRITE, CrystalSpriteRenderer::new);
         EntityRendererRegistry.register(ModEntities.CRYSTAL_GUARDIAN, CrystalGuardianRenderer::new);
+        EntityRendererRegistry.register(ModEntities.VOID_SHADE, VoidShadeRenderer::new);
     }
 
     private ModEntityRenderers() {}

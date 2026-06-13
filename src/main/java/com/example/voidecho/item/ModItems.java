@@ -45,6 +45,10 @@ public class ModItems {
             new Item(new Item.Settings()
                     .food(new FoodComponent.Builder().nutrition(2).saturationModifier(0.3f).snack().build())));
 
+    // Rift Core
+    public static final Item RIFT_CORE = register("rift_core",
+            new Item(new Item.Settings().rarity(Rarity.EPIC).fireproof()));
+
     // ---- Guide Book ----
     public static final Item VOID_ECHO_JOURNAL = register("void_echo_journal",
             new VoidEchoJournalItem());
@@ -116,6 +120,11 @@ public class ModItems {
     // ---- B2: Crystal Guardian ----
     public static final Item CRYSTAL_GUARDIAN_SPAWN_EGG = register("crystal_guardian_spawn_egg",
             new SpawnEggItem(ModEntities.CRYSTAL_GUARDIAN, 0x00DDDD, 0xFFDD00,
+                    new Item.Settings().rarity(Rarity.EPIC)));
+
+    // ---- B3: Void Shade ----
+    public static final Item VOID_SHADE_SPAWN_EGG = register("void_shade_spawn_egg",
+            new SpawnEggItem(ModEntities.VOID_SHADE, 0x2D004D, 0x7B2D8E,
                     new Item.Settings().rarity(Rarity.EPIC)));
 
     // ---- F12: Rift Fragment ----

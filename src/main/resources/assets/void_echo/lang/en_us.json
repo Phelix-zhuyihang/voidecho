@@ -14,6 +14,7 @@
   "block.void_echo.echo_shard_3": "Echo Memory Shard III — The Fortress",
   "block.void_echo.echo_shard_4": "Echo Memory Shard IV — The Sleeper",
   "block.void_echo.echo_shard_5": "Echo Memory Shard V — The Truth",
+  "block.void_echo.rift_core": "Rift Core",
 
   "item.void_echo.void_key": "Void Key",
   "item.void_echo.void_heart": "Void Heart",
@@ -249,5 +250,9 @@
   "message.void_echo.forge_rift_fury": "Rift Fury applied! Strength on kill.",
   "message.void_echo.forge_need_echo_core": "Requires an Echo Core in inventory as well.",
   "message.void_echo.forge_need_crystal_block": "Requires a Crystal Block in inventory as well.",
-  "message.void_echo.forge_need_catalyst": "Requires a Void Catalyst in inventory as well."
+  "message.void_echo.forge_need_catalyst": "Requires a Void Catalyst in inventory as well.",
+
+  "item.void_echo.rift_core": "Rift Core",
+  "item.void_echo.void_shade_spawn_egg": "Void Shade Spawn Egg",
+  "entity.void_echo.void_shade": "Void Shade"
 }

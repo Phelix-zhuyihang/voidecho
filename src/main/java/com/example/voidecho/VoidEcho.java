@@ -100,6 +100,10 @@ public class VoidEcho implements ModInitializer {
         FabricDefaultAttributeRegistry.register(
                 ModEntities.CRYSTAL_GUARDIAN, CrystalGuardianEntity.createMobAttributes());
 
+        // B3: Void Shade
+        FabricDefaultAttributeRegistry.register(
+                ModEntities.VOID_SHADE, com.example.voidecho.entity.mob.VoidShadeEntity.createMobAttributes());
+
         // --- Fuel ---
         FuelRegistry.INSTANCE.add(ModBlocks.VOID_STONE, 800);
 

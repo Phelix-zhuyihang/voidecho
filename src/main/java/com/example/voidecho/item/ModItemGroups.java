@@ -32,6 +32,7 @@ public class ModItemGroups {
                 entries.add(ModBlocks.ECHO_SHARD_5);
                 entries.add(ModBlocks.CRYSTAL_BLOOM);
                 entries.add(ModBlocks.VOID_FORGE);
+                entries.add(ModBlocks.RIFT_CORE);
 
                 // Items
                 entries.add(ModItems.VOID_KEY);
@@ -44,6 +45,7 @@ public class ModItemGroups {
                 entries.add(ModItems.CRYSTAL_SHARD);
                 entries.add(ModItems.CRYSTAL_BERRY);
                 entries.add(ModItems.RIFT_FRAGMENT);
+                entries.add(ModItems.RIFT_CORE);
                 entries.add(ModItems.VOID_ECHO_JOURNAL);
 
                 // Tools / Weapons
@@ -65,6 +67,7 @@ public class ModItemGroups {
                 entries.add(ModItems.ECHO_WARDEN_SPAWN_EGG);
                 entries.add(ModItems.CRYSTAL_SPRITE_SPAWN_EGG);
                 entries.add(ModItems.CRYSTAL_GUARDIAN_SPAWN_EGG);
+                entries.add(ModItems.VOID_SHADE_SPAWN_EGG);
             })
             .build();
 

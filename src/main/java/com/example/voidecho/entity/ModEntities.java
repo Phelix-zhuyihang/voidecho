@@ -7,6 +7,7 @@ import com.example.voidecho.entity.mob.CrystalGuardianEntity;
 import com.example.voidecho.entity.mob.CrystalSpriteEntity;
 import com.example.voidecho.entity.mob.CrystalWraithEntity;
 import com.example.voidecho.entity.mob.ShardGuardEntity;
+import com.example.voidecho.entity.mob.VoidShadeEntity;
 import com.example.voidecho.entity.mob.VoidWormEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
@@ -94,6 +95,16 @@ public final class ModEntities {
             Identifier.of(VoidEcho.MOD_ID, "crystal_guardian"),
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, CrystalGuardianEntity::new)
                     .dimensions(EntityDimensions.fixed(0.8f, 1.4f))
+                    .trackRangeChunks(8)
+                    .trackedUpdateRate(3)
+                    .build()
+    );
+
+    public static final EntityType<VoidShadeEntity> VOID_SHADE = Registry.register(
+            Registries.ENTITY_TYPE,
+            Identifier.of(VoidEcho.MOD_ID, "void_shade"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, VoidShadeEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.8f, 2.2f))
                     .trackRangeChunks(8)
                     .trackedUpdateRate(3)
                     .build()

@@ -258,5 +258,9 @@
   "message.void_echo.forge_rift_fury": "裂隙之怒已应用！击杀时获得力量。",
   "message.void_echo.forge_need_echo_core": "还需要在背包中有回声核心。",
   "message.void_echo.forge_need_crystal_block": "还需要在背包中有暗晶块。",
-  "message.void_echo.forge_need_catalyst": "还需要在背包中有虚空触媒。"
+  "message.void_echo.forge_need_catalyst": "还需要在背包中有虚空触媒。",
+  "item.void_echo.rift_core": "裂隙核心",
+  "item.void_echo.void_shade_spawn_egg": "虚空之影刷怪蛋",
+  "entity.void_echo.void_shade": "虚空之影",
+  "block.void_echo.rift_core": "裂隙核心"
 }

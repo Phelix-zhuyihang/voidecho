@@ -86,6 +86,12 @@ public class ModBlocks {
                     .strength(10f, 1200f).nonOpaque().luminance(s -> 7))
     );
 
+    // Rift Core
+    public static final Block RIFT_CORE = register("rift_core",
+            new RiftCoreBlock(AbstractBlock.Settings.copy(Blocks.OBSIDIAN)
+                    .strength(50f, 1200f).nonOpaque().luminance(s -> 12))
+    );
+
     // ---- Helper methods ----
     private static Block register(String name, Block block) {
         Identifier id = Identifier.of("void_echo", name);
