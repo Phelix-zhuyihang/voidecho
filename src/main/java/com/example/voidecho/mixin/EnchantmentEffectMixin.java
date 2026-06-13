@@ -69,6 +69,35 @@ public abstract class EnchantmentEffectMixin extends Entity {
         // and playing effects here would show false visual/sound feedback.
         if (source.isOf(DamageTypes.OUT_OF_WORLD)) return;
 
+        // --- Crystal Barrier (tier 3 chestplate): auto-shield every 60s ---
+        if (!self.getWorld().isClient && amount > 0) {
+            ItemStack chestStack = self.getEquippedStack(EquipmentSlot.CHEST);
+            if (!chestStack.isEmpty() && chestStack.contains(DataComponentTypes.CUSTOM_DATA)) {
+                net.minecraft.nbt.NbtCompound nbt = chestStack.getOrDefault(
+                        DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt();
+                if (nbt.getBoolean("void_echo:crystal_barrier")) {
+                    long now = self.getWorld().getTime();
+                    long lastShield = nbt.getLong("void_echo:barrier_cooldown");
+                    if (now - lastShield >= 1200) { // 60 seconds
+                        // Absorb up to 10 damage by healing before damage applies
+                        float absorbed = Math.min(amount, 10.0f);
+                        self.heal(absorbed);
+                        nbt.putLong("void_echo:barrier_cooldown", now);
+                        chestStack.apply(DataComponentTypes.CUSTOM_DATA,
+                                NbtComponent.of(nbt), existing -> NbtComponent.of(nbt));
+                        if (self.getWorld() instanceof ServerWorld sw) {
+                            sw.spawnParticles(ParticleTypes.ENCHANT,
+                                self.getX(), self.getY() + 1.0, self.getZ(),
+                                20, 0.5, 1.0, 0.5, 0.1);
+                        }
+                        self.getWorld().playSound(null, self.getX(), self.getY(), self.getZ(),
+                            SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE,
+                            SoundCategory.PLAYERS, 0.6f, 1.5f);
+                    }
+                }
+            }
+        }
+
         // --- Echo Pulse: When damaged, chance to unleash sonic burst ---
         if (!self.getWorld().isClient && amount > 0) {
             ItemStack chestStack = self.getEquippedStack(EquipmentSlot.CHEST);
@@ -161,6 +190,24 @@ public abstract class EnchantmentEffectMixin extends Entity {
             ((LivingEntity) (Object) this).getWorld().playSound(null,
                 ((LivingEntity) (Object) this).getX(), ((LivingEntity) (Object) this).getY(), ((LivingEntity) (Object) this).getZ(),
                 SoundEvents.ENTITY_WARDEN_SONIC_BOOM, SoundCategory.PLAYERS, 0.5f, 2.0f);
+        }
+
+        // Void Resonance (tier 3): 15% chance for AOE void pulse on attack
+        if (weaponNbt.getBoolean("void_echo:void_resonance")
+                && livingAttacker.getRandom().nextFloat() < 0.15f) {
+            LivingEntity self = (LivingEntity) (Object) this;
+            Box aoeBox = self.getBoundingBox().expand(3.0);
+            for (Entity nearby : self.getWorld().getOtherEntities(self, aoeBox,
+                    e -> e instanceof LivingEntity && e.isAlive())) {
+                ((LivingEntity) nearby).damage(livingAttacker.getDamageSources().magic(), 4.0f);
+            }
+            if (self.getWorld() instanceof ServerWorld sw) {
+                sw.spawnParticles(ParticleTypes.SONIC_BOOM,
+                    self.getX(), self.getY() + 1.0, self.getZ(),
+                    10, 2.0, 1.0, 2.0, 0.1);
+            }
+            self.getWorld().playSound(null, self.getX(), self.getY(), self.getZ(),
+                SoundEvents.ENTITY_WARDEN_SONIC_BOOM, SoundCategory.PLAYERS, 0.4f, 1.8f);
         }
 
         return amount;
