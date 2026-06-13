@@ -4,3 +4,4 @@ build/
 .claude/
 *.stackdump
 run/
+net/
