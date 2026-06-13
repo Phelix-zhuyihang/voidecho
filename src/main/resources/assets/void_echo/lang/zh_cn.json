@@ -195,11 +195,11 @@
 
   "message.void_echo.return_to_overworld": "返回主世界...",
 
-  "message.void_echo.echo_shard_1": "一个声音回荡：\"我们建造这座圣殿是为了封印黑暗...\"",
-  "message.void_echo.echo_shard_2": "记忆低语：\"虚空追猎者曾是我们的守护者，如今已被腐化...\"",
-  "message.void_echo.echo_shard_3": "远古记录：\"堡垒在虚空的潮汐中坚守了数个世纪...\"",
-  "message.void_echo.echo_shard_4": "历史的碎片：\"回声守卫沉睡着，等待最终的召唤...\"",
-  "message.void_echo.echo_shard_5": "最终的真相：\"我们失败了。但你，旅者，或许能完成我们未能做到的事。\"",
+  "message.void_echo.echo_shard_1": "一个声音回荡：\"我是艾里昂四世，艾洛斯的末代君主。这座圣殿是我们最后的封印。如果你听到这段话——说明我们早已失败。\"",
+  "message.void_echo.echo_shard_2": "记忆低语：\"凯伦——我最亲爱的挚友，我的禁卫队长——为了救我主动吸收了虚空。他还在那具躯壳里。你猎杀的那个怪物，曾是我们之中最高贵的灵魂。\"",
+  "message.void_echo.echo_shard_3": "远古记录：\"虚空以记忆为食。水晶可以储存记忆，但无法永久维持。要塞坚守了数个世纪——但世纪不是永恒。\"",
+  "message.void_echo.echo_shard_4": "意志的碎片：\"我将自己封印在水晶中，以压制虚空的入口。每过一年，我就失去更多的自我。召唤我吧——如果你准备好终结这一切。无论结果如何。\"",
+  "message.void_echo.echo_shard_5": "最终的真相：\"我们——艾洛斯——失败了。但失败不是终点。你承载着我们曾经的一切。虚空现在低语着你的名字，旅者。不要让它吞噬你，如同它吞噬我们一样。\"",
 
   "itemGroup.void_echo_tab": "虚空回响",
 

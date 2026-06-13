@@ -184,11 +184,11 @@
 
   "message.void_echo.return_to_overworld": "Returning to the overworld...",
 
-  "message.void_echo.echo_shard_1": "A voice echoes: 'We built this sanctum to contain the darkness...'",
-  "message.void_echo.echo_shard_2": "The memory whispers: 'The Void Stalker was once our guardian, now corrupted...'",
-  "message.void_echo.echo_shard_3": "An ancient record: 'The fortress held for centuries against the void tide...'",
-  "message.void_echo.echo_shard_4": "Fragments of history: 'The Echo Warden sleeps, awaiting the final summoning...'",
-  "message.void_echo.echo_shard_5": "The final truth: 'We failed. But you, traveler, may succeed where we could not.'",
+  "message.void_echo.echo_shard_1": "A voice echoes: 'I am Aerion IV, last king of Aerolith. This sanctum is our final seal against the Void. If you hear this — we have already failed.'",
+  "message.void_echo.echo_shard_2": "The memory whispers: 'Kaelen — my dearest friend, my royal guard — took the Void into himself to save me. He is still in there. The creature you hunt was once the noblest of us.'",
+  "message.void_echo.echo_shard_3": "An ancient record: 'The Void feeds on memory. Our crystals can hold memory, but they cannot hold forever. The fortress endured for centuries — but centuries are not eternity.'",
+  "message.void_echo.echo_shard_4": "Fragments of will: 'I sealed myself inside the crystal to hold the Void gate shut. Every passing year, I lose more of who I was. Summon me only if you are ready to end this — one way or another.'",
+  "message.void_echo.echo_shard_5": "The final truth: 'We — Aerolith — failed. But failure is not the end. You carry the echo of everything we were. The Void whispers your name now, traveler. Do not let it feed on you as it fed on us.'",
 
   "itemGroup.void_echo_tab": "Void Echo",
 

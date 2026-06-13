@@ -114,19 +114,21 @@ public class VoidEchoJournalItem extends Item {
                + "- Close Void Rifts by standing near them for 3 seconds\n"
                + "- Collect all 5 Echo Memory Shards for lore and the Echo Historian advancement"),
             page("  §lThe Story So Far§r\n  §l故事背景§r\n\n"
-               + "§oLong before your arrival, an ancient civilization thrived here.§r\n"
-               + "§o在你到来之前，一个远古文明曾在此繁荣。§r\n\n"
-               + "They built this sanctum to contain the darkness that seeped from the void. The §5Void Stalker§r, "
-               + "once their greatest guardian, was slowly corrupted by the very force it protected them from. "
-               + "The §cEcho Warden§r — their mightiest construct — was placed in eternal slumber, awaiting a final summoning.\n\n"
-               + "The ancient builders failed. Their fortresses crumbled. Their records became the §dEcho Memory Shards§r "
-               + "scattered across the dimension.\n\n"
-               + "§oYou are the first to walk this path since their fall. The void whispers — will you succeed where they failed?§r")
+               + "§oLong before your arrival, the civilization of §dAerolith§r thrived in this dimension.§r\n"
+               + "§o在你到来之前，§d艾洛斯§r文明曾在此繁荣。§r\n\n"
+               + "Their king, §6Aerion IV§r, ruled over a crystal empire. Crystal could store memory — "
+               + "their greatest discovery, and their ultimate undoing. For the Void feeds on memory itself.\n\n"
+               + "§5Kaelen§r, the king's dearest friend and captain of the royal guard, took the Void into his own body "
+               + "to protect Aerion. He became the §5Void Stalker§r — still fighting, somewhere deep inside.\n\n"
+               + "King §cAerion IV§r sealed his own consciousness inside a giant crystal to hold the Void gate shut. "
+               + "He is the §cEcho Warden§r. Every moment awake drains what remains of his soul.\n\n"
+               + "§oThe Void won, centuries ago. But you carry the echo of everything Aerolith was. "
+               + "What will you do with it?§r")
         );
 
         return new WrittenBookContentComponent(
             RawFilteredPair.of("Void Echo Journal"),
-            "The Ancients",
+            "Aerolith",
             0, // generation 0 = original
             pages,
             true // resolved
