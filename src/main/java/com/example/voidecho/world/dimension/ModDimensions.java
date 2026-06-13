@@ -25,7 +25,7 @@ public class ModDimensions {
 
     public static final RegistryKey<DimensionType> VOIDS_END_DIMENSION_TYPE_KEY =
             RegistryKey.of(RegistryKeys.DIMENSION_TYPE,
-                    Identifier.of(VoidEcho.MOD_ID, "voids_end_type"));
+                    Identifier.of(VoidEcho.MOD_ID, "voids_end"));
 
     /**
      * Initializes dimension registry keys.

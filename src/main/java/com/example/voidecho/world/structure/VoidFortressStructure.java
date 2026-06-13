@@ -65,7 +65,7 @@ public class VoidFortressStructure extends Structure {
         public FortressEntrancePiece(BlockPos startPos) {
             super(ModStructurePieceTypes.FORTRESS_PIECE, 0,
                     new BlockBox(startPos.getX() - 8, startPos.getY() - 50, startPos.getZ() - 8,
-                            startPos.getX() + 8, startPos.getY() + 80, startPos.getZ() + 8));
+                            startPos.getX() + 8, Math.min(startPos.getY() + 80, 127), startPos.getZ() + 8));
         }
 
         public FortressEntrancePiece(StructurePieceType type, int length, BlockBox box) {
@@ -107,10 +107,11 @@ public class VoidFortressStructure extends Structure {
             // Boss chamber at the bottom
             buildBossChamber(world, center.withY(surfaceY - 12), chunkBox, random);
 
-            // Side rooms
-            buildBarracks(world, center.add(8, -8, 0), chunkBox, random);
-            buildVault(world, center.add(-8, -8, 0), chunkBox, random);
-            buildTrapRoom(world, center.add(0, -8, 8), chunkBox, random);
+            // Side rooms (anchor to surface Y so they connect to the main structure)
+            BlockPos surfaceCenter = center.withY(surfaceY);
+            buildBarracks(world, surfaceCenter.add(8, -8, 0), chunkBox, random);
+            buildVault(world, surfaceCenter.add(-8, -8, 0), chunkBox, random);
+            buildTrapRoom(world, surfaceCenter.add(0, -8, 8), chunkBox, random);
         }
 
         private void buildEntranceTower(StructureWorldAccess world, BlockPos pos, BlockBox box, Random rand) {
@@ -129,7 +130,7 @@ public class VoidFortressStructure extends Structure {
                                                     ModBlocks.CRACKED_VOID_STONE_BRICKS.getDefaultState() :
                                                     ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 3);
                                 } else if (y == 0) {
-                                    world.setBlockState(p, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 3);
+                                    world.setBlockState(p, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 2);
                                 }
                             }
                         }
@@ -140,7 +141,7 @@ public class VoidFortressStructure extends Structure {
             for (int dy = 0; dy < 4; dy++) {
                 BlockPos floor = pos.add(0, dy, 0);
                 if (box.contains(floor)) {
-                    world.setBlockState(floor, Blocks.AIR.getDefaultState(), 3);
+                    world.setBlockState(floor, Blocks.AIR.getDefaultState(), 2);
                 }
             }
         }
@@ -156,7 +157,7 @@ public class VoidFortressStructure extends Structure {
                             BlockPos wallPos = step.add(dx, 0, dz);
                             if (box.contains(wallPos)) {
                                 if (Math.abs(dx) == 2 || Math.abs(dz) == 2) {
-                                    world.setBlockState(wallPos, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 3);
+                                    world.setBlockState(wallPos, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 2);
                                 } else if (dx == 0 && dz == 0) {
                                     // Spiral stairs
                                     world.setBlockState(wallPos,
@@ -180,7 +181,8 @@ public class VoidFortressStructure extends Structure {
                         for (int dz = -width; dz <= width; dz++) {
                             BlockPos p = offset.add(dx, -1, dz);
                             if (box.contains(p)) {
-                                boolean isWall = Math.abs(dx) == width || Math.abs(dz) == width;
+                                boolean isWall = (dir.getAxis() == Direction.Axis.Z
+                                        ? Math.abs(dx) : Math.abs(dz)) == width;
                                 world.setBlockState(p.up(2),
                                         isWall ? ModBlocks.VOID_STONE_BRICKS.getDefaultState() : Blocks.AIR.getDefaultState(), 3);
                                 world.setBlockState(p.up(1),
@@ -189,7 +191,7 @@ public class VoidFortressStructure extends Structure {
                                         ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 3);
                                 // Torches on walls
                                 if (isWall && i % 3 == 0 && rand.nextFloat() < 0.3f) {
-                                    world.setBlockState(p.up(1), Blocks.SOUL_LANTERN.getDefaultState(), 3);
+                                    world.setBlockState(p.up(1), Blocks.SOUL_TORCH.getDefaultState(), 2);
                                 }
                             }
                         }
@@ -215,9 +217,9 @@ public class VoidFortressStructure extends Structure {
                                                     ModBlocks.CRACKED_VOID_STONE_BRICKS.getDefaultState(), 3);
                                 } else if (x * x + z * z >= (radius - 1) * (radius - 1) || y == 4) {
                                     // Walls and ceiling
-                                    world.setBlockState(p, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 3);
+                                    world.setBlockState(p, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 2);
                                 } else {
-                                    world.setBlockState(p, Blocks.AIR.getDefaultState(), 3);
+                                    world.setBlockState(p, Blocks.AIR.getDefaultState(), 2);
                                 }
                             }
                         }
@@ -229,7 +231,7 @@ public class VoidFortressStructure extends Structure {
                 for (int z = -2; z <= 2; z++) {
                     BlockPos p = pos.add(x, -4, z);
                     if (box.contains(p)) {
-                        world.setBlockState(p, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 3);
+                        world.setBlockState(p, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 2);
                     }
                 }
             }
@@ -240,7 +242,7 @@ public class VoidFortressStructure extends Structure {
             // Echo shard in boss chamber
             BlockPos shardPos = pos.add(2, -4, 2);
             if (box.contains(shardPos)) {
-                world.setBlockState(shardPos, ModBlocks.ECHO_SHARD_5.getDefaultState(), 3);
+                world.setBlockState(shardPos, ModBlocks.ECHO_SHARD_5.getDefaultState(), 2);
             }
         }
 
@@ -261,7 +263,7 @@ public class VoidFortressStructure extends Structure {
             // Place a chest
             BlockPos chest = pos.add(0, 1, 0);
             if (box.contains(chest)) {
-                world.setBlockState(chest, Blocks.CHEST.getDefaultState(), 3);
+                world.setBlockState(chest, Blocks.CHEST.getDefaultState(), 2);
                 net.minecraft.block.entity.ChestBlockEntity be = (net.minecraft.block.entity.ChestBlockEntity)
                         world.getBlockEntity(chest);
                 if (be != null) {
@@ -274,7 +276,7 @@ public class VoidFortressStructure extends Structure {
             // Echo shard in barracks
             BlockPos shardPos = pos.add(2, 1, 0);
             if (box.contains(shardPos)) {
-                world.setBlockState(shardPos, ModBlocks.ECHO_SHARD_4.getDefaultState(), 3);
+                world.setBlockState(shardPos, ModBlocks.ECHO_SHARD_4.getDefaultState(), 2);
             }
         }
 
@@ -296,13 +298,21 @@ public class VoidFortressStructure extends Structure {
             BlockPos chest1 = pos.add(0, 1, 0);
             BlockPos chest2 = pos.add(1, 1, 0);
             if (box.contains(chest1) && box.contains(chest2)) {
-                world.setBlockState(chest1, Blocks.CHEST.getDefaultState(), 3);
-                world.setBlockState(chest2, Blocks.CHEST.getDefaultState(), 3);
+                world.setBlockState(chest1, Blocks.CHEST.getDefaultState(), 2);
+                world.setBlockState(chest2, Blocks.CHEST.getDefaultState(), 2);
 
-                net.minecraft.block.entity.ChestBlockEntity vaultChest =
+                net.minecraft.block.entity.ChestBlockEntity vaultChest1 =
                     (net.minecraft.block.entity.ChestBlockEntity) world.getBlockEntity(chest1);
-                if (vaultChest != null) {
-                    vaultChest.setLootTable(net.minecraft.registry.RegistryKey.of(
+                if (vaultChest1 != null) {
+                    vaultChest1.setLootTable(net.minecraft.registry.RegistryKey.of(
+                        net.minecraft.registry.RegistryKeys.LOOT_TABLE,
+                        net.minecraft.util.Identifier.of("void_echo", "chests/void_fortress_vault")),
+                        rand.nextLong());
+                }
+                net.minecraft.block.entity.ChestBlockEntity vaultChest2 =
+                    (net.minecraft.block.entity.ChestBlockEntity) world.getBlockEntity(chest2);
+                if (vaultChest2 != null) {
+                    vaultChest2.setLootTable(net.minecraft.registry.RegistryKey.of(
                         net.minecraft.registry.RegistryKeys.LOOT_TABLE,
                         net.minecraft.util.Identifier.of("void_echo", "chests/void_fortress_vault")),
                         rand.nextLong());
@@ -312,7 +322,7 @@ public class VoidFortressStructure extends Structure {
             // Echo shard in vault room
             BlockPos shardPos = pos.add(-1, 1, 0);
             if (box.contains(shardPos)) {
-                world.setBlockState(shardPos, ModBlocks.ECHO_SHARD_3.getDefaultState(), 3);
+                world.setBlockState(shardPos, ModBlocks.ECHO_SHARD_3.getDefaultState(), 2);
             }
         }
 
@@ -335,8 +345,8 @@ public class VoidFortressStructure extends Structure {
                 for (int z = -1; z <= 1; z++) {
                     BlockPos p = pos.add(x, 0, z);
                     if (box.contains(p) && rand.nextFloat() < 0.5f) {
-                        world.setBlockState(p, Blocks.SOUL_SAND.getDefaultState(), 3);
-                        world.setBlockState(p.up(), Blocks.SOUL_FIRE.getDefaultState(), 3);
+                        world.setBlockState(p, Blocks.SOUL_SAND.getDefaultState(), 2);
+                        world.setBlockState(p.up(), Blocks.SOUL_FIRE.getDefaultState(), 2);
                     }
                 }
             }

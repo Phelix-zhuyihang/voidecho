@@ -22,6 +22,9 @@ public class VoidArmorItem extends ArmorItem {
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         if (!world.isClient && entity instanceof PlayerEntity player) {
             EquipmentSlot wornSlot = this.getSlotType();
+            // Only process once per tick via the HEAD slot; avoids 4× redundant
+            // countPiecesWorn() calls when all four armor pieces are worn.
+            if (wornSlot != EquipmentSlot.HEAD) return;
             if (ItemStack.areItemsEqual(player.getEquippedStack(wornSlot), stack)) {
                 int piecesWorn = countPiecesWorn(player);
 

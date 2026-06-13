@@ -21,6 +21,7 @@ import com.example.voidecho.world.dimension.ModDimensions;
 import com.example.voidecho.world.event.CrystalBloomEvent;
 import com.example.voidecho.world.event.VoidRiftManager;
 import com.example.voidecho.world.feature.ModFeatures;
+import com.example.voidecho.world.structure.ModStructurePieceTypes;
 import com.example.voidecho.world.structure.ModStructures;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
@@ -66,6 +67,7 @@ public class VoidEcho implements ModInitializer {
         ModEntities.init();
         ModBiomes.init();
         ModDimensions.init();
+        ModStructurePieceTypes.init();
         ModStructures.init();
         ModFeatures.init();
 
@@ -116,6 +118,24 @@ public class VoidEcho implements ModInitializer {
 
         // --- F12: Void Rift Invasion ---
         VoidRiftManager.register();
+
+        // Advancement completion checker
+        com.example.voidecho.advancement.VoidMasterHandler.register();
+
+        // --- First entry into Void's End: show title ---
+        net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD
+                .register((player, origin, destination) -> {
+            if (destination.getRegistryKey().equals(VOIDS_END_DIMENSION_KEY)) {
+                var title = net.minecraft.text.Text.translatable("dimension.void_echo.voids_end");
+                var subtitle = net.minecraft.text.Text.translatable("message.void_echo.void_first_entry");
+                player.networkHandler.sendPacket(
+                    new net.minecraft.network.packet.s2c.play.TitleFadeS2CPacket(10, 70, 20));
+                player.networkHandler.sendPacket(
+                    new net.minecraft.network.packet.s2c.play.TitleS2CPacket(title));
+                player.networkHandler.sendPacket(
+                    new net.minecraft.network.packet.s2c.play.SubtitleS2CPacket(subtitle));
+            }
+        });
 
         // --- Give Void Echo Journal to new players ---
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {

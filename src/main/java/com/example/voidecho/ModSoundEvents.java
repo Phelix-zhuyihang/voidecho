@@ -46,7 +46,7 @@ public class ModSoundEvents {
     public static final SoundEvent MUSIC_VOIDS_END = register("music.voids_end");
 
     private static SoundEvent register(String name) {
-        Identifier id = Identifier.of("void_echo", name);
+        Identifier id = Identifier.of(VoidEcho.MOD_ID, name);
         return Registry.register(Registries.SOUND_EVENT, id, SoundEvent.of(id));
     }
 

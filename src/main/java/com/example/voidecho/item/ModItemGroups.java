@@ -44,6 +44,7 @@ public class ModItemGroups {
                 entries.add(ModItems.CRYSTAL_SHARD);
                 entries.add(ModItems.CRYSTAL_BERRY);
                 entries.add(ModItems.RIFT_FRAGMENT);
+                entries.add(ModItems.VOID_ECHO_JOURNAL);
 
                 // Tools / Weapons
                 entries.add(ModItems.VOID_SWORD);

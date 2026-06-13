@@ -5,8 +5,10 @@ import com.example.voidecho.entity.ModEntities;
 import com.example.voidecho.entity.mob.CrystalGuardianEntity;
 import com.example.voidecho.item.ModItems;
 import java.util.EnumSet;
+import java.util.UUID;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -14,6 +16,8 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.FlyingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
@@ -22,15 +26,25 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
 public class CrystalSpriteEntity extends FlyingEntity {
     private int followTicks = 0;
     private PlayerEntity followingPlayer = null;
+    private UUID followingPlayerUuid = null;
 
     public CrystalSpriteEntity(EntityType<? extends CrystalSpriteEntity> entityType, World world) {
         super(entityType, world);
         this.experiencePoints = 3;
+    }
+
+    @SuppressWarnings("unused")
+    public static boolean canSpawn(EntityType<CrystalSpriteEntity> type, ServerWorldAccess world,
+                                    SpawnReason reason, BlockPos pos, Random random) {
+        return MobEntity.canMobSpawn(type, world, reason, pos, random);
     }
 
     public static DefaultAttributeContainer.Builder createMobAttributes() {
@@ -63,6 +77,13 @@ public class CrystalSpriteEntity extends FlyingEntity {
                     this.getZ() + (this.random.nextDouble() - 0.5) * 0.8,
                     0, 0, 0
             );
+        }
+
+        // Re-lookup following player after chunk reload
+        if (this.followingPlayer == null && this.followingPlayerUuid != null
+                && this.getWorld() instanceof ServerWorld serverWorld) {
+            this.followingPlayer = serverWorld.getServer().getPlayerManager()
+                    .getPlayer(this.followingPlayerUuid);
         }
 
         // Following behavior when tamed-like with crystal berry
@@ -115,6 +136,7 @@ public class CrystalSpriteEntity extends FlyingEntity {
         if (stack.isOf(ModItems.CRYSTAL_BERRY)) {
             if (!this.getWorld().isClient) {
                 this.followingPlayer = player;
+                this.followingPlayerUuid = player.getUuid();
                 this.followTicks = 600; // 30 seconds
                 if (!player.getAbilities().creativeMode) {
                     stack.decrement(1);
@@ -130,6 +152,28 @@ public class CrystalSpriteEntity extends FlyingEntity {
     @Override
     public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
         return false;
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putInt("FollowTicks", this.followTicks);
+        if (this.followingPlayerUuid != null) {
+            nbt.putUuid("FollowingPlayer", this.followingPlayerUuid);
+        }
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        this.followTicks = nbt.getInt("FollowTicks");
+        if (nbt.containsUuid("FollowingPlayer")) {
+            this.followingPlayerUuid = nbt.getUuid("FollowingPlayer");
+            if (this.getWorld() instanceof ServerWorld serverWorld) {
+                this.followingPlayer = serverWorld.getServer().getPlayerManager()
+                        .getPlayer(this.followingPlayerUuid);
+            }
+        }
     }
 
     @Override

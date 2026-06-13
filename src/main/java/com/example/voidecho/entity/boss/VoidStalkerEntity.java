@@ -1,5 +1,6 @@
 package com.example.voidecho.entity.boss;
 
+import com.example.voidecho.ModParticleTypes;
 import com.example.voidecho.ModSoundEvents;
 import com.example.voidecho.config.ModConfig;
 import com.example.voidecho.entity.ModEntities;
@@ -28,6 +29,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import com.example.voidecho.item.ModItems;
 
@@ -43,7 +47,6 @@ public class VoidStalkerEntity extends HostileEntity {
 
     private final ServerBossBar bossBar;
     private BossPhase currentPhase = BossPhase.STALKER;
-    private int phaseTransitionCooldown = 0;
     private int teleportCooldown = 0;
     private int summonCooldown = 0;
     private int beamCooldown = 0;
@@ -66,6 +69,12 @@ public class VoidStalkerEntity extends HostileEntity {
         this.bossBar.setDarkenSky(true);
         this.bossBar.setThickenFog(true);
         this.getAttributeInstance(EntityAttributes.GENERIC_STEP_HEIGHT).setBaseValue(1.5);
+    }
+
+    @SuppressWarnings("unused")
+    public static boolean canSpawn(EntityType<VoidStalkerEntity> type, ServerWorldAccess world,
+                                    SpawnReason reason, BlockPos pos, Random random) {
+        return HostileEntity.canSpawnInDark(type, world, reason, pos, random);
     }
 
     public static DefaultAttributeContainer.Builder createMobAttributes() {
@@ -101,10 +110,11 @@ public class VoidStalkerEntity extends HostileEntity {
         // Phase transition tracking
         float hpPercent = this.getHealth() / this.getMaxHealth();
 
+        if (!summonerPhaseTriggered && hpPercent <= 0.6f) {
+            transitionToSummoner();
+        }
         if (!enragePhaseTriggered && hpPercent <= 0.3f) {
             transitionToEnrage();
-        } else if (!summonerPhaseTriggered && hpPercent <= 0.6f) {
-            transitionToSummoner();
         }
 
         // Phase-specific logic
@@ -179,14 +189,13 @@ public class VoidStalkerEntity extends HostileEntity {
         // Spawn initial minions
         spawnMinions();
 
-        // Reduce melee damage
         this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(5.0);
-        // Increase speed slightly
-        this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(0.32);
+        this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(0.35);
+        this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_SPEED).setBaseValue(1.2);
 
         if (this.getWorld() instanceof ServerWorld serverWorld) {
             serverWorld.spawnParticles(
-                    ParticleTypes.SCULK_SOUL,
+                    ModParticleTypes.VOID_BURST,
                     this.getX(), this.getY() + 1.5, this.getZ(),
                     50, 2.0, 2.0, 2.0, 0.2
             );
@@ -217,7 +226,7 @@ public class VoidStalkerEntity extends HostileEntity {
                     30, 2.0, 2.0, 2.0, 0.5
             );
             serverWorld.spawnParticles(
-                    ParticleTypes.SOUL_FIRE_FLAME,
+                    ModParticleTypes.VOID_BURST,
                     this.getX(), this.getY() + 1.5, this.getZ(),
                     60, 1.5, 2.0, 1.5, 0.1
             );
@@ -299,7 +308,7 @@ public class VoidStalkerEntity extends HostileEntity {
 
         // Charge visual
         serverWorld.spawnParticles(
-                ParticleTypes.DRAGON_BREATH,
+                ModParticleTypes.VOID_BEAM,
                 this.getX(), this.getY() + 2.0, this.getZ(),
                 15, 0.5, 0.5, 0.5, 0.05
         );
@@ -314,7 +323,7 @@ public class VoidStalkerEntity extends HostileEntity {
         for (double d = 0; d < length; d += 0.5) {
             Vec3d point = start.add(dir.multiply(d));
             serverWorld.spawnParticles(
-                    ParticleTypes.SCULK_SOUL,
+                    ModParticleTypes.VOID_BEAM,
                     point.x, point.y, point.z,
                     1, 0.1, 0.1, 0.1, 0.0
             );
@@ -352,6 +361,12 @@ public class VoidStalkerEntity extends HostileEntity {
                 serverWorld.spawnEntity(worm);
             }
         }
+
+        // Summon visual burst
+        serverWorld.spawnParticles(ModParticleTypes.VOID_BURST,
+                this.getX(), this.getY() + 1.0, this.getZ(),
+                30, 2.0, 1.0, 2.0, 0.1);
+        this.playSound(ModSoundEvents.ENTITY_VOID_STALKER_SCREAM, 0.8f, 0.5f);
 
         summonCooldown = 300; // 15 seconds
     }
@@ -468,22 +483,39 @@ public class VoidStalkerEntity extends HostileEntity {
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        nbt.putInt("currentPhase", currentPhase.ordinal());
+        nbt.putString("currentPhase", currentPhase.name());
         nbt.putBoolean("summonerPhaseTriggered", summonerPhaseTriggered);
         nbt.putBoolean("enragePhaseTriggered", enragePhaseTriggered);
         nbt.putBoolean("hasShield", hasShield);
+        nbt.putInt("teleportCooldown", teleportCooldown);
+        nbt.putInt("summonCooldown", summonCooldown);
+        nbt.putInt("beamCooldown", beamCooldown);
+        nbt.putInt("enrageComboCount", enrageComboCount);
+        nbt.putInt("enrageComboTimer", enrageComboTimer);
+        nbt.putInt("shieldRegenCooldown", shieldRegenCooldown);
+        nbt.putFloat("aoeAccumulatedDamage", aoeAccumulatedDamage);
     }
 
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         if (nbt.contains("currentPhase")) {
-            currentPhase = BossPhase.values()[nbt.getInt("currentPhase")];
+            try {
+                currentPhase = BossPhase.valueOf(nbt.getString("currentPhase"));
+            } catch (IllegalArgumentException e) {
+                currentPhase = BossPhase.STALKER;
+            }
         }
         summonerPhaseTriggered = nbt.getBoolean("summonerPhaseTriggered");
         enragePhaseTriggered = nbt.getBoolean("enragePhaseTriggered");
         hasShield = nbt.getBoolean("hasShield");
-        // Re-apply phase attributes
+        teleportCooldown = nbt.getInt("teleportCooldown");
+        summonCooldown = nbt.getInt("summonCooldown");
+        beamCooldown = nbt.getInt("beamCooldown");
+        enrageComboCount = nbt.getInt("enrageComboCount");
+        enrageComboTimer = nbt.getInt("enrageComboTimer");
+        shieldRegenCooldown = nbt.getInt("shieldRegenCooldown");
+        aoeAccumulatedDamage = nbt.getFloat("aoeAccumulatedDamage");
         applyPhaseAttributes();
     }
 
@@ -567,7 +599,7 @@ public class VoidStalkerEntity extends HostileEntity {
             stalker.navigation.stop();
             if (stalker.getWorld() instanceof ServerWorld serverWorld) {
                 serverWorld.spawnParticles(
-                        ParticleTypes.DRAGON_BREATH,
+                        ModParticleTypes.VOID_BEAM,
                         stalker.getX(), stalker.getY() + 2.0, stalker.getZ(),
                         10, 0.3, 0.3, 0.3, 0.02
                 );
@@ -604,16 +636,19 @@ public class VoidStalkerEntity extends HostileEntity {
 
         @Override
         public boolean canStart() {
-            if (!super.canStart()) return false;
-            if (stalker.currentPhase == BossPhase.SUMMONER && stalker.beamCooldown > 0) {
-                return false; // Let beam goal take priority during charge
-            }
-            return true;
+            return super.canStart();
         }
 
         @Override
         protected boolean canAttack(LivingEntity target) {
             return this.mob.squaredDistanceTo(target) <= 16.0;
+        }
+
+        @Override
+        public void afterAttack(boolean hit) {
+            if (hit && stalker.currentPhase == BossPhase.ENRAGE) {
+                stalker.performEnrageCombo();
+            }
         }
     }
 }

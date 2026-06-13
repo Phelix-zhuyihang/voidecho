@@ -13,6 +13,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.FlyingEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
@@ -20,12 +21,14 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
+import java.util.UUID;
 
 public class CrystalGuardianEntity extends FlyingEntity {
     private static final int ABSORPTION_COOLDOWN_TICKS = 600; // 30 seconds
     private int absorptionCooldown = 0;
     private int shootCooldown = 0;
     private PlayerEntity owner;
+    private UUID ownerUuid;
 
     public CrystalGuardianEntity(EntityType<? extends CrystalGuardianEntity> entityType, World world) {
         super(entityType, world);
@@ -35,6 +38,7 @@ public class CrystalGuardianEntity extends FlyingEntity {
 
     public void setOwner(PlayerEntity owner) {
         this.owner = owner;
+        this.ownerUuid = owner.getUuid();
     }
 
     public PlayerEntity getGuardianOwner() {
@@ -88,11 +92,23 @@ public class CrystalGuardianEntity extends FlyingEntity {
         if (absorptionCooldown > 0) absorptionCooldown--;
         if (shootCooldown > 0) shootCooldown--;
 
-        // Despawn if owner is dead or missing
-        if (this.owner == null || !this.owner.isAlive()) {
+        // Re-lookup owner if reference was lost (e.g. after chunk reload)
+        if (this.owner == null && this.ownerUuid != null && this.getWorld() instanceof ServerWorld sw) {
+            this.owner = sw.getServer().getPlayerManager().getPlayer(this.ownerUuid);
+        }
+
+        // Discard if never owned, or owner is confirmed dead
+        if (this.ownerUuid == null) {
             this.discard();
             return;
         }
+        if (this.owner != null && !this.owner.isAlive()) {
+            this.discard();
+            return;
+        }
+
+        // If owner is offline, just hover in place
+        if (this.owner == null) return;
 
         // Teleport to owner if too far
         if (this.squaredDistanceTo(this.owner) > 256.0) {
@@ -147,6 +163,30 @@ public class CrystalGuardianEntity extends FlyingEntity {
     @Override
     public boolean canImmediatelyDespawn(double distance) {
         return false;
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        if (this.ownerUuid != null) {
+            nbt.putUuid("Owner", this.ownerUuid);
+        }
+        nbt.putInt("AbsorptionCooldown", this.absorptionCooldown);
+        nbt.putInt("ShootCooldown", this.shootCooldown);
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        if (nbt.containsUuid("Owner")) {
+            this.ownerUuid = nbt.getUuid("Owner");
+            // Try to resolve immediately; if offline, tick() will retry
+            if (this.getWorld() instanceof ServerWorld serverWorld) {
+                this.owner = serverWorld.getServer().getPlayerManager().getPlayer(this.ownerUuid);
+            }
+        }
+        this.absorptionCooldown = nbt.getInt("AbsorptionCooldown");
+        this.shootCooldown = nbt.getInt("ShootCooldown");
     }
 
     // ---- AI Goals ----

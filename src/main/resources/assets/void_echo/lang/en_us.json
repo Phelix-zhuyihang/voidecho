@@ -60,22 +60,8 @@
   "tooltip.void_echo.void_boots": "Part of the Void Alloy set",
   "tooltip.void_echo.void_armor.set_bonus": "Full Set: Immunity to fall and void damage",
 
-  "item.void_echo.void_key.tooltip": "Opens the gate to the void",
-  "item.void_echo.void_heart.tooltip": "The crystallized essence of the Void Stalker",
-  "item.void_echo.echo_core.tooltip": "Ancient resonant energy core",
-  "item.void_echo.void_sword.tooltip": "Right-click to teleport forward",
-  "item.void_echo.void_bow.tooltip": "Arrows deal additional void damage",
-  "item.void_echo.void_staff.tooltip": "Right-click to cast void bolt",
-  "item.void_echo.void_helmet.tooltip": "Part of the Void Alloy set",
-  "item.void_echo.void_chestplate.tooltip": "Part of the Void Alloy set",
-  "item.void_echo.void_leggings.tooltip": "Part of the Void Alloy set",
-  "item.void_echo.void_boots.tooltip": "Part of the Void Alloy set",
-  "item.void_echo.void_armor.set_bonus": "Full Set: Immunity to fall and void damage",
-
   "effect.void_echo.void_touched": "Void Touched",
   "effect.void_echo.echo_resonance": "Echo Resonance",
-
-  "itemGroup.void_echo.void_echo_tab": "Void Echo",
 
   "dimension.void_echo.voids_end": "Void's End",
 
@@ -85,6 +71,9 @@
   "biome.void_echo.crystal_caverns": "Crystal Caverns",
 
   "boss.void_echo.void_stalker.phase1": "The Void Stalker hunts its prey...",
+  "entity.void_echo.void_stalker.summoner": "Void Stalker — Summoner",
+  "entity.void_echo.void_stalker.enrage": "Void Stalker — Enraged",
+
   "boss.void_echo.void_stalker.phase2": "The Void Stalker summons its minions!",
   "boss.void_echo.void_stalker.phase3": "The Void Stalker enters a frenzied rage!",
   "boss.void_echo.void_stalker.defeat": "The Void Stalker has been vanquished!",
@@ -154,7 +143,7 @@
   "advancements.void_echo.craft_echo_amulet.description": "Craft the Echo Amulet",
   "advancements.void_echo.use_return_portal.title": "There and Back Again",
   "advancements.void_echo.use_return_portal.description": "Return from the Void's End to the overworld",
-  "advancements.void_echo.collect_all_echo_shards.title": "Echo Historian",
+  "advancements.void_echo.collect_all_echo_shards.title": "Echo Collector",
   "advancements.void_echo.collect_all_echo_shards.description": "Collect all 5 Echo Memory Shards",
   "advancements.void_echo.close_rift.title": "Rift Sealer",
   "advancements.void_echo.close_rift.description": "Obtain a Rift Fragment from a Void Rift",
@@ -171,6 +160,8 @@
 
   "message.void_echo.portal_activated": "The portal hums with ancient energy!",
   "message.void_echo.echo_warden_summoned": "The Echo Warden has been summoned!",
+  "message.void_echo.warden_ending": "The void falls silent. The Echo Warden is defeated — the ancient darkness has been lifted. You succeeded where the builders of this world failed. But the void whispers one final question: at what cost?",
+  "message.void_echo.void_first_entry": "The void whispers your name...",
   "message.void_echo.altar_incomplete": "The altar is incomplete. Surround it with Crystal Blocks.",
   "message.void_echo.teleport_forward": "Teleported!",
   "message.void_echo.void_staff_bolt": "Void bolt launched!",
@@ -227,6 +218,7 @@
   "message.void_echo.rift_opened": "A Void Rift tears open nearby!",
   "message.void_echo.rift_closed": "The Void Rift collapses...",
   "message.void_echo.forge_invalid_item": "You cannot upgrade this item at the Void Forge!",
+  "message.void_echo.forge_minimal_damage": "Item doesn't have enough damage to warrant repair!",
   "message.void_echo.forge_max_durability": "This item has reached maximum durability upgrades!",
   "message.void_echo.forge_durability_upgraded": "Your item has been repaired with crystal energy!",
   "message.void_echo.forge_already_echo": "This item already has an Echo upgrade!",

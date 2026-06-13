@@ -8,6 +8,7 @@ import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -24,7 +25,7 @@ public class VoidForgeBlock extends Block {
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (world.isClient) return ActionResult.SUCCESS;
+        if (world.isClient) return ActionResult.PASS;
 
         ItemStack mainHand = player.getMainHandStack();
         ItemStack offHand = player.getOffHandStack();
@@ -41,10 +42,12 @@ public class VoidForgeBlock extends Block {
             return ActionResult.FAIL;
         }
 
-        // Use a mutable result holder so inner lambdas can signal success
-        ActionResult[] result = { ActionResult.PASS };
+        // Track what kind of upgrade was applied (enum of operation types)
+        String[] appliedUpgrade = { null };
 
         // Use .apply() to merge NBT changes, preserving other mods' CUSTOM_DATA keys
+        // Only NBT modifications happen inside the lambda; side effects are deferred
+        // to after apply() succeeds, preventing inconsistent state on failure.
         mainHand.apply(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT, existing -> {
             NbtCompound nbt = existing.copyNbt();
 
@@ -53,20 +56,20 @@ public class VoidForgeBlock extends Block {
                 int durUpgrade = nbt.getInt("void_echo:durability_upgrade");
                 if (durUpgrade >= 4) {
                     player.sendMessage(Text.translatable("message.void_echo.forge_max_durability"), true);
-                    return existing; // no change
+                    return existing;
                 }
-                mainHand.setDamage(Math.max(0, mainHand.getDamage() - 50));
+                if (mainHand.getDamage() < 50) {
+                    player.sendMessage(Text.translatable("message.void_echo.forge_minimal_damage"), true);
+                    return existing;
+                }
                 nbt.putInt("void_echo:durability_upgrade", durUpgrade + 1);
-                offHand.decrement(4);
-                playForgeEffects(world, pos);
-                player.sendMessage(Text.translatable("message.void_echo.forge_durability_upgraded"), true);
-                result[0] = ActionResult.SUCCESS;
+                appliedUpgrade[0] = "durability";
                 return NbtComponent.of(nbt);
             }
 
-            // Echo Core: base echo upgrade (tier 1) — +2 damage/armor
+            // Echo Core: base echo upgrade (tier 1)
             if (offHand.isOf(ModItems.ECHO_CORE)) {
-                if (nbt.contains("void_echo:echo_upgrade")) {
+                if (nbt.contains("void_echo:echo_upgrade", NbtElement.BYTE_TYPE)) {
                     player.sendMessage(Text.translatable("message.void_echo.forge_already_echo"), true);
                     return existing;
                 }
@@ -74,44 +77,34 @@ public class VoidForgeBlock extends Block {
                 nbt.remove("void_echo:rift_walker");
                 nbt.remove("void_echo:rift_fury");
                 nbt.putBoolean("void_echo:echo_upgrade", true);
-                offHand.decrement(1);
-                playForgeEffects(world, pos);
-                player.sendMessage(Text.translatable("message.void_echo.forge_echo_upgraded"), true);
-                result[0] = ActionResult.SUCCESS;
+                appliedUpgrade[0] = "echo_core";
                 return NbtComponent.of(nbt);
             }
 
             // Echo Strike (tier 2 echo, offensive)
-            if (offHand.isOf(ModItems.VOID_CATALYST) && nbt.contains("void_echo:echo_upgrade")
-                    && !nbt.contains("void_echo:echo_strike") && !nbt.contains("void_echo:echo_guard")) {
+            if (offHand.isOf(ModItems.VOID_CATALYST) && nbt.contains("void_echo:echo_upgrade", NbtElement.BYTE_TYPE)
+                    && !nbt.contains("void_echo:echo_strike", NbtElement.BYTE_TYPE) && !nbt.contains("void_echo:echo_guard", NbtElement.BYTE_TYPE)) {
                 if (player.getInventory().count(ModItems.ECHO_CORE) < 1) {
                     player.sendMessage(Text.translatable("message.void_echo.forge_need_echo_core"), true);
                     return existing;
                 }
-                player.getInventory().remove(s -> s.isOf(ModItems.ECHO_CORE), 1, null);
                 nbt.putBoolean("void_echo:echo_strike", true);
-                offHand.decrement(1);
-                playForgeEffects(world, pos);
-                player.sendMessage(Text.translatable("message.void_echo.forge_echo_strike"), true);
-                result[0] = ActionResult.SUCCESS;
+                appliedUpgrade[0] = "echo_strike";
                 return NbtComponent.of(nbt);
             }
 
             // Echo Guard (tier 2 echo, defensive)
             if (offHand.isOf(ModItems.RIFT_FRAGMENT) && offHand.getCount() >= 3
-                    && nbt.contains("void_echo:echo_upgrade")
-                    && !nbt.contains("void_echo:echo_strike") && !nbt.contains("void_echo:echo_guard")) {
+                    && nbt.contains("void_echo:echo_upgrade", NbtElement.BYTE_TYPE)
+                    && !nbt.contains("void_echo:echo_strike", NbtElement.BYTE_TYPE) && !nbt.contains("void_echo:echo_guard", NbtElement.BYTE_TYPE)) {
                 nbt.putBoolean("void_echo:echo_guard", true);
-                offHand.decrement(3);
-                playForgeEffects(world, pos);
-                player.sendMessage(Text.translatable("message.void_echo.forge_echo_guard"), true);
-                result[0] = ActionResult.SUCCESS;
+                appliedUpgrade[0] = "echo_guard";
                 return NbtComponent.of(nbt);
             }
 
             // Rift Fragment: base rift upgrade (tier 1)
             if (offHand.isOf(ModItems.RIFT_FRAGMENT) && offHand.getCount() >= 2) {
-                if (nbt.contains("void_echo:rift_upgrade")) {
+                if (nbt.contains("void_echo:rift_upgrade", NbtElement.BYTE_TYPE)) {
                     player.sendMessage(Text.translatable("message.void_echo.forge_already_rift"), true);
                     return existing;
                 }
@@ -119,49 +112,78 @@ public class VoidForgeBlock extends Block {
                 nbt.remove("void_echo:echo_strike");
                 nbt.remove("void_echo:echo_guard");
                 nbt.putBoolean("void_echo:rift_upgrade", true);
-                offHand.decrement(2);
-                playForgeEffects(world, pos);
-                player.sendMessage(Text.translatable("message.void_echo.forge_rift_upgraded"), true);
-                result[0] = ActionResult.SUCCESS;
+                appliedUpgrade[0] = "rift";
                 return NbtComponent.of(nbt);
             }
 
             // Rift Walker (tier 2 rift, utility)
-            if (offHand.isOf(ModItems.VOID_CATALYST) && nbt.contains("void_echo:rift_upgrade")
-                    && !nbt.contains("void_echo:rift_walker") && !nbt.contains("void_echo:rift_fury")) {
+            if (offHand.isOf(ModItems.VOID_CATALYST) && nbt.contains("void_echo:rift_upgrade", NbtElement.BYTE_TYPE)
+                    && !nbt.contains("void_echo:rift_walker", NbtElement.BYTE_TYPE) && !nbt.contains("void_echo:rift_fury", NbtElement.BYTE_TYPE)) {
                 if (player.getInventory().count(ModBlocks.CRYSTAL_BLOCK.asItem()) < 1) {
                     player.sendMessage(Text.translatable("message.void_echo.forge_need_crystal_block"), true);
                     return existing;
                 }
-                player.getInventory().remove(s -> s.isOf(ModBlocks.CRYSTAL_BLOCK.asItem()), 1, null);
                 nbt.putBoolean("void_echo:rift_walker", true);
-                offHand.decrement(1);
-                playForgeEffects(world, pos);
-                player.sendMessage(Text.translatable("message.void_echo.forge_rift_walker"), true);
-                result[0] = ActionResult.SUCCESS;
+                appliedUpgrade[0] = "rift_walker";
                 return NbtComponent.of(nbt);
             }
 
             // Rift Fury (tier 2 rift, offensive)
-            if (offHand.isOf(ModItems.VOID_ALLOY_INGOT) && nbt.contains("void_echo:rift_upgrade")
-                    && !nbt.contains("void_echo:rift_walker") && !nbt.contains("void_echo:rift_fury")) {
+            if (offHand.isOf(ModItems.VOID_ALLOY_INGOT) && nbt.contains("void_echo:rift_upgrade", NbtElement.BYTE_TYPE)
+                    && !nbt.contains("void_echo:rift_walker", NbtElement.BYTE_TYPE) && !nbt.contains("void_echo:rift_fury", NbtElement.BYTE_TYPE)) {
                 if (player.getInventory().count(ModItems.VOID_CATALYST) < 1) {
                     player.sendMessage(Text.translatable("message.void_echo.forge_need_catalyst"), true);
                     return existing;
                 }
-                player.getInventory().remove(s -> s.isOf(ModItems.VOID_CATALYST), 1, null);
                 nbt.putBoolean("void_echo:rift_fury", true);
-                offHand.decrement(1);
-                playForgeEffects(world, pos);
-                player.sendMessage(Text.translatable("message.void_echo.forge_rift_fury"), true);
-                result[0] = ActionResult.SUCCESS;
+                appliedUpgrade[0] = "rift_fury";
                 return NbtComponent.of(nbt);
             }
 
             return existing; // No matching upgrade
         });
 
-        return result[0];
+        // Apply side effects AFTER the atomic NBT update succeeded
+        if (appliedUpgrade[0] != null) {
+            switch (appliedUpgrade[0]) {
+                case "durability" -> {
+                    mainHand.setDamage(Math.max(0, mainHand.getDamage() - 50));
+                    offHand.decrement(4);
+                    player.sendMessage(Text.translatable("message.void_echo.forge_durability_upgraded"), true);
+                }
+                case "echo_core" -> {
+                    offHand.decrement(1);
+                    player.sendMessage(Text.translatable("message.void_echo.forge_echo_upgraded"), true);
+                }
+                case "echo_strike" -> {
+                    player.getInventory().remove(s -> s.isOf(ModItems.ECHO_CORE), 1);
+                    offHand.decrement(1);
+                    player.sendMessage(Text.translatable("message.void_echo.forge_echo_strike"), true);
+                }
+                case "echo_guard" -> {
+                    offHand.decrement(3);
+                    player.sendMessage(Text.translatable("message.void_echo.forge_echo_guard"), true);
+                }
+                case "rift" -> {
+                    offHand.decrement(2);
+                    player.sendMessage(Text.translatable("message.void_echo.forge_rift_upgraded"), true);
+                }
+                case "rift_walker" -> {
+                    player.getInventory().remove(s -> s.isOf(ModBlocks.CRYSTAL_BLOCK.asItem()), 1);
+                    offHand.decrement(1);
+                    player.sendMessage(Text.translatable("message.void_echo.forge_rift_walker"), true);
+                }
+                case "rift_fury" -> {
+                    player.getInventory().remove(s -> s.isOf(ModItems.VOID_CATALYST), 1);
+                    offHand.decrement(1);
+                    player.sendMessage(Text.translatable("message.void_echo.forge_rift_fury"), true);
+                }
+            }
+            playForgeEffects(world, pos);
+            return ActionResult.SUCCESS;
+        }
+
+        return ActionResult.PASS;
     }
 
     private void playForgeEffects(World world, BlockPos pos) {

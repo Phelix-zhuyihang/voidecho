@@ -16,8 +16,8 @@
     "min_inclusive": 0,
     "max_inclusive": 7
   },
-  "logical_height": 256,
-  "height": 256,
+  "logical_height": 128,
+  "height": 128,
   "min_y": 0,
   "effects": "void_echo:voids_end",
   "infiniburn": "#minecraft:infiniburn_end"

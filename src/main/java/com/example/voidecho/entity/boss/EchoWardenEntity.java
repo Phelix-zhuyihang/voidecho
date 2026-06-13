@@ -1,11 +1,13 @@
 package com.example.voidecho.entity.boss;
 
+import com.example.voidecho.ModParticleTypes;
 import com.example.voidecho.ModSoundEvents;
 import com.example.voidecho.config.ModConfig;
 import com.example.voidecho.effect.ModEffects;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -25,6 +27,8 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import com.example.voidecho.item.ModItems;
 
@@ -81,7 +85,14 @@ public class EchoWardenEntity extends HostileEntity {
         );
         this.bossBar.setDarkenSky(true);
         this.bossBar.setThickenFog(true);
-        this.getAttributeInstance(EntityAttributes.GENERIC_STEP_HEIGHT).setBaseValue(1.5);
+        var stepAttr = this.getAttributeInstance(EntityAttributes.GENERIC_STEP_HEIGHT);
+        if (stepAttr != null) stepAttr.setBaseValue(1.5);
+    }
+
+    @SuppressWarnings("unused")
+    public static boolean canSpawn(EntityType<EchoWardenEntity> type, ServerWorldAccess world,
+                                    SpawnReason reason, BlockPos pos, Random random) {
+        return HostileEntity.canSpawnInDark(type, world, reason, pos, random);
     }
 
     public static DefaultAttributeContainer.Builder createMobAttributes() {
@@ -182,8 +193,8 @@ public class EchoWardenEntity extends HostileEntity {
             }
         }
 
-        // Passive teleport during blink strike ability
-        if (blinkStrikeCooldown <= 0 && teleportCooldown <= 0 && abilityTickCounter % 40 == 0) {
+        // Passive teleport (gated only by teleport cooldown, not blink strike)
+        if (teleportCooldown <= 0 && abilityTickCounter % 40 == 0) {
             LivingEntity target = this.getTarget();
             if (target != null && this.distanceTo(target) <= 32.0 && this.random.nextFloat() < 0.3f) {
                 teleportNearTarget(target);
@@ -368,11 +379,11 @@ public class EchoWardenEntity extends HostileEntity {
             phaseTwoTriggered = true;
             applyPhaseAttributes();
             sendMessageToAllPlayers("message.void_echo.warden_phase_two");
-            // Dramatic particles
+            this.playSound(ModSoundEvents.ENTITY_ECHO_WARDEN_SLASH, 1.5f, 0.6f);
             if (this.getWorld() instanceof ServerWorld serverWorld) {
                 serverWorld.spawnParticles(ParticleTypes.SCULK_SOUL,
                     this.getX(), this.getY() + 2.0, this.getZ(), 80, 3.0, 3.0, 3.0, 0.3);
-                serverWorld.spawnParticles(ParticleTypes.REVERSE_PORTAL,
+                serverWorld.spawnParticles(ModParticleTypes.VOID_BURST,
                     this.getX(), this.getY() + 2.0, this.getZ(), 40, 2.0, 2.0, 2.0, 0.2);
             }
         }
@@ -438,7 +449,7 @@ public class EchoWardenEntity extends HostileEntity {
 
         int drained = 0;
         for (PlayerEntity player : serverWorld.getPlayers()) {
-            if (player.isAlive() && !player.isSpectator()
+            if (player.isAlive() && !player.isSpectator() && !player.isCreative()
                     && player.distanceTo(this) <= VOID_DRAIN_RADIUS) {
                 player.damage(player.getDamageSources().magic(), 1.0f);
                 drained++;
@@ -449,6 +460,17 @@ public class EchoWardenEntity extends HostileEntity {
                 serverWorld.spawnParticles(ParticleTypes.SCULK_SOUL,
                     this.getX(), this.getY() + 2.0, this.getZ(),
                     3, 0.5, 1.0, 0.5, 0.05);
+                // Particle flow line from player to boss
+                Vec3d from = player.getPos().add(0, 1, 0);
+                Vec3d to = this.getPos().add(0, 2, 0);
+                Vec3d dir = to.subtract(from);
+                double len = dir.length();
+                dir = dir.normalize();
+                for (double d = 0; d < len; d += 0.4) {
+                    Vec3d pt = from.add(dir.multiply(d));
+                    serverWorld.spawnParticles(ModParticleTypes.VOID_AMBIENT,
+                        pt.x, pt.y, pt.z, 1, 0.05, 0.05, 0.05, 0);
+                }
             }
         }
         // Heal 2 HP per player drained
@@ -550,9 +572,11 @@ public class EchoWardenEntity extends HostileEntity {
 
         if (this.getWorld() instanceof ServerWorld serverWorld) {
             Text message = Text.translatable("message.void_echo.warden_defeated");
+            Text ending = Text.translatable("message.void_echo.warden_ending");
             for (ServerPlayerEntity player : serverWorld.getPlayers()) {
                 if (player.distanceTo(this) <= 64.0) {
                     player.sendMessage(message, false);
+                    player.sendMessage(ending, false);
                 }
             }
 
@@ -618,6 +642,7 @@ public class EchoWardenEntity extends HostileEntity {
         slashChargeTime = nbt.getInt("slashChargeTime");
         isVoidNovaCharging = nbt.getBoolean("isVoidNovaCharging");
         voidNovaChargeTime = nbt.getInt("voidNovaChargeTime");
+        applyPhaseAttributes();
     }
 
     @Override

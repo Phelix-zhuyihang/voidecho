@@ -99,9 +99,9 @@ public class EchoSanctumStructure extends Structure {
                         if (chunkBox.contains(p)) {
                             // Patterned floor
                             if (dist <= 4) {
-                                world.setBlockState(p, ModBlocks.CRYSTAL_BLOCK.getDefaultState(), 3);
+                                world.setBlockState(p, ModBlocks.CRYSTAL_BLOCK.getDefaultState(), 2);
                             } else if (dist <= 12) {
-                                world.setBlockState(p, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 3);
+                                world.setBlockState(p, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 2);
                             } else {
                                 world.setBlockState(p,
                                         random.nextFloat() < 0.3f ?
@@ -120,18 +120,18 @@ public class EchoSanctumStructure extends Structure {
                 for (int y = 0; y < 5; y++) {
                     BlockPos p = pillarBase.up(y);
                     if (chunkBox.contains(p)) {
-                        world.setBlockState(p, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 3);
+                        world.setBlockState(p, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 2);
                     }
                 }
                 // Floating crystal above pillar
                 BlockPos crystal = pillarBase.up(5);
                 if (chunkBox.contains(crystal)) {
-                    world.setBlockState(crystal, ModBlocks.CRYSTAL_BLOCK.getDefaultState(), 3);
+                    world.setBlockState(crystal, ModBlocks.CRYSTAL_BLOCK.getDefaultState(), 2);
                 }
                 // Floating end rod for effect
                 BlockPos rod = pillarBase.up(6);
                 if (chunkBox.contains(rod)) {
-                    world.setBlockState(rod, Blocks.END_ROD.getDefaultState(), 3);
+                    world.setBlockState(rod, Blocks.END_ROD.getDefaultState(), 2);
                 }
             }
 
@@ -139,7 +139,7 @@ public class EchoSanctumStructure extends Structure {
             int[] shardCorner = corners[1];
             BlockPos shardPos = new BlockPos(center.getX() + shardCorner[0], surfaceY + 1, center.getZ() + shardCorner[1]);
             if (chunkBox.contains(shardPos)) {
-                world.setBlockState(shardPos, ModBlocks.ECHO_SHARD_2.getDefaultState(), 3);
+                world.setBlockState(shardPos, ModBlocks.ECHO_SHARD_2.getDefaultState(), 2);
             }
 
             // Walls/arches between pillars
@@ -156,7 +156,7 @@ public class EchoSanctumStructure extends Structure {
                     for (int y = 1; y <= 3; y++) {
                         BlockPos p = new BlockPos(center.getX() + cx, surfaceY + y, center.getZ() + cz);
                         if (chunkBox.contains(p)) {
-                            world.setBlockState(p, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 3);
+                            world.setBlockState(p, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 2);
                         }
                     }
                 }
@@ -165,7 +165,7 @@ public class EchoSanctumStructure extends Structure {
             // Echo Altar at center
             BlockPos altar = new BlockPos(center.getX(), surfaceY + 1, center.getZ());
             if (chunkBox.contains(altar)) {
-                world.setBlockState(altar, ModBlocks.ECHO_ALTAR.getDefaultState(), 3);
+                world.setBlockState(altar, ModBlocks.ECHO_ALTAR.getDefaultState(), 2);
             }
 
             // Surrounding crystal blocks (for summoning ritual)
@@ -173,7 +173,7 @@ public class EchoSanctumStructure extends Structure {
             for (int[] off : ritualOffsets) {
                 BlockPos ritual = new BlockPos(center.getX() + off[0], surfaceY + 1, center.getZ() + off[1]);
                 if (chunkBox.contains(ritual)) {
-                    world.setBlockState(ritual, ModBlocks.CRYSTAL_BLOCK.getDefaultState(), 3);
+                    world.setBlockState(ritual, ModBlocks.CRYSTAL_BLOCK.getDefaultState(), 2);
                 }
             }
 
@@ -183,7 +183,7 @@ public class EchoSanctumStructure extends Structure {
                 int cz = center.getZ() + (random.nextBetween(-3, 3));
                 BlockPos chestPos = new BlockPos(cx, surfaceY - 1, cz);
                 if (chunkBox.contains(chestPos) && random.nextFloat() < 0.7f) {
-                    world.setBlockState(chestPos, Blocks.CHEST.getDefaultState(), 3);
+                    world.setBlockState(chestPos, Blocks.CHEST.getDefaultState(), 2);
                     net.minecraft.block.entity.ChestBlockEntity be = (net.minecraft.block.entity.ChestBlockEntity)
                             world.getBlockEntity(chestPos);
                     if (be != null) {

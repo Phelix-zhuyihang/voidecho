@@ -1,5 +1,6 @@
 package com.example.voidecho.item;
 
+import com.example.voidecho.VoidEcho;
 import com.example.voidecho.entity.ModEntities;
 import com.example.voidecho.item.armor.VoidArmorItem;
 import com.example.voidecho.item.armor.VoidArmorMaterial;
@@ -67,7 +68,7 @@ public class ModItems {
             new VoidBowItem(new Item.Settings().maxDamage(500).rarity(Rarity.EPIC).fireproof()));
 
     public static final Item VOID_STAFF = register("void_staff",
-            new VoidStaffItem(new Item.Settings().rarity(Rarity.EPIC).fireproof()));
+            new VoidStaffItem(new Item.Settings().maxDamage(250).rarity(Rarity.EPIC).fireproof()));
 
     // ---- Armour ----
     public static final Item VOID_HELMET = register("void_helmet",
@@ -123,7 +124,7 @@ public class ModItems {
 
     // ---- Helper ----
     private static Item register(String name, Item item) {
-        return Registry.register(Registries.ITEM, Identifier.of("void_echo", name), item);
+        return Registry.register(Registries.ITEM, Identifier.of(VoidEcho.MOD_ID, name), item);
     }
 
     public static void init() {

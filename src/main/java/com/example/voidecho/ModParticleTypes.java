@@ -14,7 +14,7 @@ public class ModParticleTypes {
     private static SimpleParticleType register(String name) {
         return Registry.register(
                 Registries.PARTICLE_TYPE,
-                Identifier.of("void_echo", name),
+                Identifier.of(VoidEcho.MOD_ID, name),
                 FabricParticleTypes.simple()
         );
     }

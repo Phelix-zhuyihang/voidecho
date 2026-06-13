@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public class VoidStaffItem extends Item {
     public VoidStaffItem(Settings settings) {
-        super(settings.maxDamage(250));
+        super(settings);
     }
 
     @Override
@@ -27,23 +27,26 @@ public class VoidStaffItem extends Item {
             return TypedActionResult.fail(stack);
         }
 
-        if (!world.isClient) {
-            Vec3d look = user.getRotationVec(1.0f);
-            VoidBoltEntity bolt = new VoidBoltEntity(
-                    ModEntities.VOID_BOLT, user,
-                    look.x * 3.0, look.y * 3.0, look.z * 3.0,
-                    world
-            );
-            world.spawnEntity(bolt);
-
-            stack.damage(1, user, EquipmentSlot.MAINHAND);
-
-            world.playSound(null, user.getX(), user.getY(), user.getZ(),
-                    ModSoundEvents.ITEM_VOID_STAFF_CAST, SoundCategory.PLAYERS, 1.0f, 1.0f);
-
-            user.getItemCooldownManager().set(this, 40); // 2 seconds
-            user.incrementStat(Stats.USED.getOrCreateStat(this));
+        if (world.isClient) {
+            return TypedActionResult.success(stack);
         }
+
+        Vec3d look = user.getRotationVec(1.0f);
+        VoidBoltEntity bolt = new VoidBoltEntity(
+                ModEntities.VOID_BOLT, user,
+                look.x * 3.0, look.y * 3.0, look.z * 3.0,
+                world
+        );
+        world.spawnEntity(bolt);
+
+        stack.damage(1, user, hand == Hand.MAIN_HAND
+                ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
+
+        world.playSound(null, user.getX(), user.getY(), user.getZ(),
+                ModSoundEvents.ITEM_VOID_STAFF_CAST, SoundCategory.PLAYERS, 1.0f, 1.0f);
+
+        user.getItemCooldownManager().set(this, 40); // 2 seconds
+        user.incrementStat(Stats.USED.getOrCreateStat(this));
 
         return TypedActionResult.success(stack);
     }

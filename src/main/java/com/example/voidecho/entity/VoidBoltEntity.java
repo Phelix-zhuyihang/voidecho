@@ -11,7 +11,7 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleTypes;
+import com.example.voidecho.ModParticleTypes;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
@@ -42,7 +42,7 @@ public class VoidBoltEntity extends ProjectileEntity implements FlyingItemEntity
 
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
-        // No tracked data required for this entity
+        super.initDataTracker(builder);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class VoidBoltEntity extends ProjectileEntity implements FlyingItemEntity
 
         // Spawn trail particles on the client
         if (this.getWorld().isClient) {
-            this.getWorld().addParticle(ParticleTypes.DRAGON_BREATH,
+            this.getWorld().addParticle(ModParticleTypes.VOID_AMBIENT,
                     this.getX(), this.getY(), this.getZ(),
                     0.0, 0.0, 0.0);
         }
@@ -95,11 +95,11 @@ public class VoidBoltEntity extends ProjectileEntity implements FlyingItemEntity
 
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {
-        // No custom persistent data
+        super.readCustomDataFromNbt(nbt);
     }
 
     @Override
     protected void writeCustomDataToNbt(NbtCompound nbt) {
-        // No custom persistent data
+        super.writeCustomDataToNbt(nbt);
     }
 }

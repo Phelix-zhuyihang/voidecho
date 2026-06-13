@@ -112,7 +112,16 @@ public class VoidEchoJournalItem extends Item {
                + "- §5Crystal Sprites§r can be tamed with Crystal Berries\n"
                + "- Feed a Sprite a §5Void Catalyst§r to evolve it into a §5Crystal Guardian§r\n"
                + "- Close Void Rifts by standing near them for 3 seconds\n"
-               + "- Collect all 5 Echo Memory Shards for lore and the Echo Historian advancement")
+               + "- Collect all 5 Echo Memory Shards for lore and the Echo Historian advancement"),
+            page("  §lThe Story So Far§r\n  §l故事背景§r\n\n"
+               + "§oLong before your arrival, an ancient civilization thrived here.§r\n"
+               + "§o在你到来之前，一个远古文明曾在此繁荣。§r\n\n"
+               + "They built this sanctum to contain the darkness that seeped from the void. The §5Void Stalker§r, "
+               + "once their greatest guardian, was slowly corrupted by the very force it protected them from. "
+               + "The §cEcho Warden§r — their mightiest construct — was placed in eternal slumber, awaiting a final summoning.\n\n"
+               + "The ancient builders failed. Their fortresses crumbled. Their records became the §dEcho Memory Shards§r "
+               + "scattered across the dimension.\n\n"
+               + "§oYou are the first to walk this path since their fall. The void whispers — will you succeed where they failed?§r")
         );
 
         return new WrittenBookContentComponent(

@@ -10,7 +10,7 @@ import java.nio.file.Path;
 public class ModConfig {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve("void_echo.json");
-    private static ModConfig INSTANCE;
+    private static volatile ModConfig INSTANCE;
 
     // Config values with defaults
     public double bossHealthMultiplier = 1.0;

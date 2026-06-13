@@ -33,6 +33,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = LivingEntity.class, priority = 1000)
 public abstract class LivingEntityMixin extends Entity {
 
+    private static final EquipmentSlot[] ARMOR_SLOTS = {
+        EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET
+    };
+
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
@@ -48,12 +52,10 @@ public abstract class LivingEntityMixin extends Entity {
             return 0;
         }
         int pieces = 0;
-        for (net.minecraft.entity.EquipmentSlot slot : net.minecraft.entity.EquipmentSlot.values()) {
-            if (slot.getType() == net.minecraft.entity.EquipmentSlot.Type.HUMANOID_ARMOR) {
-                ItemStack stack = player.getEquippedStack(slot);
-                if (stack.getItem() instanceof com.example.voidecho.item.armor.VoidArmorItem) {
-                    pieces++;
-                }
+        for (EquipmentSlot slot : ARMOR_SLOTS) {
+            ItemStack stack = player.getEquippedStack(slot);
+            if (stack.getItem() instanceof com.example.voidecho.item.armor.VoidArmorItem) {
+                pieces++;
             }
         }
         return pieces;
@@ -73,18 +75,22 @@ public abstract class LivingEntityMixin extends Entity {
 
         // Full set bonus: handle fall damage immunity
         if (pieces >= 4) {
-            // Apply slow falling-like immunity
             if (player.fallDistance > 2.0f) {
+                StatusEffectInstance existing = player.getStatusEffect(StatusEffects.SLOW_FALLING);
+                if (existing == null || existing.getDuration() <= 30) {
+                    player.addStatusEffect(new StatusEffectInstance(
+                        StatusEffects.SLOW_FALLING, 60, 0,
+                        false, false, true
+                    ));
+                }
+            }
+            StatusEffectInstance fireRes = player.getStatusEffect(StatusEffects.FIRE_RESISTANCE);
+            if (fireRes == null || fireRes.getDuration() <= 30) {
                 player.addStatusEffect(new StatusEffectInstance(
-                    StatusEffects.SLOW_FALLING, 60, 0,
+                    StatusEffects.FIRE_RESISTANCE, 100, 0,
                     false, false, true
                 ));
             }
-            // Apply fire resistance for void protection
-            player.addStatusEffect(new StatusEffectInstance(
-                StatusEffects.FIRE_RESISTANCE, 100, 0,
-                false, false, true
-            ));
         }
     }
 
@@ -143,10 +149,21 @@ public abstract class LivingEntityMixin extends Entity {
     /**
      * Echo Resonance: +20% damage taken when target has the effect.
      * Void dimension difficulty scaling.
+     *
+     * IMPORTANT: This @ModifyVariable (priority 1000) and EnchantmentEffectMixin's
+     * @ModifyVariable (priority 999) both modify the first float argument of
+     * damage(). Do NOT add a third modifier without auditing the interaction.
      */
     @ModifyVariable(method = "damage", at = @At("HEAD"), argsOnly = true)
     private float voidEcho$modifyIncomingDamage(float amount, DamageSource source) {
         LivingEntity self = (LivingEntity) (Object) this;
+
+        // If this is void damage and player has full void set, cancelVoidDamage
+        // (below) will handle it — skip scaling to avoid wasted computation.
+        if (source.isOf(DamageTypes.OUT_OF_WORLD) && self instanceof PlayerEntity) {
+            if (countVoidAlloyPieces() >= 4) return amount;
+        }
+
         float modified = amount;
         // Echo Resonance: +20% damage
         if (self.hasStatusEffect(ModEffects.ECHO_RESONANCE)) {
@@ -169,9 +186,9 @@ public abstract class LivingEntityMixin extends Entity {
         LivingEntity self = (LivingEntity) (Object) this;
 
         // Check all armor for rift upgrade
-        for (EquipmentSlot slot : new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
+        for (EquipmentSlot slot : ARMOR_SLOTS) {
             ItemStack armorStack = self.getEquippedStack(slot);
-            if (armorStack.isEmpty()) continue;
+            if (armorStack.isEmpty() || !armorStack.contains(DataComponentTypes.CUSTOM_DATA)) continue;
             net.minecraft.nbt.NbtCompound armorNbt = armorStack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt();
 
             // Echo Guard: 10% chance to absorb damage and heal

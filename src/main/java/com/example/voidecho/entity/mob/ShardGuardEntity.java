@@ -3,16 +3,21 @@ package com.example.voidecho.entity.mob;
 import com.example.voidecho.entity.ModEntities;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import com.example.voidecho.ModSoundEvents;
 import com.example.voidecho.item.ModItems;
@@ -27,6 +32,12 @@ public class ShardGuardEntity extends HostileEntity {
     public ShardGuardEntity(EntityType<? extends ShardGuardEntity> entityType, World world) {
         super(entityType, world);
         this.experiencePoints = 10;
+    }
+
+    @SuppressWarnings("unused")
+    public static boolean canSpawn(EntityType<ShardGuardEntity> type, ServerWorldAccess world,
+                                    SpawnReason reason, BlockPos pos, Random random) {
+        return HostileEntity.canSpawnInDark(type, world, reason, pos, random);
     }
 
     public static DefaultAttributeContainer.Builder createMobAttributes() {
@@ -75,6 +86,7 @@ public class ShardGuardEntity extends HostileEntity {
                 if (this.distanceTo(target) < 2.0f) {
                     target.damage(target.getDamageSources().mobAttack(this), 12.0f);
                     target.takeKnockback(1.5, target.getX() - this.getX(), target.getZ() - this.getZ());
+                    this.chargeCooldown = 100 + this.random.nextInt(60);
                     this.isCharging = false;
                 }
             } else {
@@ -124,7 +136,7 @@ public class ShardGuardEntity extends HostileEntity {
 
         @Override
         public boolean shouldContinue() {
-            return false;
+            return guard.isCharging;
         }
     }
 
@@ -140,6 +152,22 @@ public class ShardGuardEntity extends HostileEntity {
         for (int i = 0; i < shardCount; i++) {
             this.dropItem(ModItems.CRYSTAL_SHARD);
         }
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putInt("ChargeCooldown", this.chargeCooldown);
+        nbt.putBoolean("IsCharging", this.isCharging);
+        nbt.putInt("ChargeTimer", this.chargeTimer);
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        this.chargeCooldown = nbt.getInt("ChargeCooldown");
+        this.isCharging = nbt.getBoolean("IsCharging");
+        this.chargeTimer = nbt.getInt("ChargeTimer");
     }
 
     @Override

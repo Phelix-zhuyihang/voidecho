@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
@@ -37,6 +38,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = LivingEntity.class, priority = 999)
 public abstract class EnchantmentEffectMixin extends Entity {
 
+    private static final ThreadLocal<Boolean> ECHO_PULSE_GUARD =
+            ThreadLocal.withInitial(() -> false);
+
     public EnchantmentEffectMixin(EntityType<?> type, World world) {
         super(type, world);
     }
@@ -61,25 +65,33 @@ public abstract class EnchantmentEffectMixin extends Entity {
     private void voidEcho$enchantmentEffects(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity self = (LivingEntity) (Object) this;
 
+        // Skip void damage — LivingEntityMixin (priority 1000) cancels it,
+        // and playing effects here would show false visual/sound feedback.
+        if (source.isOf(DamageTypes.OUT_OF_WORLD)) return;
+
         // --- Echo Pulse: When damaged, chance to unleash sonic burst ---
         if (!self.getWorld().isClient && amount > 0) {
             ItemStack chestStack = self.getEquippedStack(EquipmentSlot.CHEST);
             if (!chestStack.isEmpty()) {
                 int echoPulseLevel = getEnchantmentLevel(self, ModEnchantments.ECHO_PULSE, chestStack);
                 if (echoPulseLevel > 0 && self.getRandom().nextFloat() < 0.15f * echoPulseLevel) {
-                    // Find nearby living entities within 3 blocks
-                    Box searchBox = self.getBoundingBox().expand(3.0);
-                    for (Entity nearby : self.getWorld().getOtherEntities(self, searchBox, e -> e instanceof LivingEntity && e.isAlive())) {
-                        LivingEntity target = (LivingEntity) nearby;
-                        target.damage(self.getDamageSources().sonicBoom(self), 4.0f * echoPulseLevel);
-                    }
-                    // Play sound and spawn particles
-                    self.getWorld().playSound(null, self.getX(), self.getY(), self.getZ(),
-                            SoundEvents.ENTITY_WARDEN_SONIC_BOOM, SoundCategory.HOSTILE, 1.0f, 1.0f);
-                    if (self.getWorld() instanceof ServerWorld serverWorld) {
-                        serverWorld.spawnParticles(ParticleTypes.SONIC_BOOM,
-                                self.getX(), self.getY() + 1.0, self.getZ(),
-                                1, 0, 0, 0, 0);
+                    if (ECHO_PULSE_GUARD.get()) return; // Prevent infinite recursion
+                    ECHO_PULSE_GUARD.set(true);
+                    try {
+                        Box searchBox = self.getBoundingBox().expand(3.0);
+                        for (Entity nearby : self.getWorld().getOtherEntities(self, searchBox, e -> e instanceof LivingEntity && e.isAlive())) {
+                            LivingEntity target = (LivingEntity) nearby;
+                            target.damage(self.getDamageSources().sonicBoom(self), 4.0f * echoPulseLevel);
+                        }
+                        self.getWorld().playSound(null, self.getX(), self.getY(), self.getZ(),
+                                SoundEvents.ENTITY_WARDEN_SONIC_BOOM, SoundCategory.HOSTILE, 1.0f, 1.0f);
+                        if (self.getWorld() instanceof ServerWorld serverWorld) {
+                            serverWorld.spawnParticles(ParticleTypes.SONIC_BOOM,
+                                    self.getX(), self.getY() + 1.0, self.getZ(),
+                                    1, 0, 0, 0, 0);
+                        }
+                    } finally {
+                        ECHO_PULSE_GUARD.set(false);
                     }
                 }
             }
@@ -113,6 +125,10 @@ public abstract class EnchantmentEffectMixin extends Entity {
     /**
      * Void Leech: When dealing damage with void_leech weapon to a void_touched target, heal the attacker.
      * Void Affinity: When in voids_end dimension with void_affinity weapon, bonus damage.
+     *
+     * IMPORTANT: This @ModifyVariable (priority 999) and LivingEntityMixin's
+     * @ModifyVariable (priority 1000) both modify the first float argument of
+     * damage(). Do NOT add a third modifier without auditing the interaction.
      */
     @ModifyVariable(method = "damage", at = @At("HEAD"), argsOnly = true, ordinal = 0)
     private float voidEcho$modifyDamage(float amount, DamageSource source) {
@@ -133,16 +149,8 @@ public abstract class EnchantmentEffectMixin extends Entity {
             }
         }
 
-        // Void Leech: Heal attacker when hitting void_touched target
-        int voidLeechLevel = getEnchantmentLevel(livingAttacker, ModEnchantments.VOID_LEECH, weapon);
-        if (voidLeechLevel > 0) {
-            LivingEntity self = (LivingEntity) (Object) this;
-            if (self.hasStatusEffect(ModEffects.VOID_TOUCHED)) {
-                livingAttacker.heal(1.0f * voidLeechLevel);
-            }
-        }
-
         // Void Forge Echo Upgrade: +2 bonus damage
+        if (!weapon.contains(DataComponentTypes.CUSTOM_DATA)) return amount;
         net.minecraft.nbt.NbtCompound weaponNbt = weapon.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt();
         if (weaponNbt.getBoolean("void_echo:echo_upgrade")) {
             amount += 2.0f;
@@ -156,6 +164,29 @@ public abstract class EnchantmentEffectMixin extends Entity {
         }
 
         return amount;
+    }
+
+    /**
+     * Void Leech: Heal attacker AFTER damage is confirmed.
+     * Moving this to TAIL prevents healing when damage was cancelled (e.g. shield block).
+     */
+    @Inject(method = "damage", at = @At("TAIL"))
+    private void voidEcho$voidLeechAfterDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        if (!cir.getReturnValue()) return;
+
+        Entity attacker = source.getAttacker();
+        if (!(attacker instanceof LivingEntity livingAttacker)) return;
+
+        ItemStack weapon = livingAttacker.getMainHandStack();
+        if (weapon.isEmpty()) return;
+
+        int voidLeechLevel = getEnchantmentLevel(livingAttacker, ModEnchantments.VOID_LEECH, weapon);
+        if (voidLeechLevel > 0) {
+            LivingEntity self = (LivingEntity) (Object) this;
+            if (self.hasStatusEffect(ModEffects.VOID_TOUCHED)) {
+                livingAttacker.heal(1.0f * voidLeechLevel);
+            }
+        }
     }
 
     /**

@@ -9,7 +9,7 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.PersistentState;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -18,7 +18,7 @@ public class PortalStorage extends PersistentState {
             PortalStorage::new, PortalStorage::fromNbt, DataFixTypes.LEVEL);
     private static final int MAX_ENTRIES = 500;
 
-    private final Map<UUID, BlockPos> returnPositions = new HashMap<>();
+    private final Map<UUID, BlockPos> returnPositions = new LinkedHashMap<>();
 
     public PortalStorage() {}
 
@@ -28,23 +28,23 @@ public class PortalStorage extends PersistentState {
 
     public void setReturnPosition(UUID playerUuid, BlockPos pos) {
         returnPositions.put(playerUuid, pos);
-        // Prevent unbounded growth on long-running servers
+        // Prevent unbounded growth on long-running servers — FIFO eviction
         if (returnPositions.size() > MAX_ENTRIES) {
-            // Remove a random entry to keep size in check (simple eviction)
-            UUID keyToRemove = returnPositions.keySet().iterator().next();
-            returnPositions.remove(keyToRemove);
+            UUID oldest = returnPositions.keySet().iterator().next();
+            returnPositions.remove(oldest);
         }
         markDirty();
     }
 
     public BlockPos getReturnPosition(UUID playerUuid, BlockPos defaultPos) {
-        BlockPos result = returnPositions.getOrDefault(playerUuid, defaultPos);
-        // Clean up this entry after retrieval — portal positions are single-use
+        return returnPositions.getOrDefault(playerUuid, defaultPos);
+    }
+
+    public void clearReturnPosition(UUID playerUuid) {
         if (returnPositions.containsKey(playerUuid)) {
             returnPositions.remove(playerUuid);
             markDirty();
         }
-        return result;
     }
 
     @Override

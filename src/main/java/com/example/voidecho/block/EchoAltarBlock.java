@@ -41,17 +41,18 @@ public class EchoAltarBlock extends Block {
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        ItemStack held = player.getStackInHand(Hand.MAIN_HAND);
-        if (held.isEmpty()) {
-            held = player.getStackInHand(Hand.OFF_HAND);
-        }
+        // Check both hands for void heart, preferring main hand
+        ItemStack mainHand = player.getStackInHand(Hand.MAIN_HAND);
+        ItemStack offHand = player.getStackInHand(Hand.OFF_HAND);
+        ItemStack held = mainHand.isOf(ModItems.VOID_HEART) ? mainHand
+                : offHand.isOf(ModItems.VOID_HEART) ? offHand : ItemStack.EMPTY;
 
-        if (held.isOf(ModItems.VOID_HEART)) {
+        if (!held.isEmpty()) {
             // Check if Echo Warden already exists nearby
             List<EchoWardenEntity> existing =
                     world.getEntitiesByClass(
                             EchoWardenEntity.class,
-                            Box.of(pos.toCenterPos(), 64, 64, 64),
+                            Box.of(pos.toCenterPos(), 32, 32, 32),
                             e -> true
                     );
             if (!existing.isEmpty()) {
@@ -95,7 +96,7 @@ public class EchoAltarBlock extends Block {
                     // Destroy surrounding crystal blocks for effect
                     for (Direction dir : Direction.Type.HORIZONTAL) {
                         mut.set(pos, dir);
-                        world.breakBlock(mut, false);
+                        world.breakBlock(mut, true);
                     }
                 }
                 return ActionResult.SUCCESS;

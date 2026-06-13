@@ -100,13 +100,13 @@ public class ForgottenAltarStructure extends Structure {
                         BlockPos pos = new BlockPos(center.getX() + x, surfaceY, center.getZ() + z);
                         if (chunkBox.contains(pos)) {
                             if (x * x + z * z <= 4) {
-                                // Inner area: chiseled pattern
-                                world.setBlockState(pos, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 3);
+                                // Inner area: patterned accent
+                                world.setBlockState(pos, ModBlocks.CRYSTAL_BLOCK.getDefaultState(), 2);
                             } else {
-                                world.setBlockState(pos, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 3);
+                                world.setBlockState(pos, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 2);
                             }
                             // Replace grass below
-                            world.setBlockState(pos.down(), ModBlocks.VOID_STONE.getDefaultState(), 3);
+                            world.setBlockState(pos.down(), ModBlocks.VOID_STONE.getDefaultState(), 2);
                         }
                     }
                 }
@@ -119,13 +119,13 @@ public class ForgottenAltarStructure extends Structure {
                 for (int y = 0; y < 4; y++) {
                     BlockPos pillarPos = pillarBase.up(y);
                     if (chunkBox.contains(pillarPos)) {
-                        world.setBlockState(pillarPos, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 3);
+                        world.setBlockState(pillarPos, ModBlocks.VOID_STONE_BRICKS.getDefaultState(), 2);
                     }
                 }
                 // Crystal block on top
                 BlockPos top = pillarBase.up(4);
                 if (chunkBox.contains(top)) {
-                    world.setBlockState(top, ModBlocks.CRYSTAL_BLOCK.getDefaultState(), 3);
+                    world.setBlockState(top, ModBlocks.CRYSTAL_BLOCK.getDefaultState(), 2);
                 }
             }
 
@@ -136,7 +136,7 @@ public class ForgottenAltarStructure extends Structure {
                     if (Math.abs(dx) == 1 || Math.abs(dz) == 1) {
                         BlockPos framePos = portalBase.add(dx, 0, dz);
                         if (chunkBox.contains(framePos)) {
-                            world.setBlockState(framePos, ModBlocks.VOID_PORTAL_FRAME.getDefaultState(), 3);
+                            world.setBlockState(framePos, ModBlocks.VOID_PORTAL_FRAME.getDefaultState(), 2);
                         }
                     }
                 }
@@ -144,14 +144,14 @@ public class ForgottenAltarStructure extends Structure {
             // Center crystal
             BlockPos crystalPos = portalBase.add(0, 1, 0);
             if (chunkBox.contains(crystalPos)) {
-                world.setBlockState(crystalPos, ModBlocks.CRYSTAL_BLOCK.getDefaultState(), 3);
+                world.setBlockState(crystalPos, ModBlocks.CRYSTAL_BLOCK.getDefaultState(), 2);
             }
 
             // Place chest with loot under the structure (25% chance)
             if (random.nextFloat() < 0.25f) {
                 BlockPos chestPos = portalBase.down(2);
                 if (chunkBox.contains(chestPos)) {
-                    world.setBlockState(chestPos, Blocks.CHEST.getDefaultState(), 3);
+                    world.setBlockState(chestPos, Blocks.CHEST.getDefaultState(), 2);
                     net.minecraft.block.entity.ChestBlockEntity chest = (net.minecraft.block.entity.ChestBlockEntity)
                             world.getBlockEntity(chestPos);
                     if (chest != null) {
@@ -165,7 +165,7 @@ public class ForgottenAltarStructure extends Structure {
             // Echo shard near the chest
             BlockPos shardPos = portalBase.add(1, 1, 0);
             if (chunkBox.contains(shardPos)) {
-                world.setBlockState(shardPos, ModBlocks.ECHO_SHARD_1.getDefaultState(), 3);
+                world.setBlockState(shardPos, ModBlocks.ECHO_SHARD_1.getDefaultState(), 2);
             }
         }
     }

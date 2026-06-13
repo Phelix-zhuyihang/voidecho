@@ -4,12 +4,15 @@ import com.example.voidecho.ModSoundEvents;
 import com.example.voidecho.entity.ModEntities;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.FlyingEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
@@ -17,6 +20,8 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import com.example.voidecho.item.ModItems;
 
@@ -38,6 +43,14 @@ public class CrystalWraithEntity extends FlyingEntity {
         this.experiencePoints = 8;
     }
 
+    @SuppressWarnings("unused")
+    public static boolean canSpawn(EntityType<CrystalWraithEntity> type, ServerWorldAccess world,
+                                    SpawnReason reason, BlockPos pos, Random random) {
+        return world.getBaseLightLevel(pos, 0) <= 7
+                && world.getBlockState(pos.down()).isSolid()
+                && MobEntity.canMobSpawn(type, world, reason, pos, random);
+    }
+
     public static DefaultAttributeContainer.Builder createMobAttributes() {
         return HostileEntity.createHostileAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0)
@@ -56,7 +69,34 @@ public class CrystalWraithEntity extends FlyingEntity {
         this.goalSelector.add(5, new LookAroundGoal(this));
 
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
-        // CrystalWraith extends FlyingEntity not PathAwareEntity, cannot use RevengeGoal
+        this.targetSelector.add(2, new CrystalWraithRevengeGoal(this));
+    }
+
+    // Custom revenge targeting compatible with FlyingEntity (which can't use RevengeGoal)
+    private static class CrystalWraithRevengeGoal extends Goal {
+        private final CrystalWraithEntity wraith;
+
+        public CrystalWraithRevengeGoal(CrystalWraithEntity wraith) {
+            this.wraith = wraith;
+            this.setControls(EnumSet.of(Control.TARGET));
+        }
+
+        @Override
+        public boolean canStart() {
+            LivingEntity attacker = wraith.getAttacker();
+            return attacker != null && attacker.isAlive()
+                    && !(attacker instanceof PlayerEntity); // Players handled by ActiveTargetGoal
+        }
+
+        @Override
+        public void start() {
+            wraith.setTarget(wraith.getAttacker());
+        }
+
+        @Override
+        public boolean shouldContinue() {
+            return false;
+        }
     }
 
     @Override
@@ -137,7 +177,6 @@ public class CrystalWraithEntity extends FlyingEntity {
      */
     private static class CrystalWraithDiveGoal extends Goal {
         private final CrystalWraithEntity wraith;
-        private int cooldown = 0;
 
         public CrystalWraithDiveGoal(CrystalWraithEntity wraith) {
             this.wraith = wraith;
@@ -146,10 +185,7 @@ public class CrystalWraithEntity extends FlyingEntity {
 
         @Override
         public boolean canStart() {
-            if (cooldown > 0) {
-                cooldown--;
-                return false;
-            }
+            if (wraith.diveCooldown > 0) return false;
             LivingEntity target = wraith.getTarget();
             if (target == null || !target.isAlive()) return false;
             double dist = wraith.squaredDistanceTo(target);
@@ -173,7 +209,6 @@ public class CrystalWraithEntity extends FlyingEntity {
                 endDive();
                 return;
             }
-            // Deal contact damage when close to target
             double dist = wraith.squaredDistanceTo(target);
             if (dist < 2.25) { // 1.5 blocks — dive hit
                 target.damage(wraith.getDamageSources().mobAttack(wraith),
@@ -191,7 +226,7 @@ public class CrystalWraithEntity extends FlyingEntity {
             wraith.isDiving = false;
             wraith.diveTimer = 0;
             wraith.setNoGravity(true);
-            cooldown = 60 + wraith.random.nextInt(60); // 3-6 seconds cooldown
+            wraith.diveCooldown = 60 + wraith.random.nextInt(60); // 3-6 seconds cooldown
         }
     }
 
@@ -227,6 +262,22 @@ public class CrystalWraithEntity extends FlyingEntity {
         for (int i = 0; i < count; i++) {
             this.dropItem(ModItems.CRYSTAL_SHARD);
         }
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putInt("DiveCooldown", this.diveCooldown);
+        nbt.putBoolean("IsDiving", this.isDiving);
+        nbt.putInt("DiveTimer", this.diveTimer);
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        this.diveCooldown = nbt.getInt("DiveCooldown");
+        this.isDiving = nbt.getBoolean("IsDiving");
+        this.diveTimer = nbt.getInt("DiveTimer");
     }
 
     @Override

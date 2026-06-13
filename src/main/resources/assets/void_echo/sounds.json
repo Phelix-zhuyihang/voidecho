@@ -79,11 +79,11 @@
     "sounds": [{"name": "void_echo:item/void_staff/cast", "stream": false}],
     "subtitle": "subtitles.void_echo.item.void_staff.cast"
   },
-  "block.void_portal.activate": {
+  "block.portal.activate": {
     "sounds": [{"name": "void_echo:block/void_portal/activate", "stream": false}],
     "subtitle": "subtitles.void_echo.block.void_portal.activate"
   },
-  "block.void_portal.ambient": {
+  "block.portal.ambient": {
     "sounds": [{"name": "void_echo:block/void_portal/ambient", "stream": true}],
     "subtitle": "subtitles.void_echo.block.void_portal.ambient"
   },

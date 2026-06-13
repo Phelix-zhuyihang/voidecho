@@ -40,17 +40,19 @@ public class VoidPortalFrameBlock extends Block {
                 Vec3d safePos = new Vec3d(returnPos.getX() + 0.5, returnPos.getY() + 1.0, returnPos.getZ() + 0.5);
                 player.teleportTo(new TeleportTarget(overworld, safePos,
                         Vec3d.ZERO, player.getYaw(), player.getPitch(), TeleportTarget.NO_OP));
+                PortalStorage.get(overworld).clearReturnPosition(player.getUuid());
                 player.sendMessage(Text.translatable("message.void_echo.return_to_overworld"), true);
             }
             return ActionResult.SUCCESS;
         }
 
-        ItemStack held = player.getStackInHand(Hand.MAIN_HAND);
-        if (held.isEmpty()) {
-            held = player.getStackInHand(Hand.OFF_HAND);
-        }
+        // Check both hands for void key, preferring main hand
+        ItemStack mainHand = player.getStackInHand(Hand.MAIN_HAND);
+        ItemStack offHand = player.getStackInHand(Hand.OFF_HAND);
+        ItemStack held = mainHand.isOf(ModItems.VOID_KEY) ? mainHand
+                : offHand.isOf(ModItems.VOID_KEY) ? offHand : ItemStack.EMPTY;
 
-        if (held.isOf(ModItems.VOID_KEY)) {
+        if (!held.isEmpty()) {
             if (!world.isClient) {
                 // Play activation sound
                 world.playSound(null, pos, ModSoundEvents.BLOCK_PORTAL_ACTIVATE,
@@ -76,7 +78,7 @@ public class VoidPortalFrameBlock extends Block {
 
                         // F3: Safe position lookup
                         BlockPos safePos = targetWorld.getTopPosition(
-                                Heightmap.Type.WORLD_SURFACE,
+                                Heightmap.Type.MOTION_BLOCKING,
                                 new BlockPos((int) player.getX(), 0, (int) player.getZ())
                         );
                         Vec3d targetPos = new Vec3d(
@@ -95,10 +97,20 @@ public class VoidPortalFrameBlock extends Block {
                         ));
                         player.sendMessage(Text.translatable("message.void_echo.portal_activated"), true);
 
-                        // Ensure a return portal exists near the destination
-                        BlockPos destPortal = safePos.add(5, 0, 0);
-                        if (targetWorld.getBlockState(destPortal).isAir()) {
-                            targetWorld.setBlockState(destPortal, ModBlocks.VOID_PORTAL_FRAME.getDefaultState(), 3);
+                        // Ensure a return portal exists near the destination;
+                        // scan offsets if the primary position is obstructed.
+                        int[][] portalOffsets = {{5,0}, {-5,0}, {0,5}, {0,-5}, {3,3}, {-3,3}, {3,-3}, {-3,-3}, {7,0}, {0,7}};
+                        boolean portalPlaced = false;
+                        for (int[] off : portalOffsets) {
+                            BlockPos candidate = safePos.add(off[0], 0, off[1]);
+                            if (targetWorld.getBlockState(candidate).isAir()) {
+                                targetWorld.setBlockState(candidate, ModBlocks.VOID_PORTAL_FRAME.getDefaultState(), 3);
+                                portalPlaced = true;
+                                break;
+                            }
+                        }
+                        if (!portalPlaced) {
+                            VoidEcho.LOGGER.warn("Could not place return portal near {}", safePos);
                         }
                     } else {
                         VoidEcho.LOGGER.error("Void dimension 'voids_end' not found for teleport");

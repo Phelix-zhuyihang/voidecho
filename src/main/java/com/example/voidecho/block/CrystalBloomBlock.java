@@ -3,7 +3,9 @@ package com.example.voidecho.block;
 import com.example.voidecho.block.ModBlocks;
 import com.example.voidecho.item.ModItems;
 import net.minecraft.block.Block;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.Identifier;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
@@ -18,6 +20,8 @@ import net.minecraft.world.WorldView;
 
 public class CrystalBloomBlock extends Block {
     private static final VoxelShape SHAPE = createCuboidShape(4, 0, 4, 12, 6, 12);
+    private static final TagKey<Block> PLANTABLE_ON =
+            TagKey.of(RegistryKeys.BLOCK, Identifier.of("void_echo", "crystal_bloom_plantable_on"));
 
     public CrystalBloomBlock(Settings settings) {
         super(settings);
@@ -32,10 +36,7 @@ public class CrystalBloomBlock extends Block {
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
         BlockPos below = pos.down();
         BlockState belowState = world.getBlockState(below);
-        return belowState.isIn(TagKey.of(
-            net.minecraft.registry.RegistryKeys.BLOCK,
-            net.minecraft.util.Identifier.of("void_echo", "crystal_bloom_plantable_on")
-        ));
+        return belowState.isIn(PLANTABLE_ON);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.example.voidecho.ModSoundEvents;
 import com.example.voidecho.entity.ModEntities;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -15,7 +16,11 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import net.minecraft.nbt.NbtCompound;
 import com.example.voidecho.item.ModItems;
 
 import java.util.EnumSet;
@@ -28,6 +33,12 @@ public class VoidWormEntity extends HostileEntity {
     public VoidWormEntity(EntityType<? extends VoidWormEntity> entityType, World world) {
         super(entityType, world);
         this.experiencePoints = 5;
+    }
+
+    @SuppressWarnings("unused")
+    public static boolean canSpawn(EntityType<VoidWormEntity> type, ServerWorldAccess world,
+                                    SpawnReason reason, BlockPos pos, Random random) {
+        return HostileEntity.canSpawnInDark(type, world, reason, pos, random);
     }
 
     public static DefaultAttributeContainer.Builder createMobAttributes() {
@@ -103,20 +114,17 @@ public class VoidWormEntity extends HostileEntity {
             double y = target.getY();
 
             // Find surface Y
-            if (this.getWorld() instanceof ServerWorld serverWorld) {
-                var blockPos = serverWorld.getTopPosition(
-                        net.minecraft.world.Heightmap.Type.WORLD_SURFACE,
-                        net.minecraft.util.math.BlockPos.ofFloored(x, y, z)
-                );
-                this.teleport(x, blockPos.getY(), z, false);
-                serverWorld.spawnParticles(
-                        ParticleTypes.MYCELIUM,
-                        this.getX(), this.getY(), this.getZ(),
-                        20, 0.5, 0.3, 0.5, 0.1
-                );
-            } else {
-                this.teleport(x, y, z, false);
-            }
+            ServerWorld serverWorld = (ServerWorld) this.getWorld();
+            var blockPos = serverWorld.getTopPosition(
+                    net.minecraft.world.Heightmap.Type.WORLD_SURFACE,
+                    net.minecraft.util.math.BlockPos.ofFloored(x, y, z)
+            );
+            this.teleport(x, blockPos.getY(), z, false);
+            serverWorld.spawnParticles(
+                    ParticleTypes.MYCELIUM,
+                    this.getX(), this.getY(), this.getZ(),
+                    20, 0.5, 0.3, 0.5, 0.1
+            );
         }
 
         this.playSound(ModSoundEvents.ENTITY_VOID_WORM_HURT, 0.8f, 1.0f);
@@ -144,7 +152,7 @@ public class VoidWormEntity extends HostileEntity {
 
         @Override
         public boolean shouldContinue() {
-            return false;
+            return worm.isBurrowed;
         }
 
         @Override
@@ -160,6 +168,22 @@ public class VoidWormEntity extends HostileEntity {
         for (int i = 0; i < count; i++) {
             this.dropItem(ModItems.CRYSTAL_SHARD);
         }
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putInt("BurrowCooldown", this.burrowCooldown);
+        nbt.putBoolean("IsBurrowed", this.isBurrowed);
+        nbt.putInt("BurrowTimer", this.burrowTimer);
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        this.burrowCooldown = nbt.getInt("BurrowCooldown");
+        this.isBurrowed = nbt.getBoolean("IsBurrowed");
+        this.burrowTimer = nbt.getInt("BurrowTimer");
     }
 
     @Override

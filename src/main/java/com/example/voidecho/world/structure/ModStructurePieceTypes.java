@@ -1,14 +1,16 @@
 package com.example.voidecho.world.structure;
 
+import com.example.voidecho.VoidEcho;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.structure.StructurePieceType;
+import net.minecraft.util.Identifier;
 
 /**
  * Registers custom structure piece types for programmatic structure generation.
  */
 public class ModStructurePieceTypes {
 
-    // In 1.21.1, structure piece types bypass the frozen registry.
-    // They're defined as direct functional-interface constants.
     public static final StructurePieceType ALTAR_PIECE = (ctx, nbt) ->
             new ForgottenAltarStructure.AltarPiece(
                     ModStructurePieceTypes.ALTAR_PIECE, nbt.getInt("length"),
@@ -33,7 +35,14 @@ public class ModStructurePieceTypes {
                             nbt.getInt("maxX"), nbt.getInt("maxY"), nbt.getInt("maxZ"))
             );
 
-    public static void init() {}
+    public static void init() {
+        Registry.register(Registries.STRUCTURE_PIECE,
+                Identifier.of(VoidEcho.MOD_ID, "altar_piece"), ALTAR_PIECE);
+        Registry.register(Registries.STRUCTURE_PIECE,
+                Identifier.of(VoidEcho.MOD_ID, "fortress_piece"), FORTRESS_PIECE);
+        Registry.register(Registries.STRUCTURE_PIECE,
+                Identifier.of(VoidEcho.MOD_ID, "sanctum_piece"), SANCTUM_PIECE);
+    }
 
     private ModStructurePieceTypes() {}
 }

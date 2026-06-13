@@ -75,7 +75,7 @@
   "effect.void_echo.void_touched": "虚空侵蚀",
   "effect.void_echo.echo_resonance": "回声共振",
 
-  "itemGroup.void_echo.void_echo_tab": "虚空回响",
+  "itemGroup.void_echo_tab": "虚空回响",
 
   "dimension.void_echo.voids_end": "终虚渊",
 
@@ -171,6 +171,8 @@
 
   "message.void_echo.portal_activated": "传送门涌动着远古的能量！",
   "message.void_echo.echo_warden_summoned": "回声守卫已被召唤！",
+  "message.void_echo.warden_ending": "虚空归于沉寂。回声守卫已被击败——远古的黑暗已被驱散。你完成了这个世界建造者们未竟的事业。但虚空低语着最后一个问题：代价是什么？",
+  "message.void_echo.void_first_entry": "虚空低语着你的名字……",
   "message.void_echo.altar_incomplete": "祭坛不完整，请在其周围放置暗晶块。",
   "message.void_echo.teleport_forward": "传送！",
   "message.void_echo.void_staff_bolt": "虚空弹射已发射！",
@@ -227,6 +229,7 @@
   "message.void_echo.rift_opened": "一道虚空裂隙在附近撕裂开来！",
   "message.void_echo.rift_closed": "虚空裂隙坍塌了...",
   "message.void_echo.forge_invalid_item": "此物品无法在虚空锻炉中升级！",
+  "message.void_echo.forge_minimal_damage": "物品耐久损失不足，无法修复！",
   "message.void_echo.forge_max_durability": "此物品已达到最大耐久升级！",
   "message.void_echo.forge_durability_upgraded": "您的物品已被暗晶能量修复！",
   "message.void_echo.forge_already_echo": "此物品已拥有回声升级！",
