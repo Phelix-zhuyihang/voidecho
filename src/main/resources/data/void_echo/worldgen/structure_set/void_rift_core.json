@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "void_echo:void_rift_core",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 5192836,
+    "spread_type": "triangular",
+    "spacing": 25,
+    "separation": 12
+  }
+}

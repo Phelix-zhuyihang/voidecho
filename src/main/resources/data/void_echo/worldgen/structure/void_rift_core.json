@@ -1,0 +1,7 @@
+{
+  "type": "void_echo:void_rift_core",
+  "biomes": "#void_echo:has_structure/void_rift_core",
+  "spawn_overrides": {},
+  "step": "underground_structures",
+  "terrain_adaptation": "bury"
+}
