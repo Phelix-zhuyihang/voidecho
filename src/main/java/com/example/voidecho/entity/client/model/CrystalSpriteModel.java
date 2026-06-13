@@ -51,7 +51,9 @@ public class CrystalSpriteModel extends SinglePartEntityModel<CrystalSpriteEntit
 
     @Override
     public void setAngles(CrystalSpriteEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-        float wingFlap = (float) Math.sin(animationProgress * 0.3F) * 0.4F;
+        // Wing flapping — faster when moving, but always a gentle idle flutter
+        float moveScale = 0.5F + Math.min(limbDistance * 1.0F, 0.5F);
+        float wingFlap = (float) Math.sin(animationProgress * 0.3F) * 0.4F * moveScale;
         this.leftWing.roll = -0.3F + wingFlap;
         this.rightWing.roll = 0.3F - wingFlap;
     }

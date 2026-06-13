@@ -67,8 +67,8 @@ public class VoidWormModel extends SinglePartEntityModel<VoidWormEntity> {
         this.head.pitch = headPitch * 0.017453292F;
         this.head.yaw = headYaw * 0.017453292F;
 
-        // Body undulation — kept subtle when idle, amplified when moving
-        float walkMag = Math.max(0.15F, Math.min(limbDistance * 0.5F, 0.6F));
+        // Body undulation — intensity scales with movement, stops when idle
+        float walkMag = Math.min(limbDistance * 0.5F, 0.6F);
         float wave = limbAngle * 0.5F;
         this.body1.yaw = (float) Math.sin(wave) * 0.1F * walkMag / 0.4F;
         this.body2.yaw = (float) Math.sin(wave + 0.5F) * 0.15F * walkMag / 0.4F;
