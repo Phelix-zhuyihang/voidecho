@@ -179,7 +179,7 @@ public class VoidForgeBlock extends Block {
                     player.sendMessage(Text.translatable("message.void_echo.forge_echo_upgraded"), true);
                 }
                 case "echo_strike" -> {
-                    player.getInventory().remove(s -> s.isOf(ModItems.ECHO_CORE), 1);
+                    player.getInventory().remove(s -> s.isOf(ModItems.ECHO_CORE), 1, player.getInventory());
                     offHand.decrement(1);
                     player.sendMessage(Text.translatable("message.void_echo.forge_echo_strike"), true);
                 }
@@ -192,12 +192,12 @@ public class VoidForgeBlock extends Block {
                     player.sendMessage(Text.translatable("message.void_echo.forge_rift_upgraded"), true);
                 }
                 case "rift_walker" -> {
-                    player.getInventory().remove(s -> s.isOf(ModBlocks.CRYSTAL_BLOCK.asItem()), 1);
+                    player.getInventory().remove(s -> s.isOf(ModBlocks.CRYSTAL_BLOCK.asItem()), 1, player.getInventory());
                     offHand.decrement(1);
                     player.sendMessage(Text.translatable("message.void_echo.forge_rift_walker"), true);
                 }
                 case "rift_fury" -> {
-                    player.getInventory().remove(s -> s.isOf(ModItems.VOID_CATALYST), 1);
+                    player.getInventory().remove(s -> s.isOf(ModItems.VOID_CATALYST), 1, player.getInventory());
                     offHand.decrement(1);
                     player.sendMessage(Text.translatable("message.void_echo.forge_rift_fury"), true);
                 }
@@ -207,7 +207,7 @@ public class VoidForgeBlock extends Block {
                 }
                 case "crystal_barrier" -> {
                     offHand.decrement(1);
-                    player.getInventory().remove(s -> s.isOf(ModBlocks.CRYSTAL_BLOCK.asItem()), 3);
+                    player.getInventory().remove(s -> s.isOf(ModBlocks.CRYSTAL_BLOCK.asItem()), 3, player.getInventory());
                     player.sendMessage(Text.translatable("message.void_echo.forge_crystal_barrier"), true);
                 }
             }

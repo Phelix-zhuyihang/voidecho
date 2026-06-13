@@ -12,6 +12,7 @@ import com.example.voidecho.entity.mob.VoidWormEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnLocationTypes;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.Registries;
@@ -111,17 +112,17 @@ public final class ModEntities {
     );
 
     public static void init() {
-        SpawnRestriction.register(VOID_WORM, SpawnRestriction.Location.ON_GROUND,
+        SpawnRestriction.register(VOID_WORM, SpawnLocationTypes.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, VoidWormEntity::canSpawn);
-        SpawnRestriction.register(CRYSTAL_WRAITH, SpawnRestriction.Location.ON_GROUND,
+        SpawnRestriction.register(CRYSTAL_WRAITH, SpawnLocationTypes.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, CrystalWraithEntity::canSpawn);
-        SpawnRestriction.register(SHARD_GUARD, SpawnRestriction.Location.ON_GROUND,
+        SpawnRestriction.register(SHARD_GUARD, SpawnLocationTypes.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, ShardGuardEntity::canSpawn);
-        SpawnRestriction.register(VOID_STALKER, SpawnRestriction.Location.ON_GROUND,
+        SpawnRestriction.register(VOID_STALKER, SpawnLocationTypes.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, VoidStalkerEntity::canSpawn);
-        SpawnRestriction.register(ECHO_WARDEN, SpawnRestriction.Location.ON_GROUND,
+        SpawnRestriction.register(ECHO_WARDEN, SpawnLocationTypes.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EchoWardenEntity::canSpawn);
-        SpawnRestriction.register(CRYSTAL_SPRITE, SpawnRestriction.Location.ON_GROUND,
+        SpawnRestriction.register(CRYSTAL_SPRITE, SpawnLocationTypes.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING, CrystalSpriteEntity::canSpawn);
     }
 

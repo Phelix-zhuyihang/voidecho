@@ -198,16 +198,16 @@ public class ForgottenAltarStructure extends Structure {
         if (be != null) {
             ItemStack book = new ItemStack(Items.WRITTEN_BOOK);
             book.set(DataComponentTypes.WRITTEN_BOOK_CONTENT,
-                new WrittenBookContentComponent(
-                    RawFilteredPair.of(Text.translatable(titleKey)),
-                    Text.translatable(authorKey).getString(),
-                    0,
-                    java.util.List.of(
-                        RawFilteredPair.of(Text.translatable(p1)),
-                        RawFilteredPair.of(Text.translatable(p2)),
-                        RawFilteredPair.of(Text.translatable(p3))
-                    ),
-                    true));
+                    new WrittenBookContentComponent(
+                            RawFilteredPair.of(titleKey),
+                            Text.translatable(authorKey).getString(),
+                            0,
+                            java.util.List.of(
+                                    RawFilteredPair.of(Text.translatable(p1)),
+                                    RawFilteredPair.of(Text.translatable(p2)),
+                                    RawFilteredPair.of(Text.translatable(p3))
+                            ),
+                            true));
             be.setBook(book);
         }
     }

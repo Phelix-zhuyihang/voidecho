@@ -222,17 +222,21 @@ public class EchoSanctumStructure extends Structure {
             LecternBlockEntity be = (LecternBlockEntity) world.getBlockEntity(pos);
             if (be != null) {
                 ItemStack book = new ItemStack(Items.WRITTEN_BOOK);
+                net.minecraft.nbt.NbtCompound nbt = new net.minecraft.nbt.NbtCompound();
+                nbt.putString("title", titleKey);
+                nbt.putString("author", Text.translatable(authorKey).getString());
+                nbt.putInt("generation", 0);
+                net.minecraft.nbt.NbtList pages = new net.minecraft.nbt.NbtList();
+                pages.add(net.minecraft.nbt.NbtString.of(
+                        net.minecraft.text.Text.Serialization.toJsonString(Text.translatable(p1), world.getRegistryManager())));
+                pages.add(net.minecraft.nbt.NbtString.of(
+                        net.minecraft.text.Text.Serialization.toJsonString(Text.translatable(p2), world.getRegistryManager())));
+                pages.add(net.minecraft.nbt.NbtString.of(
+                        net.minecraft.text.Text.Serialization.toJsonString(Text.translatable(p3), world.getRegistryManager())));
+                nbt.put("pages", pages);
+                nbt.putBoolean("resolved", true);
                 book.set(DataComponentTypes.WRITTEN_BOOK_CONTENT,
-                    new WrittenBookContentComponent(
-                        RawFilteredPair.of(Text.translatable(titleKey)),
-                        Text.translatable(authorKey).getString(),
-                        0,
-                        java.util.List.of(
-                            RawFilteredPair.of(Text.translatable(p1)),
-                            RawFilteredPair.of(Text.translatable(p2)),
-                            RawFilteredPair.of(Text.translatable(p3))
-                        ),
-                        true));
+                        new WrittenBookContentComponent(RawFilteredPair.of(titleKey), Text.translatable(authorKey).getString(), 0, java.util.List.of(RawFilteredPair.of(Text.translatable(p1)), RawFilteredPair.of(Text.translatable(p2)), RawFilteredPair.of(Text.translatable(p3))), true));
                 be.setBook(book);
             }
         }

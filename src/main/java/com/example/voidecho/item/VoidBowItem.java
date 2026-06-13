@@ -9,6 +9,7 @@ import net.minecraft.item.ArrowItem;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
@@ -24,7 +25,8 @@ public class VoidBowItem extends BowItem {
         if (!(user instanceof PlayerEntity player)) return;
 
         boolean infinite = player.getAbilities().creativeMode
-                || EnchantmentHelper.getLevel(Enchantments.INFINITY, stack) > 0;
+                || EnchantmentHelper.getLevel(world.getRegistryManager()
+                        .get(RegistryKeys.ENCHANTMENT).getEntry(Enchantments.INFINITY).orElse(null), stack) > 0;
         ItemStack arrowStack = player.getProjectileType(stack);
 
         if (arrowStack.isEmpty() && !infinite) return;
@@ -52,7 +54,9 @@ public class VoidBowItem extends BowItem {
             }
 
             // Power enchantment
-            int powerLevel = EnchantmentHelper.getLevel(Enchantments.POWER, stack);
+            var enchReg = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT);
+            int powerLevel = EnchantmentHelper.getLevel(
+                    enchReg.getEntry(Enchantments.POWER).orElse(null), stack);
             if (powerLevel > 0) {
                 arrow.setDamage(arrow.getDamage() + (double) powerLevel * 0.5 + 0.5);
             }
@@ -60,14 +64,9 @@ public class VoidBowItem extends BowItem {
             // Void bow bonus
             arrow.setDamage(arrow.getDamage() + 4.0);
 
-            // Punch enchantment
-            int punchLevel = EnchantmentHelper.getLevel(Enchantments.PUNCH, stack);
-            if (punchLevel > 0) {
-                arrow.setPunch(punchLevel);
-            }
-
+            // Punch enchantment (vanilla handles knockback via onEntityHit)
             // Flame enchantment
-            if (EnchantmentHelper.getLevel(Enchantments.FLAME, stack) > 0) {
+            if (EnchantmentHelper.getLevel(enchReg.getEntry(Enchantments.FLAME).orElse(null), stack) > 0) {
                 arrow.setOnFireFor(100);
             }
 

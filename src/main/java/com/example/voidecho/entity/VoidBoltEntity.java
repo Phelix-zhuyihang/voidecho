@@ -42,7 +42,6 @@ public class VoidBoltEntity extends ProjectileEntity implements FlyingItemEntity
 
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
-        super.initDataTracker(builder);
     }
 
     @Override

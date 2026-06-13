@@ -164,6 +164,13 @@ public class VoidStalkerEntity extends HostileEntity {
             }
             if (enrageComboTimer <= 0) {
                 enrageComboCount = 0;
+                // Re-trigger combo if target is still in melee range
+                LivingEntity target = this.getTarget();
+                if (target != null && target.isAlive()
+                        && this.distanceTo(target) < 4.0
+                        && this.random.nextFloat() < 0.3f) {
+                    performEnrageCombo();
+                }
             }
         }
     }
@@ -681,13 +688,6 @@ public class VoidStalkerEntity extends HostileEntity {
         @Override
         protected boolean canAttack(LivingEntity target) {
             return this.mob.squaredDistanceTo(target) <= 16.0;
-        }
-
-        @Override
-        public void afterAttack(boolean hit) {
-            if (hit && stalker.currentPhase == BossPhase.ENRAGE) {
-                stalker.performEnrageCombo();
-            }
         }
     }
 }
