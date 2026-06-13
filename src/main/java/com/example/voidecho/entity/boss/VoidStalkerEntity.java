@@ -194,11 +194,24 @@ public class VoidStalkerEntity extends HostileEntity {
         this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_SPEED).setBaseValue(1.2);
 
         if (this.getWorld() instanceof ServerWorld serverWorld) {
-            serverWorld.spawnParticles(
-                    ModParticleTypes.VOID_BURST,
+            // Layer 1: spiral-in ambient particles (anticipation, 0.3s)
+            for (int i = 0; i < 40; i++) {
+                double angle = (i / 40.0) * Math.PI * 4;
+                double radius = 3.0 - (i / 40.0) * 2.5;
+                serverWorld.spawnParticles(ModParticleTypes.VOID_AMBIENT,
+                    this.getX() + Math.cos(angle) * radius,
+                    this.getY() + 1.5 + (i % 3) * 0.5,
+                    this.getZ() + Math.sin(angle) * radius,
+                    1, 0, 0, 0, 0);
+            }
+            // Layer 2: burst explosion
+            serverWorld.spawnParticles(ModParticleTypes.VOID_BURST,
                     this.getX(), this.getY() + 1.5, this.getZ(),
-                    50, 2.0, 2.0, 2.0, 0.2
-            );
+                    50, 2.0, 2.0, 2.0, 0.2);
+            // Layer 3: expanding floor ring
+            serverWorld.spawnParticles(ParticleTypes.SCULK_SOUL,
+                    this.getX(), this.getY() + 0.2, this.getZ(),
+                    20, 5.0, 0.1, 5.0, 0.3);
         }
         this.playSound(ModSoundEvents.ENTITY_VOID_STALKER_PHASE_SHIFT, 1.0f, 0.8f);
     }
@@ -220,16 +233,27 @@ public class VoidStalkerEntity extends HostileEntity {
         sendMessageToAllPlayers("message.void_echo.stalker_enrage");
 
         if (this.getWorld() instanceof ServerWorld serverWorld) {
-            serverWorld.spawnParticles(
-                    ParticleTypes.FLASH,
+            // Layer 1: screen flash
+            serverWorld.spawnParticles(ParticleTypes.FLASH,
                     this.getX(), this.getY() + 1.5, this.getZ(),
-                    30, 2.0, 2.0, 2.0, 0.5
-            );
-            serverWorld.spawnParticles(
-                    ModParticleTypes.VOID_BURST,
+                    30, 2.0, 2.0, 2.0, 0.5);
+            // Layer 2: burst explosion
+            serverWorld.spawnParticles(ModParticleTypes.VOID_BURST,
                     this.getX(), this.getY() + 1.5, this.getZ(),
-                    60, 1.5, 2.0, 1.5, 0.1
-            );
+                    60, 1.5, 2.0, 1.5, 0.1);
+            // Layer 3: vertical beam jets (rising energy pillars)
+            for (int j = 0; j < 8; j++) {
+                double angle = j * Math.PI / 4;
+                double ox = this.getX() + Math.cos(angle) * 2.0;
+                double oz = this.getZ() + Math.sin(angle) * 2.0;
+                serverWorld.spawnParticles(ModParticleTypes.VOID_BEAM,
+                        ox, this.getY() + 0.5, oz,
+                        5, 0.3, 1.5, 0.3, 0.15);
+            }
+            // Layer 4: floor ring spread
+            serverWorld.spawnParticles(ParticleTypes.SCULK_SOUL,
+                    this.getX(), this.getY() + 0.1, this.getZ(),
+                    20, 4.0, 0.1, 4.0, 0.4);
         }
         this.playSound(ModSoundEvents.ENTITY_VOID_STALKER_PHASE_SHIFT, 1.0f, 0.5f);
     }
@@ -238,16 +262,22 @@ public class VoidStalkerEntity extends HostileEntity {
         if (this.getWorld().isClient) return;
         ServerWorld serverWorld = (ServerWorld) this.getWorld();
 
-        serverWorld.spawnParticles(
-                ParticleTypes.SONIC_BOOM,
+        // Layer 1: sonic wave ring
+        serverWorld.spawnParticles(ParticleTypes.SONIC_BOOM,
                 this.getX(), this.getY() + 1.0, this.getZ(),
-                40, 3.0, 2.0, 3.0, 0.3
-        );
-        serverWorld.spawnParticles(
-                ParticleTypes.SCULK_SOUL,
+                40, 3.0, 2.0, 3.0, 0.3);
+        // Layer 2: soul particle ring
+        serverWorld.spawnParticles(ParticleTypes.SCULK_SOUL,
                 this.getX(), this.getY() + 1.0, this.getZ(),
-                30, 5.0, 2.0, 5.0, 0.2
-        );
+                30, 5.0, 2.0, 5.0, 0.2);
+        // Layer 3: void burst from epicenter
+        serverWorld.spawnParticles(ModParticleTypes.VOID_BURST,
+                this.getX(), this.getY() + 1.0, this.getZ(),
+                30, 2.0, 1.5, 2.0, 0.15);
+        // Layer 4: ground residual (void energy leaking from cracks)
+        serverWorld.spawnParticles(ModParticleTypes.VOID_AMBIENT,
+                this.getX(), this.getY() + 0.1, this.getZ(),
+                25, 4.0, 0.1, 4.0, 0.02);
 
         this.playSound(ModSoundEvents.ENTITY_VOID_STALKER_SCREAM, 1.5f, 0.6f);
 
@@ -331,6 +361,15 @@ public class VoidStalkerEntity extends HostileEntity {
 
         // Damage target
         target.damage(target.getDamageSources().mobAttack(this), 10.0f);
+
+        // Impact burst at hit point
+        serverWorld.spawnParticles(ModParticleTypes.VOID_BURST,
+                target.getX(), target.getY() + target.getHeight() / 2, target.getZ(),
+                20, 0.5, 0.8, 0.5, 0.1);
+        // Residual void energy at impact
+        serverWorld.spawnParticles(ModParticleTypes.VOID_AMBIENT,
+                target.getX(), target.getY() + target.getHeight() / 2, target.getZ(),
+                15, 0.8, 1.0, 0.8, 0.03);
 
         // Apply knockback
         target.takeKnockback(1.5, target.getX() - this.getX(), target.getZ() - this.getZ());

@@ -261,11 +261,14 @@ public class EchoWardenEntity extends HostileEntity {
 
             this.teleport(surfacePos.getX() + 0.5, surfacePos.getY(), surfacePos.getZ() + 0.5, false);
 
-            serverWorld.spawnParticles(
-                    ParticleTypes.REVERSE_PORTAL,
+            // Arrival particles
+            serverWorld.spawnParticles(ParticleTypes.REVERSE_PORTAL,
                     this.getX(), this.getY() + 2.0, this.getZ(),
-                    15, 0.5, 1.0, 0.5, 0.1
-            );
+                    15, 0.5, 1.0, 0.5, 0.1);
+            // Arrival burst
+            serverWorld.spawnParticles(ModParticleTypes.VOID_BURST,
+                    this.getX(), this.getY() + 2.0, this.getZ(),
+                    30, 1.0, 1.5, 1.0, 0.12);
 
             // Attack from each position if close enough
             if (this.distanceTo(target) <= MELEE_RANGE) {
@@ -300,11 +303,13 @@ public class EchoWardenEntity extends HostileEntity {
         }
 
         // Visual effect
-        serverWorld.spawnParticles(
-                ParticleTypes.SCULK_SOUL,
+        serverWorld.spawnParticles(ParticleTypes.SCULK_SOUL,
                 this.getX(), this.getY() + 2.0, this.getZ(),
-                50, TIME_SLOW_RADIUS, 3.0, TIME_SLOW_RADIUS, 0.5
-        );
+                50, TIME_SLOW_RADIUS, 3.0, TIME_SLOW_RADIUS, 0.5);
+        // Suspended ambient particles — "time freeze" visual
+        serverWorld.spawnParticles(ModParticleTypes.VOID_AMBIENT,
+                this.getX(), this.getY() + 1.0, this.getZ(),
+                30, TIME_SLOW_RADIUS * 0.7, 4.0, TIME_SLOW_RADIUS * 0.7, 0);
 
         this.playSound(ModSoundEvents.ENTITY_ECHO_WARDEN_TIME_SLOW, 1.0f, 0.6f);
         this.timeSlowCooldown = TIME_SLOW_COOLDOWN_TICKS;
@@ -321,16 +326,21 @@ public class EchoWardenEntity extends HostileEntity {
         this.navigation.stop();
 
         // Charge visual buildup
-        serverWorld.spawnParticles(
-                ParticleTypes.SCULK_SOUL,
+        serverWorld.spawnParticles(ParticleTypes.SCULK_SOUL,
                 this.getX(), this.getY() + 2.0, this.getZ(),
-                30, 1.0, 3.0, 1.0, 0.2
-        );
-        serverWorld.spawnParticles(
-                ParticleTypes.SONIC_BOOM,
+                30, 1.0, 3.0, 1.0, 0.2);
+        // Sword arc — beam particles in a horizontal fan ahead of the boss
+        for (int i = -15; i <= 15; i++) {
+            double arcAngle = Math.toRadians(i * 6);
+            serverWorld.spawnParticles(ModParticleTypes.VOID_BEAM,
+                    this.getX() + Math.sin(arcAngle) * 3.0,
+                    this.getY() + 2.0,
+                    this.getZ() + Math.cos(arcAngle) * 3.0,
+                    2, 0.2, 0.5, 0.2, 0);
+        }
+        serverWorld.spawnParticles(ParticleTypes.SONIC_BOOM,
                 this.getX(), this.getY() + 2.0, this.getZ(),
-                10, 0.5, 2.0, 0.5, 0.05
-        );
+                10, 0.5, 2.0, 0.5, 0.05);
 
         this.playSound(ModSoundEvents.ENTITY_ECHO_WARDEN_SLASH, 1.5f, 0.7f);
     }
@@ -342,16 +352,16 @@ public class EchoWardenEntity extends HostileEntity {
         sendMessageToAllPlayers("message.void_echo.warden_slash");
 
         // Massive particle burst
-        serverWorld.spawnParticles(
-                ParticleTypes.SONIC_BOOM,
+        serverWorld.spawnParticles(ParticleTypes.SONIC_BOOM,
                 this.getX(), this.getY() + 2.0, this.getZ(),
-                60, SLASH_RADIUS, 4.0, SLASH_RADIUS, 0.3
-        );
-        serverWorld.spawnParticles(
-                ParticleTypes.FLASH,
+                60, SLASH_RADIUS, 4.0, SLASH_RADIUS, 0.3);
+        // Slash debris — burst fragments flying along the slash direction
+        serverWorld.spawnParticles(ModParticleTypes.VOID_BURST,
                 this.getX(), this.getY() + 2.0, this.getZ(),
-                1, 0, 0, 0, 0
-        );
+                50, SLASH_RADIUS * 0.6, 2.0, SLASH_RADIUS * 0.6, 0.25);
+        serverWorld.spawnParticles(ParticleTypes.FLASH,
+                this.getX(), this.getY() + 2.0, this.getZ(),
+                1, 0, 0, 0, 0);
 
         // Damage ALL players within radius regardless of line of sight
         for (PlayerEntity player : serverWorld.getPlayers()) {
@@ -476,6 +486,10 @@ public class EchoWardenEntity extends HostileEntity {
         // Heal 2 HP per player drained
         if (drained > 0) {
             this.heal(drained * 2.0f);
+            // Drain success burst at boss position
+            serverWorld.spawnParticles(ModParticleTypes.VOID_BURST,
+                    this.getX(), this.getY() + 2.0, this.getZ(),
+                    15 * drained, 1.0, 1.5, 1.0, 0.1);
         }
         this.playSound(ModSoundEvents.ENTITY_ECHO_WARDEN_TIME_SLOW, 1.0f, 0.5f);
     }
@@ -489,7 +503,16 @@ public class EchoWardenEntity extends HostileEntity {
         this.voidNovaChargeTime = VOID_NOVA_CHARGE_TICKS;
         this.navigation.stop();
 
-        // Charge particles
+        // Charge particles — inward spiral
+        for (int i = 0; i < 60; i++) {
+            double angle = (i / 60.0) * Math.PI * 6;
+            double radius = 5.0 - (i / 60.0) * 4.0;
+            serverWorld.spawnParticles(ModParticleTypes.VOID_AMBIENT,
+                this.getX() + Math.cos(angle) * radius,
+                this.getY() + 1.0 + (i % 3) * 0.8,
+                this.getZ() + Math.sin(angle) * radius,
+                1, 0, 0, 0, 0);
+        }
         serverWorld.spawnParticles(ParticleTypes.REVERSE_PORTAL,
             this.getX(), this.getY() + 1.0, this.getZ(),
             30, 1.5, 3.0, 1.5, 0.1);
@@ -507,6 +530,14 @@ public class EchoWardenEntity extends HostileEntity {
         serverWorld.spawnParticles(ParticleTypes.SONIC_BOOM,
             this.getX(), this.getY() + 2.0, this.getZ(),
             80, VOID_NOVA_RADIUS, 4.0, VOID_NOVA_RADIUS, 0.4);
+        // Hemisphere burst — void energy expanding outward
+        serverWorld.spawnParticles(ModParticleTypes.VOID_BURST,
+            this.getX(), this.getY() + 2.0, this.getZ(),
+            100, VOID_NOVA_RADIUS * 0.8, 5.0, VOID_NOVA_RADIUS * 0.8, 0.3);
+        // Lingering ground fog — void energy residue
+        serverWorld.spawnParticles(ModParticleTypes.VOID_AMBIENT,
+            this.getX(), this.getY() + 0.1, this.getZ(),
+            50, VOID_NOVA_RADIUS, 0.2, VOID_NOVA_RADIUS, 0.01);
 
         // Damage all players in radius
         for (PlayerEntity player : serverWorld.getPlayers()) {

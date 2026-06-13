@@ -5,3 +5,4 @@ build/
 *.stackdump
 run/
 net/
+BUG_ANALYSIS_REPORT.md
