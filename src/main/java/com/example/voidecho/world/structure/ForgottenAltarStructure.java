@@ -4,8 +4,16 @@ import com.example.voidecho.block.ModBlocks;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.LecternBlock;
+import net.minecraft.block.entity.LecternBlockEntity;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.WrittenBookContentComponent;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.text.RawFilteredPair;
+import net.minecraft.text.Text;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.structure.StructureContext;
 import net.minecraft.structure.StructurePiece;
@@ -167,6 +175,40 @@ public class ForgottenAltarStructure extends Structure {
             if (chunkBox.contains(shardPos)) {
                 world.setBlockState(shardPos, ModBlocks.ECHO_SHARD_1.getDefaultState(), 2);
             }
+
+            // Lectern with "Journal of the Last Architect" — north side of platform
+            BlockPos lecternPos = portalBase.add(0, 0, -4);
+            if (chunkBox.contains(lecternPos)) {
+                placeLecternWithBook(world, lecternPos,
+                    "book.void_echo.last_architect.title",
+                    "book.void_echo.last_architect.author",
+                    "book.void_echo.last_architect.page1",
+                    "book.void_echo.last_architect.page2",
+                    "book.void_echo.last_architect.page3");
+            }
+        }
+    }
+
+    private static void placeLecternWithBook(StructureWorldAccess world, BlockPos pos,
+            String titleKey, String authorKey, String p1, String p2, String p3) {
+        world.setBlockState(pos, Blocks.LECTERN.getDefaultState()
+                .with(LecternBlock.HAS_BOOK, true).with(LecternBlock.FACING,
+                        net.minecraft.util.math.Direction.SOUTH), 2);
+        LecternBlockEntity be = (LecternBlockEntity) world.getBlockEntity(pos);
+        if (be != null) {
+            ItemStack book = new ItemStack(Items.WRITTEN_BOOK);
+            book.set(DataComponentTypes.WRITTEN_BOOK_CONTENT,
+                new WrittenBookContentComponent(
+                    RawFilteredPair.of(Text.translatable(titleKey)),
+                    Text.translatable(authorKey).getString(),
+                    0,
+                    java.util.List.of(
+                        RawFilteredPair.of(Text.translatable(p1)),
+                        RawFilteredPair.of(Text.translatable(p2)),
+                        RawFilteredPair.of(Text.translatable(p3))
+                    ),
+                    true));
+            be.setBook(book);
         }
     }
 }

@@ -4,8 +4,16 @@ import com.example.voidecho.block.ModBlocks;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.LecternBlock;
+import net.minecraft.block.entity.LecternBlockEntity;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.WrittenBookContentComponent;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.loot.LootTable;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.text.RawFilteredPair;
+import net.minecraft.text.Text;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.structure.StructureContext;
@@ -192,6 +200,40 @@ public class EchoSanctumStructure extends Structure {
                                 random.nextLong());
                     }
                 }
+            }
+
+            // Lectern with "The Summoning Ritual" — south side of altar
+            BlockPos lecternPos = altar.south(3);
+            if (chunkBox.contains(lecternPos)) {
+                placeLecternWithBook(world, lecternPos,
+                    "book.void_echo.summoning_ritual.title",
+                    "book.void_echo.summoning_ritual.author",
+                    "book.void_echo.summoning_ritual.page1",
+                    "book.void_echo.summoning_ritual.page2",
+                    "book.void_echo.summoning_ritual.page3");
+            }
+        }
+
+        private static void placeLecternWithBook(StructureWorldAccess world, BlockPos pos,
+                String titleKey, String authorKey, String p1, String p2, String p3) {
+            world.setBlockState(pos, Blocks.LECTERN.getDefaultState()
+                    .with(LecternBlock.HAS_BOOK, true).with(LecternBlock.FACING,
+                            net.minecraft.util.math.Direction.NORTH), 2);
+            LecternBlockEntity be = (LecternBlockEntity) world.getBlockEntity(pos);
+            if (be != null) {
+                ItemStack book = new ItemStack(Items.WRITTEN_BOOK);
+                book.set(DataComponentTypes.WRITTEN_BOOK_CONTENT,
+                    new WrittenBookContentComponent(
+                        RawFilteredPair.of(Text.translatable(titleKey)),
+                        Text.translatable(authorKey).getString(),
+                        0,
+                        java.util.List.of(
+                            RawFilteredPair.of(Text.translatable(p1)),
+                            RawFilteredPair.of(Text.translatable(p2)),
+                            RawFilteredPair.of(Text.translatable(p3))
+                        ),
+                        true));
+                be.setBook(book);
             }
         }
     }

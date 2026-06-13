@@ -190,6 +190,24 @@
   "message.void_echo.echo_shard_4": "Fragments of will: 'I sealed myself inside the crystal to hold the Void gate shut. Every passing year, I lose more of who I was. Summon me only if you are ready to end this — one way or another.'",
   "message.void_echo.echo_shard_5": "The final truth: 'We — Aerolith — failed. But failure is not the end. You carry the echo of everything we were. The Void whispers your name now, traveler. Do not let it feed on you as it fed on us.'",
 
+  "book.void_echo.last_architect.title": "Journal of the Last Architect",
+  "book.void_echo.last_architect.author": "Architect Seren",
+  "book.void_echo.last_architect.page1": "I am Seren, last of the Royal Shapers. By the order of King Aerion IV, I designed this Altar to serve as the bridge between worlds — a passage from the overworld into the Void's End.\n\nOur king believed that one day, someone would need to cross over. Not an Aerolithian — we had sealed our fate. But someone FROM BEYOND. Someone who did not grow up hearing the Void's whispers.\n\nThat someone is you.",
+  "book.void_echo.last_architect.page2": "The Void Key you hold was forged from the last crystal I ever shaped. It resonates with the portal frame because it carries my memory — my knowledge of the bridge between worlds.\n\nDo not lose it. I have no more crystals left to shape another.\n\nThe Altar will recognize the key. Step through. The Void's End awaits.",
+  "book.void_echo.last_architect.page3": "One final warning: The Void feeds on memories. Every moment you spend in the Void's End, it learns a little more about you. The creatures there — the worms, the wraiths, the guard — they are drawn to memory like moths to flame.\n\nTravel light. Stay alert. And do not linger where the whispers grow loud.\n\nMay the crystals guide your path.\n\n— Seren",
+
+  "book.void_echo.commanders_entry.title": "Commander's Final Entry",
+  "book.void_echo.commanders_entry.author": "Commander Kaelen",
+  "book.void_echo.commanders_entry.page1": "I can feel it now. The Void is inside me.\n\nWe repelled the seventh tide — seven waves of darkness crashing against the fortress walls, and we held. My soldiers cheered. Aerion embraced me. But during the battle, something got through. I absorbed it deliberately — the king would have died otherwise.\n\nI thought I could contain it. I was wrong.",
+  "book.void_echo.commanders_entry.page2": "The whispers started three days ago. At first, they sounded like battle commands — strategies, formations, enemy movements. I thought it was instinct. Then I realized the whispers were describing how to kill my own soldiers.\n\nThe Void doesn't give you orders. It shows you possibilities. And the worst possibilities are the ones that make tactical sense.\n\nI am stepping down from command today. Aerion doesn't know why. I told him I was tired.",
+  "book.void_echo.commanders_entry.page3": "If you are reading this, I am already gone. The creature you will face in the depths of this fortress — the Void Stalker — that is what remains of me.\n\nStrike true. Do not hesitate. The part of me that is still Kaelen wants to die as a soldier, not as a monster.\n\nAerion — if somehow you read this — forgive me. You were the best king our people ever had. I hope your seal holds longer than my willpower did.\n\n— Kaelen",
+
+  "book.void_echo.summoning_ritual.title": "The Summoning Ritual",
+  "book.void_echo.summoning_ritual.author": "High Shaper Miriel",
+  "book.void_echo.summoning_ritual.page1": "To whomever finds this sanctum: what you stand before is not a tomb. It is a prison — and a choice.\n\nKing Aerion IV sealed his consciousness inside the great crystal at the center of this chamber. Four smaller crystals amplify the seal, one at each cardinal direction. As long as they stand, the Void's main entrance cannot fully open.",
+  "book.void_echo.summoning_ritual.page2": "The ritual requires the heart of the Void Stalker — Kaelen, our fallen commander. His corrupted crystal heart resonates with the king's seal. When placed upon the Echo Altar with all four amplifier crystals intact, the seal will break — and Aerion will awaken.\n\nYou must understand what this means: the Warden is not your enemy. He has been holding the Void at bay for centuries, alone, with nothing but his will.",
+  "book.void_echo.summoning_ritual.page3": "Once awakened, Aerion cannot be put back to sleep. The seal will be broken permanently. If you defeat him, the Void will flow freely — no longer contained. If he defeats you, the Void gains a champion.\n\nThere is no victory here. Only a choice between endings.\n\nSummon him only if you are prepared to live with whichever ending you create.\n\n— Miriel, High Shaper of Aerolith",
+
   "itemGroup.void_echo_tab": "Void Echo",
 
   "enchantment.void_echo.void_affinity": "Void Affinity",

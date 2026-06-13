@@ -4,8 +4,16 @@ import com.example.voidecho.block.ModBlocks;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.LecternBlock;
+import net.minecraft.block.entity.LecternBlockEntity;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.WrittenBookContentComponent;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.loot.LootTable;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.text.RawFilteredPair;
+import net.minecraft.text.Text;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.structure.StructureContext;
@@ -105,7 +113,19 @@ public class VoidFortressStructure extends Structure {
             buildMainCorridor(world, center.withY(surfaceY - 6), chunkBox, random);
 
             // Boss chamber at the bottom
-            buildBossChamber(world, center.withY(surfaceY - 12), chunkBox, random);
+            BlockPos bossRoom = center.withY(surfaceY - 12);
+            buildBossChamber(world, bossRoom, chunkBox, random);
+
+            // Lectern with "Commander's Final Entry" in boss chamber
+            BlockPos lecternPos = bossRoom.add(4, -4, 0);
+            if (chunkBox.contains(lecternPos)) {
+                placeLecternWithBook(world, lecternPos,
+                    "book.void_echo.commanders_entry.title",
+                    "book.void_echo.commanders_entry.author",
+                    "book.void_echo.commanders_entry.page1",
+                    "book.void_echo.commanders_entry.page2",
+                    "book.void_echo.commanders_entry.page3");
+            }
 
             // Side rooms (anchor to surface Y so they connect to the main structure)
             BlockPos surfaceCenter = center.withY(surfaceY);
@@ -349,6 +369,29 @@ public class VoidFortressStructure extends Structure {
                         world.setBlockState(p.up(), Blocks.SOUL_FIRE.getDefaultState(), 2);
                     }
                 }
+            }
+        }
+
+        private static void placeLecternWithBook(StructureWorldAccess world, BlockPos pos,
+                String titleKey, String authorKey, String p1, String p2, String p3) {
+            world.setBlockState(pos, Blocks.LECTERN.getDefaultState()
+                    .with(LecternBlock.HAS_BOOK, true).with(LecternBlock.FACING,
+                            net.minecraft.util.math.Direction.SOUTH), 2);
+            LecternBlockEntity be = (LecternBlockEntity) world.getBlockEntity(pos);
+            if (be != null) {
+                ItemStack book = new ItemStack(Items.WRITTEN_BOOK);
+                book.set(DataComponentTypes.WRITTEN_BOOK_CONTENT,
+                    new WrittenBookContentComponent(
+                        RawFilteredPair.of(Text.translatable(titleKey)),
+                        Text.translatable(authorKey).getString(),
+                        0,
+                        java.util.List.of(
+                            RawFilteredPair.of(Text.translatable(p1)),
+                            RawFilteredPair.of(Text.translatable(p2)),
+                            RawFilteredPair.of(Text.translatable(p3))
+                        ),
+                        true));
+                be.setBook(book);
             }
         }
     }
