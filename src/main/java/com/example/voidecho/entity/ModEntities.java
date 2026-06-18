@@ -111,6 +111,17 @@ public final class ModEntities {
                     .build()
     );
 
+    public static final EntityType<VoidLureBobberEntity> VOID_LURE_BOBBER = Registry.register(
+            Registries.ENTITY_TYPE,
+            Identifier.of(VoidEcho.MOD_ID, "void_lure_bobber"),
+            FabricEntityTypeBuilder.<VoidLureBobberEntity>create(SpawnGroup.MISC,
+                            (type, world) -> new VoidLureBobberEntity(type, world))
+                    .dimensions(EntityDimensions.fixed(0.25f, 0.25f))
+                    .trackRangeChunks(4)
+                    .trackedUpdateRate(5)
+                    .build()
+    );
+
     public static void init() {
         SpawnRestriction.register(VOID_WORM, SpawnLocationTypes.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, VoidWormEntity::canSpawn);

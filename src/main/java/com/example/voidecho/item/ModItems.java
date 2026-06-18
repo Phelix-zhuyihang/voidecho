@@ -99,7 +99,7 @@ public class ModItems {
 
     // ---- Void Fishing ----
     public static final Item CRYSTAL_LURE = register("crystal_lure",
-            new Item(new Item.Settings().maxDamage(128).rarity(Rarity.UNCOMMON)));
+            new VoidLureItem(new Item.Settings().maxDamage(128).rarity(Rarity.UNCOMMON)));
 
     public static final Item VOID_CARP = register("void_carp",
             new Item(new Item.Settings().food(
