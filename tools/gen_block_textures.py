@@ -274,6 +274,27 @@ def make_shard(n):
                 px[x,y] = P['glow'] if n%2==0 else P['energy']
     return img
 
+def make_deepslate_crystal_ore():
+    """Deepslate variant — darker stone base with same crystal veins"""
+    img = Image.new('RGBA', (16, 16), (0,0,0,0)); px = img.load()
+    for y in range(16):
+        for x in range(16):
+            n = noise(x, y, 0.6)
+            if n > 0.2: px[x,y] = P['outline']
+            elif n > -0.2: px[x,y] = P['darkest']
+            else: px[x,y] = (8, 0, 12, 255)
+    # Crystal veins
+    veins = [(3,4),(4,3),(5,3),(6,4),(4,4),(5,4), (10,8),(11,7),(12,7),(13,8),(11,8),(12,8),
+             (5,11),(6,10),(7,10),(8,11),(6,11),(7,11), (2,7),(3,7),(3,8)]
+    for x,y in veins:
+        px[x,y] = P['crystal']
+    bright = [(4,3),(5,4),(11,7),(12,8),(6,11),(3,7)]
+    for x,y in bright:
+        px[x,y] = P['core']
+    # Deeper edge accents
+    px[1,8] = P['core']; px[14,8] = P['crystal']
+    return img
+
 # Save all blocks
 make_fns = {
     'void_stone': make_void_stone,
@@ -283,6 +304,7 @@ make_fns = {
     'void_grass_block_top': make_grass_top,
     'void_grass_block_side': make_grass_side,
     'crystal_ore': make_crystal_ore,
+    'deepslate_crystal_ore': make_deepslate_crystal_ore,
     'crystal_block': make_crystal_block,
     'void_portal_frame_top': make_portal_top,
     'void_portal_frame_side': make_portal_side,

@@ -157,9 +157,105 @@ def crystal_wraith():
         px[7,y] = P['energy']; px[8,y] = P['energy']
     return img
 
+def crystal_guardian():
+    """64x64 floating crystal guardian — diamond body, energy core, crystal wings"""
+    img = Image.new('RGBA', (64, 64), (0,0,0,0))
+    px = img.load()
+    cx, cy = 31.5, 29.5  # center (upper half to leave room for body)
+    # Diamond body
+    for y in range(64):
+        for x in range(64):
+            d = abs(x - cx) + abs(y - cy)
+            if d < 20:
+                if d < 6: px[x,y] = P['white']
+                elif d < 10: px[x,y] = P['glow'] if (x+y)%3==0 else P['energy']
+                elif d < 14: px[x,y] = P['crystal'] if (x+y)%2==0 else P['core']
+                elif d < 18: px[x,y] = P['main']
+                else: px[x,y] = P['mid_dark']
+    # Eyes
+    for eye_y in range(25, 29):
+        for eye_x in range(27, 30): px[eye_x, eye_y] = P['white']
+        for eye_x in range(34, 37): px[eye_x, eye_y] = P['white']
+    # Crystal wings (side projections)
+    for y in range(20, 44):
+        wy = 6 - abs(y-32)*0.2
+        for x in range(int(cx-20-wy), int(cx-18)):
+            if 0<=x<64:
+                px[x,y] = P['crystal'] if (x+y)%3==0 else P['core']
+        for x in range(int(cx+18), int(cx+20+wy)):
+            if 0<=x<64:
+                px[x,y] = P['crystal'] if (x+y)%3==0 else P['core']
+    # Top crystal spike
+    for y in range(8, 18):
+        w = 3 - (y-8)*0.3
+        for x in range(int(cx-w), int(cx+w+1)):
+            if 0<=x<64:
+                px[x,y] = P['energy'] if y<13 else P['crystal']
+    px[int(cx),7] = P['white']
+    # Bottom body
+    for y in range(40, 55):
+        wy = 4 - (y-40)*0.25
+        for x in range(int(cx-wy), int(cx+wy+1)):
+            if 0<=x<64:
+                px[x,y] = P['main'] if x%2==0 else P['mid_dark']
+    # Floating crystal bits
+    for ox,oy in [(12,18),(50,18),(10,35),(52,35),(24,10),(38,10)]:
+        for dy in range(2):
+            for dx in range(2):
+                px[ox+dx,oy+dy] = P['energy']
+    return img
+
+def crystal_sprite():
+    """32x32 crystal sprite — small fairy with translucent wings and glow"""
+    img = Image.new('RGBA', (32, 32), (0,0,0,0))
+    px = img.load()
+    cx, cy = 15.5, 14.5
+    # Body (small humanoid)
+    for y in range(11, 18):
+        wy = 3 - abs(y-14)*0.5
+        for x in range(int(cx-wy), int(cx+wy+1)):
+            if 0<=x<32:
+                px[x,y] = P['crystal'] if (x+y)%2==0 else P['core']
+    # Head
+    for y in range(8, 12):
+        for x in range(int(cx-2.5), int(cx+3.5)):
+            if 0<=x<32:
+                px[x,y] = P['glow'] if (x+y)%3==0 else P['energy']
+    # Eyes
+    px[int(cx-1),9] = P['white']
+    px[int(cx+2),9] = P['white']
+    # Wings (translucent — use alpha variation)
+    wing_colors = [P['crystal'], P['core'], P['energy'], P['light']]
+    for y in range(6, 20):
+        for x in range(3, int(cx-2)):
+            d = abs(x-5) + abs(y-13)
+            if d < 8 and 0<=x<32:
+                ci = (x+y)%len(wing_colors)
+                px[x,y] = wing_colors[ci]
+        for x in range(int(cx+3), 29):
+            d = abs(x-27) + abs(y-13)
+            if d < 8 and 0<=x<32:
+                ci = (x+y)%len(wing_colors)
+                px[x,y] = wing_colors[ci]
+    # Glow trail below
+    for y in range(19, 28):
+        alpha = max(0, (28-y)*28)
+        for x in range(int(cx-1.5), int(cx+2.5)):
+            if 0<=x<32:
+                r,g,b,_ = P['energy']
+                px[x,y] = (r,g,b,alpha)
+    # Antennae
+    for x in [14, 17]:
+        for dy in range(3):
+            px[x, 6-dy] = P['core']
+    px[14,5] = P['glow']; px[17,5] = P['glow']
+    return img
+
 for name, make_fn in [('void_stalker', void_stalker), ('echo_warden', echo_warden),
                        ('shard_guard', shard_guard), ('void_worm', void_worm),
-                       ('crystal_wraith', crystal_wraith)]:
+                       ('crystal_wraith', crystal_wraith),
+                       ('crystal_guardian', crystal_guardian),
+                       ('crystal_sprite', crystal_sprite)]:
     img = make_fn()
     path = os.path.join(BASE, f'{name}.png')
     img.save(path)
