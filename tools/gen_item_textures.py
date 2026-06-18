@@ -30,10 +30,11 @@ def diamond_shape(px, cx, cy, size, inner, outer, edge=None):
 
 def make_void_heart():
     img = Image.new('RGBA', (16, 16), (0,0,0,0)); px = img.load()
-    # Heart shape: two lobes at top, point at bottom
+    # Inner glow diamond (rendered first so heart overlays it)
+    diamond_shape(px, 7.5, 6.5, 5, P['white'], P['core'], P['crystal'])
+    # Heart shape on top
     for y in range(16):
         for x in range(16):
-            # Heart equation approximation
             hx, hy = abs(x-7.5), y-6
             if y < 9 and abs(hx-3) < 2 and hy < 3:
                 if abs(hx-3) < 1: px[x,y] = P['energy']
@@ -42,7 +43,6 @@ def make_void_heart():
                 px[x,y] = P['crystal'] if (x+y)%2==0 else P['core']
             elif y == 14 and x in (6,7,8,9):
                 px[x,y] = P['main']
-    diamond_shape(px, 7.5, 6.5, 7, P['white'], P['core'], P['crystal'])
     return img
 
 def make_echo_core():
@@ -130,8 +130,8 @@ def make_berry():
     px[6,6] = P['white']; px[7,7] = P['glow']
     # Stem
     for y in range(2, 6): px[7,y] = P['main']
-    # Small leaf
-    px[9,4] = P['mid_dark']; px[10,4] = P['main']; px[11,3] = P['main']
+    # Small leaf (connected to stem at (8,4))
+    px[8,4] = P['main']; px[9,4] = P['mid_dark']; px[10,4] = P['main']; px[11,3] = P['main']
     return img
 
 def make_catalyst():
@@ -155,15 +155,15 @@ def make_catalyst():
 
 def make_amulet():
     img = Image.new('RGBA', (16, 16), (0,0,0,0)); px = img.load()
-    # Pendant shape
+    # Crystal inlay (rendered first, once)
+    diamond_shape(px, 7.5, 8.5, 6, P['white'], P['energy'], P['crystal'])
+    # Gold frame — top band (y=3-5) and bottom tip (y=12-14)
     for y in range(3, 15):
         for x in range(3, 13):
             if y < 6:
                 d = abs(x-7.5)
                 if d < 3: px[x,y] = P['gold'] if (x+y)%2==0 else P['gold_light']
-            elif y < 12:
-                diamond_shape(px, 7.5, 8.5, 7, P['white'], P['energy'], P['crystal'])
-            else:
+            elif y >= 12:
                 if abs(x-7.5) < 1.5: px[x,y] = P['gold']
     # Chain
     for x in range(6, 10): px[x,0] = P['gold_light']; px[x,1] = P['gold']

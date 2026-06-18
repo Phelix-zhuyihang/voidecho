@@ -137,9 +137,6 @@ def make_crystal_block():
             d = abs(x-7.5) + abs(y-7.5)
             if d < 2: px[x,y] = P['energy']
             elif d < 3: px[x,y] = P['glow']
-    for x in range(16):
-        px[x,0] = P['light']; px[x,15] = P['shadow']
-        px[0,x] = P['shadow']; px[15,x] = P['light']
     return img
 
 def make_portal_top():
