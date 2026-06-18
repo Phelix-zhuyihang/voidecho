@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:crystal_sword"},
+    "title": {"translate": "advancements.void_echo.crystal_tools.title"},
+    "description": {"translate": "advancements.void_echo.crystal_tools.description"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "void_echo:void_explorer",
+  "criteria": {
+    "has_sword": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"items": ["void_echo:crystal_sword"]}]}
+    },
+    "has_pickaxe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"items": ["void_echo:crystal_pickaxe"]}]}
+    },
+    "has_axe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"items": ["void_echo:crystal_axe"]}]}
+    },
+    "has_shovel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"items": ["void_echo:crystal_shovel"]}]}
+    },
+    "has_hoe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"items": ["void_echo:crystal_hoe"]}]}
+    }
+  },
+  "requirements": [["has_sword", "has_pickaxe", "has_axe", "has_shovel", "has_hoe"]]
+}

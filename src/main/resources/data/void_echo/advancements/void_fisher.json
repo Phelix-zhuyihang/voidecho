@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:void_carp"},
+    "title": {"translate": "advancements.void_echo.void_fisher.title"},
+    "description": {"translate": "advancements.void_echo.void_fisher.description"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "void_echo:enter_void",
+  "criteria": {
+    "caught_carp": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"items": ["void_echo:void_carp"]}]}
+    },
+    "caught_ray": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"items": ["void_echo:crystal_ray"]}]}
+    },
+    "got_shell": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"items": ["void_echo:void_crab_shell"]}]}
+    }
+  },
+  "requirements": [["caught_carp", "caught_ray", "got_shell"]]
+}

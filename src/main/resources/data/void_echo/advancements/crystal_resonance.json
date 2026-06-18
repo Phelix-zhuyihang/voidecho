@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {"id": "void_echo:resonant_crystal"},
+    "title": {"translate": "advancements.void_echo.crystal_resonance.title"},
+    "description": {"translate": "advancements.void_echo.crystal_resonance.description"},
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "void_echo:defeat_warden",
+  "criteria": {
+    "has_crystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"items": ["void_echo:resonant_crystal"]}]}
+    }
+  },
+  "requirements": [["has_crystal"]]
+}
