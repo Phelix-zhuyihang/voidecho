@@ -76,6 +76,9 @@ public class ModItems {
     public static final Item VOID_STAFF = register("void_staff",
             new VoidStaffItem(new Item.Settings().maxDamage(250).rarity(Rarity.EPIC).fireproof()));
 
+    public static final Item VOID_SHIELD = register("void_shield",
+            new ShieldItem(new Item.Settings().maxDamage(500).rarity(Rarity.EPIC).fireproof()));
+
     // ---- Crystal Tools (mid-tier) ----
     public static final Item CRYSTAL_SWORD = register("crystal_sword",
             new SwordItem(ModToolMaterials.CRYSTAL,

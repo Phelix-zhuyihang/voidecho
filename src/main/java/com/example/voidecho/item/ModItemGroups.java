@@ -68,6 +68,7 @@ public class ModItemGroups {
                 entries.add(ModItems.VOID_SWORD);
                 entries.add(ModItems.VOID_BOW);
                 entries.add(ModItems.VOID_STAFF);
+                entries.add(ModItems.VOID_SHIELD);
 
                 // Armour
                 entries.add(ModItems.VOID_HELMET);
