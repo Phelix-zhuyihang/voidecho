@@ -5,6 +5,8 @@ import com.example.voidecho.entity.ModEntities;
 import com.example.voidecho.item.armor.VoidArmorItem;
 import com.example.voidecho.item.armor.VoidArmorMaterial;
 import net.minecraft.component.type.FoodComponent;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.Registries;
@@ -94,6 +96,34 @@ public class ModItems {
     public static final Item CRYSTAL_HOE = register("crystal_hoe",
             new HoeItem(ModToolMaterials.CRYSTAL,
                     new Item.Settings().rarity(Rarity.UNCOMMON).maxDamage(500)));
+
+    // ---- Void Fishing ----
+    public static final Item CRYSTAL_LURE = register("crystal_lure",
+            new Item(new Item.Settings().maxDamage(128).rarity(Rarity.UNCOMMON)));
+
+    public static final Item VOID_CARP = register("void_carp",
+            new Item(new Item.Settings().food(
+                    new FoodComponent.Builder().nutrition(3).saturationModifier(0.6f).build())));
+
+    public static final Item COOKED_VOID_CARP = register("cooked_void_carp",
+            new Item(new Item.Settings().food(
+                    new FoodComponent.Builder().nutrition(5).saturationModifier(1.2f).build())));
+
+    public static final Item CRYSTAL_RAY = register("crystal_ray",
+            new Item(new Item.Settings().food(
+                    new FoodComponent.Builder().nutrition(2).saturationModifier(0.4f)
+                            .statusEffect(new StatusEffectInstance(
+                                    StatusEffects.REGENERATION, 600, 0), 1.0f)
+                            .build())));
+
+    public static final Item VOID_CRAB_SHELL = register("void_crab_shell",
+            new Item(new Item.Settings().rarity(Rarity.UNCOMMON)));
+
+    public static final Item RESONANT_CRYSTAL = register("resonant_crystal",
+            new Item(new Item.Settings().rarity(Rarity.RARE).fireproof()));
+
+    public static final Item AEROLITH_FRAGMENT = register("aerolith_fragment",
+            new Item(new Item.Settings().rarity(Rarity.RARE)));
 
     // ---- Armour ----
     public static final Item VOID_HELMET = register("void_helmet",

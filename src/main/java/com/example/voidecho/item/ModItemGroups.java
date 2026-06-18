@@ -55,6 +55,15 @@ public class ModItemGroups {
                 entries.add(ModItems.CRYSTAL_SHOVEL);
                 entries.add(ModItems.CRYSTAL_HOE);
 
+                // Void Fishing
+                entries.add(ModItems.CRYSTAL_LURE);
+                entries.add(ModItems.VOID_CARP);
+                entries.add(ModItems.COOKED_VOID_CARP);
+                entries.add(ModItems.CRYSTAL_RAY);
+                entries.add(ModItems.VOID_CRAB_SHELL);
+                entries.add(ModItems.RESONANT_CRYSTAL);
+                entries.add(ModItems.AEROLITH_FRAGMENT);
+
                 // Tools / Weapons
                 entries.add(ModItems.VOID_SWORD);
                 entries.add(ModItems.VOID_BOW);
