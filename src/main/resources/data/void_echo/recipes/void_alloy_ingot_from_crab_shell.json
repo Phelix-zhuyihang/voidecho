@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {"item": "void_echo:void_crab_shell"},
+    {"item": "void_echo:void_crab_shell"},
+    {"item": "void_echo:void_crab_shell"}
+  ],
+  "result": {"id": "void_echo:void_alloy_ingot", "count": 1}
+}

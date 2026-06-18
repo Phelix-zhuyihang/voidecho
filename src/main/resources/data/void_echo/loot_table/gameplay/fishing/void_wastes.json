@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:fishing",
+  "pools": [{
+    "rolls": 1,
+    "entries": [
+      {"type": "minecraft:item", "name": "void_echo:void_crab_shell", "weight": 40},
+      {"type": "minecraft:item", "name": "void_echo:void_carp", "weight": 30},
+      {"type": "minecraft:item", "name": "void_echo:resonant_crystal", "weight": 10},
+      {"type": "minecraft:item", "name": "void_echo:void_alloy_ingot", "weight": 8},
+      {"type": "minecraft:item", "name": "void_echo:void_catalyst", "weight": 7},
+      {"type": "minecraft:item", "name": "void_echo:aerolith_fragment", "weight": 5}
+    ]
+  }]
+}

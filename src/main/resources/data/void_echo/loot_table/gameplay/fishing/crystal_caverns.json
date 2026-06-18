@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:fishing",
+  "pools": [{
+    "rolls": 1,
+    "entries": [
+      {"type": "minecraft:item", "name": "void_echo:void_carp", "weight": 40},
+      {"type": "minecraft:item", "name": "void_echo:crystal_shard", "weight": 25,
+       "functions": [{"function": "minecraft:set_count", "count": 3}]},
+      {"type": "minecraft:item", "name": "void_echo:crystal_ray", "weight": 15},
+      {"type": "minecraft:item", "name": "void_echo:resonant_crystal", "weight": 8},
+      {"type": "minecraft:item", "name": "void_echo:aerolith_fragment", "weight": 12}
+    ]
+  }]
+}
