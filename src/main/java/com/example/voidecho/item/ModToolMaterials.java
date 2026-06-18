@@ -28,6 +28,26 @@ public class ModToolMaterials {
         public Ingredient getRepairIngredient() { return Ingredient.ofItems(ModItems.VOID_ALLOY_INGOT); }
     };
 
+    public static final ToolMaterial CRYSTAL = new ToolMaterial() {
+        @Override
+        public int getDurability() { return 500; }
+
+        @Override
+        public float getMiningSpeedMultiplier() { return 7.0f; }
+
+        @Override
+        public float getAttackDamage() { return 3.0f; }
+
+        @Override
+        public TagKey<Block> getInverseTag() { return BlockTags.INCORRECT_FOR_DIAMOND_TOOL; }
+
+        @Override
+        public int getEnchantability() { return 22; }
+
+        @Override
+        public Ingredient getRepairIngredient() { return Ingredient.ofItems(ModItems.CRYSTAL_SHARD); }
+    };
+
     public static void init() {
         // Static fields initialise on class load.
     }

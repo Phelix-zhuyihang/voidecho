@@ -74,6 +74,27 @@ public class ModItems {
     public static final Item VOID_STAFF = register("void_staff",
             new VoidStaffItem(new Item.Settings().maxDamage(250).rarity(Rarity.EPIC).fireproof()));
 
+    // ---- Crystal Tools (mid-tier) ----
+    public static final Item CRYSTAL_SWORD = register("crystal_sword",
+            new SwordItem(ModToolMaterials.CRYSTAL,
+                    new Item.Settings().rarity(Rarity.UNCOMMON).maxDamage(500)));
+
+    public static final Item CRYSTAL_PICKAXE = register("crystal_pickaxe",
+            new PickaxeItem(ModToolMaterials.CRYSTAL,
+                    new Item.Settings().rarity(Rarity.UNCOMMON).maxDamage(500)));
+
+    public static final Item CRYSTAL_AXE = register("crystal_axe",
+            new AxeItem(ModToolMaterials.CRYSTAL,
+                    new Item.Settings().rarity(Rarity.UNCOMMON).maxDamage(500)));
+
+    public static final Item CRYSTAL_SHOVEL = register("crystal_shovel",
+            new ShovelItem(ModToolMaterials.CRYSTAL,
+                    new Item.Settings().rarity(Rarity.UNCOMMON).maxDamage(500)));
+
+    public static final Item CRYSTAL_HOE = register("crystal_hoe",
+            new HoeItem(ModToolMaterials.CRYSTAL,
+                    new Item.Settings().rarity(Rarity.UNCOMMON).maxDamage(500)));
+
     // ---- Armour ----
     public static final Item VOID_HELMET = register("void_helmet",
             new VoidArmorItem(VoidArmorMaterial.VOID_ALLOY, ArmorItem.Type.HELMET,

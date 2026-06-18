@@ -48,6 +48,13 @@ public class ModItemGroups {
                 entries.add(ModItems.RIFT_CORE);
                 entries.add(ModItems.VOID_ECHO_JOURNAL);
 
+                // Crystal Tools
+                entries.add(ModItems.CRYSTAL_SWORD);
+                entries.add(ModItems.CRYSTAL_PICKAXE);
+                entries.add(ModItems.CRYSTAL_AXE);
+                entries.add(ModItems.CRYSTAL_SHOVEL);
+                entries.add(ModItems.CRYSTAL_HOE);
+
                 // Tools / Weapons
                 entries.add(ModItems.VOID_SWORD);
                 entries.add(ModItems.VOID_BOW);
