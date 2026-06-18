@@ -163,6 +163,16 @@ public class VoidForgeBlock extends Block {
                 return NbtComponent.of(nbt);
             }
 
+            // T4: Crystal Resonance (weapon, requires prior T1 echo or rift upgrade)
+            if (offHand.isOf(ModItems.RESONANT_CRYSTAL)
+                    && (nbt.contains("void_echo:echo_upgrade", NbtElement.BYTE_TYPE)
+                        || nbt.contains("void_echo:rift_upgrade", NbtElement.BYTE_TYPE))
+                    && !nbt.contains("void_echo:crystal_resonance", NbtElement.BYTE_TYPE)) {
+                nbt.putBoolean("void_echo:crystal_resonance", true);
+                appliedUpgrade[0] = "crystal_resonance";
+                return NbtComponent.of(nbt);
+            }
+
             return existing; // No matching upgrade
         });
 
@@ -209,6 +219,10 @@ public class VoidForgeBlock extends Block {
                     offHand.decrement(1);
                     player.getInventory().remove(s -> s.isOf(ModBlocks.CRYSTAL_BLOCK.asItem()), 3, player.getInventory());
                     player.sendMessage(Text.translatable("message.void_echo.forge_crystal_barrier"), true);
+                }
+                case "crystal_resonance" -> {
+                    offHand.decrement(1);
+                    player.sendMessage(Text.translatable("message.void_echo.forge_crystal_resonance"), true);
                 }
             }
             playForgeEffects(world, pos);

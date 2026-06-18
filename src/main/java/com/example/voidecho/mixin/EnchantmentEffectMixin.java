@@ -210,6 +210,24 @@ public abstract class EnchantmentEffectMixin extends Entity {
                 SoundEvents.ENTITY_WARDEN_SONIC_BOOM, SoundCategory.PLAYERS, 0.4f, 1.8f);
         }
 
+        // T4: Crystal Resonance — 20% chain strike
+        if (weaponNbt.getBoolean("void_echo:crystal_resonance")
+                && livingAttacker.getRandom().nextFloat() < 0.2f) {
+            LivingEntity target = (LivingEntity) (Object) this;
+            net.minecraft.entity.LivingEntity chain = null;
+            double nearest = 25.0;
+            for (net.minecraft.entity.LivingEntity e : target.getWorld().getEntitiesByClass(
+                    net.minecraft.entity.LivingEntity.class,
+                    target.getBoundingBox().expand(5.0),
+                    e -> e != target && e.isAlive() && e != livingAttacker)) {
+                double d = target.squaredDistanceTo(e);
+                if (d < nearest) { nearest = d; chain = e; }
+            }
+            if (chain != null) {
+                chain.damage(target.getDamageSources().magic(), 6.0f);
+            }
+        }
+
         return amount;
     }
 
