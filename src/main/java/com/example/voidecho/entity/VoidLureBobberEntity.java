@@ -120,6 +120,14 @@ public class VoidLureBobberEntity extends Entity {
             }
         }
 
+        // 5% chance Void Crab ambush
+        if (owner.getRandom().nextFloat() < 0.05f) {
+            VoidCrabEntity crab = new VoidCrabEntity(ModEntities.VOID_CRAB, this.getWorld());
+            crab.refreshPositionAndAngles(this.getX(), this.getY(), this.getZ(),
+                    this.random.nextFloat() * 360f, 0);
+            this.getWorld().spawnEntity(crab);
+        }
+
         this.discard();
     }
 
