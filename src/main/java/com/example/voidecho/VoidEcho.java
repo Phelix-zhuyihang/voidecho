@@ -4,6 +4,7 @@ import com.example.voidecho.block.ModBlocks;
 import com.example.voidecho.config.ModConfig;
 import com.example.voidecho.enchantment.ModEnchantments;
 import com.example.voidecho.entity.ModEntities;
+import com.example.voidecho.entity.VoidCrabEntity;
 import com.example.voidecho.entity.boss.EchoWardenEntity;
 import com.example.voidecho.entity.boss.VoidStalkerEntity;
 import com.example.voidecho.entity.mob.CrystalSpriteEntity;
@@ -103,6 +104,10 @@ public class VoidEcho implements ModInitializer {
         // B3: Void Shade
         FabricDefaultAttributeRegistry.register(
                 ModEntities.VOID_SHADE, com.example.voidecho.entity.mob.VoidShadeEntity.createMobAttributes());
+
+        // Crabbing: Void Crab
+        FabricDefaultAttributeRegistry.register(
+                ModEntities.VOID_CRAB, VoidCrabEntity.createAttributes());
 
         // --- Fuel ---
         FuelRegistry.INSTANCE.add(ModBlocks.VOID_STONE, 800);

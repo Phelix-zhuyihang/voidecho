@@ -2,6 +2,7 @@ package com.example.voidecho.entity;
 
 import com.example.voidecho.VoidEcho;
 import com.example.voidecho.entity.boss.EchoWardenEntity;
+import com.example.voidecho.entity.VoidCrabEntity;
 import com.example.voidecho.entity.boss.VoidStalkerEntity;
 import com.example.voidecho.entity.mob.CrystalGuardianEntity;
 import com.example.voidecho.entity.mob.CrystalSpriteEntity;
@@ -10,6 +11,7 @@ import com.example.voidecho.entity.mob.ShardGuardEntity;
 import com.example.voidecho.entity.mob.VoidShadeEntity;
 import com.example.voidecho.entity.mob.VoidWormEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnLocationTypes;
@@ -107,6 +109,16 @@ public final class ModEntities {
             FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, VoidShadeEntity::new)
                     .dimensions(EntityDimensions.fixed(0.8f, 2.2f))
                     .trackRangeChunks(8)
+                    .trackedUpdateRate(3)
+                    .build()
+    );
+
+    public static final EntityType<VoidCrabEntity> VOID_CRAB = Registry.register(
+            Registries.ENTITY_TYPE,
+            Identifier.of(VoidEcho.MOD_ID, "void_crab"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, VoidCrabEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.6f, 0.4f))
+                    .trackRangeChunks(4)
                     .trackedUpdateRate(3)
                     .build()
     );
