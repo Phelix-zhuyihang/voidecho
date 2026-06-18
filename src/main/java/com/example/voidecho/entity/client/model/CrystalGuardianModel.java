@@ -64,7 +64,8 @@ public class CrystalGuardianModel extends SinglePartEntityModel<CrystalGuardianE
         this.head.pitch = headPitch * 0.017453292F;
         this.head.yaw = headYaw * 0.017453292F;
 
-        float wingFlap = (float) Math.sin(animationProgress * 0.25F) * 0.4F;
+        float flapSpeed = 0.25F + limbDistance * 0.3F;
+        float wingFlap = (float) Math.sin(animationProgress * flapSpeed) * 0.4F;
         this.leftWing.roll = -0.4F + wingFlap;
         this.rightWing.roll = 0.4F - wingFlap;
 

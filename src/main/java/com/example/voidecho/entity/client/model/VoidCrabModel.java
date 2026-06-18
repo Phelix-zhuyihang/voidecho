@@ -52,6 +52,15 @@ public class VoidCrabModel extends EntityModel<VoidCrabEntity> {
 
     @Override
     public void setAngles(VoidCrabEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+        // Leg scuttle — alternating pairs
+        float walkMag = Math.min(limbDistance * 0.5F, 0.5F);
+        float walkCycle = limbAngle * 0.6F;
+        this.legFrontLeft.pitch = (float) Math.sin(walkCycle) * walkMag * 0.5F;
+        this.legBackRight.pitch = (float) Math.sin(walkCycle) * walkMag * 0.5F;
+        this.legFrontRight.pitch = (float) Math.sin(walkCycle + Math.PI) * walkMag * 0.5F;
+        this.legBackLeft.pitch = (float) Math.sin(walkCycle + Math.PI) * walkMag * 0.5F;
+        // Body bob
+        this.body.pitch = (float) Math.sin(animationProgress * 0.1F) * 0.03F;
     }
 
     @Override

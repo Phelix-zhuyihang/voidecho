@@ -65,8 +65,9 @@ public class CrystalWraithModel extends SinglePartEntityModel<CrystalWraithEntit
         this.head.pitch = headPitch * 0.017453292F;
         this.head.yaw = headYaw * 0.017453292F;
 
-        // Wing flapping
-        float wingFlap = (float) Math.sin(animationProgress * 0.2F) * 0.3F;
+        // Wing flapping — faster when moving
+        float flapSpeed = 0.2F + limbDistance * 0.3F;
+        float wingFlap = (float) Math.sin(animationProgress * flapSpeed) * 0.3F;
         this.leftWing.roll = -0.5F + wingFlap;
         this.rightWing.roll = 0.5F - wingFlap;
 
