@@ -14,7 +14,6 @@
   "block.void_echo.echo_shard_3": "回声记忆碎片 III — 堡垒",
   "block.void_echo.echo_shard_4": "回声记忆碎片 IV — 沉眠者",
   "block.void_echo.echo_shard_5": "回声记忆碎片 V — 真相",
-
   "item.void_echo.void_key": "虚空钥匙",
   "item.void_echo.void_heart": "虚空之心",
   "item.void_echo.echo_core": "回声核心",
@@ -44,19 +43,18 @@
   "item.void_echo.void_chestplate": "虚灵合金胸甲",
   "item.void_echo.void_leggings": "虚灵合金护腿",
   "item.void_echo.void_boots": "虚灵合金靴子",
-
   "entity.void_echo.void_worm": "虚空蠕虫",
   "entity.void_echo.crystal_wraith": "暗晶幽魂",
   "entity.void_echo.shard_guard": "碎片守卫",
   "entity.void_echo.void_stalker": "虚空追猎者",
+  "entity.void_echo.void_stalker.summoner": "虚空追猎者 — 召唤师",
+  "entity.void_echo.void_stalker.enrage": "虚空追猎者 — 狂暴",
   "entity.void_echo.echo_warden": "回声守卫",
-
   "item.void_echo.void_worm_spawn_egg": "虚空蠕虫刷怪蛋",
   "item.void_echo.crystal_wraith_spawn_egg": "暗晶幽魂刷怪蛋",
   "item.void_echo.shard_guard_spawn_egg": "碎片守卫刷怪蛋",
   "item.void_echo.void_stalker_spawn_egg": "虚空追猎者刷怪蛋",
   "item.void_echo.echo_warden_spawn_egg": "回声守卫刷怪蛋",
-
   "tooltip.void_echo.journal": "右键阅读——包含生存知识",
   "tooltip.void_echo.void_key": "打开通往虚空的大门",
   "tooltip.void_echo.void_heart": "虚空追猎者的结晶精华",
@@ -72,7 +70,6 @@
   "tooltip.void_echo.void_leggings": "虚灵合金套装部件",
   "tooltip.void_echo.void_boots": "虚灵合金套装部件",
   "tooltip.void_echo.void_armor.set_bonus": "全套：免疫摔落和虚空伤害",
-
   "tooltip.void_echo.forge_header": "虚空锻炉升级：",
   "tooltip.void_echo.echo_upgrade": "  回声注入 I",
   "tooltip.void_echo.echo_strike": "  回声打击 II",
@@ -84,31 +81,14 @@
   "tooltip.void_echo.crystal_barrier": "  水晶屏障 III",
   "tooltip.void_echo.crystal_resonance": "  水晶谐振 IV",
   "tooltip.void_echo.forge_repaired": "  已修复：%1$s 次",
-
-  "item.void_echo.void_key.tooltip": "打开通往虚空的大门",
-  "item.void_echo.void_heart.tooltip": "虚空追猎者的结晶精华",
-  "item.void_echo.echo_core.tooltip": "古老的共振能量核心",
-  "item.void_echo.void_sword.tooltip": "右键向前传送",
-  "item.void_echo.void_bow.tooltip": "箭矢造成额外虚空伤害",
-  "item.void_echo.void_staff.tooltip": "右键施放虚空弹射",
-  "item.void_echo.void_helmet.tooltip": "虚灵合金套装部件",
-  "item.void_echo.void_chestplate.tooltip": "虚灵合金套装部件",
-  "item.void_echo.void_leggings.tooltip": "虚灵合金套装部件",
-  "item.void_echo.void_boots.tooltip": "虚灵合金套装部件",
-  "item.void_echo.void_armor.set_bonus": "全套：免疫摔落和虚空伤害",
-
   "effect.void_echo.void_touched": "虚空侵蚀",
   "effect.void_echo.echo_resonance": "回声共振",
-
   "itemGroup.void_echo_tab": "虚空回响",
-
   "dimension.void_echo.voids_end": "终虚渊",
-
   "biome.void_echo.void_plains": "虚空平原",
   "biome.void_echo.crystal_forest": "暗晶森林",
   "biome.void_echo.void_wastes": "虚空荒原",
   "biome.void_echo.crystal_caverns": "暗晶洞穴",
-
   "boss.void_echo.void_stalker.phase1": "虚空追猎者正在猎杀猎物...",
   "boss.void_echo.void_stalker.phase2": "虚空追猎者召唤它的仆从！",
   "boss.void_echo.void_stalker.phase3": "虚空追猎者进入狂怒状态！",
@@ -117,7 +97,6 @@
   "boss.void_echo.echo_warden.time_slow": "时间在回声守卫周围扭曲！",
   "boss.void_echo.echo_warden.slash": "回声守卫释放了毁灭性的一击！",
   "boss.void_echo.echo_warden.defeat": "回声守卫化为尘埃！",
-
   "subtitles.void_echo.entity.void_stalker.ambient": "虚空追猎者低吼",
   "subtitles.void_echo.entity.void_stalker.hurt": "虚空追猎者尖叫",
   "subtitles.void_echo.entity.void_stalker.death": "虚空追猎者消散",
@@ -140,7 +119,6 @@
   "subtitles.void_echo.item.void_staff.cast": "虚空法杖施法",
   "subtitles.void_echo.block.void_portal.activate": "传送门激活",
   "subtitles.void_echo.block.void_portal.ambient": "传送门嗡鸣",
-
   "advancements.void_echo.root.title": "虚空回响",
   "advancements.void_echo.root.description": "虚空在呼唤你的名字",
   "advancements.void_echo.find_crystal.title": "暗晶之发现",
@@ -193,15 +171,12 @@
   "advancements.void_echo.crab_hunter.description": "击杀一只暗晶蟹",
   "advancements.void_echo.crystal_resonance.title": "水晶谐振",
   "advancements.void_echo.crystal_resonance.description": "获得共鸣水晶",
-
   "death.attack.void_touched": "%1$s被虚空吞噬了",
   "death.attack.void_beam": "%1$s被虚空光束消灭了",
   "death.attack.void_slash": "%1$s被回声斩击切碎了",
-
   "text.autoconfig.void_echo.title": "虚空回响设置",
   "text.autoconfig.void_echo.option.bossHealthMultiplier": "Boss生命倍率",
   "text.autoconfig.void_echo.option.structureSpacing": "结构间距",
-
   "message.void_echo.portal_activated": "传送门涌动着远古的能量！",
   "message.void_echo.echo_warden_summoned": "回声守卫已被召唤！",
   "message.void_echo.warden_ending": "虚空归于沉寂。回声守卫已被击败——远古的黑暗已被驱散。你完成了这个世界建造者们未竟的事业。但虚空低语着最后一个问题：代价是什么？",
@@ -225,33 +200,27 @@
   "message.void_echo.stalker_defeated": "虚空追猎者已被击败！",
   "message.void_echo.teleport_blocked": "无法传送 -- 目的地被阻挡！",
   "message.void_echo.warden_already_exists": "回声守卫已经在附近潜伏！",
-
   "message.void_echo.return_to_overworld": "返回主世界...",
-
   "message.void_echo.echo_shard_1": "一个声音回荡：\"我是艾里昂四世，艾洛斯的末代君主。这座圣殿是我们最后的封印。如果你听到这段话——说明我们早已失败。\"",
   "message.void_echo.echo_shard_2": "记忆低语：\"凯伦——我最亲爱的挚友，我的禁卫队长——为了救我主动吸收了虚空。他还在那具躯壳里。你猎杀的那个怪物，曾是我们之中最高贵的灵魂。\"",
   "message.void_echo.echo_shard_3": "远古记录：\"虚空以记忆为食。水晶可以储存记忆，但无法永久维持。要塞坚守了数个世纪——但世纪不是永恒。\"",
   "message.void_echo.echo_shard_4": "意志的碎片：\"我将自己封印在水晶中，以压制虚空的入口。每过一年，我就失去更多的自我。召唤我吧——如果你准备好终结这一切。无论结果如何。\"",
   "message.void_echo.echo_shard_5": "最终的真相：\"我们——艾洛斯——失败了。但失败不是终点。你承载着我们曾经的一切。虚空现在低语着你的名字，旅者。不要让它吞噬你，如同它吞噬我们一样。\"",
-
   "book.void_echo.last_architect.title": "最后一位建筑师的手记",
   "book.void_echo.last_architect.author": "建筑师 瑟琳",
   "book.void_echo.last_architect.page1": "我是瑟琳，最后一位皇家水晶匠人。奉国王艾里昂四世之命，我设计了这座祭坛——连接主世界与终虚渊的桥梁。\n\n陛下相信，终有一天，有人需要跨越这道门。不是艾洛斯人——我们已经无法回头。而是来自彼岸的人。一个未曾被虚空低语浸染的人。\n\n那个人，就是你。",
   "book.void_echo.last_architect.page2": "你手中的虚空钥匙，是我最终的作品。它之所以能激活祭坛，是因为它承载着我的记忆——我对两界之桥的全部知识。\n\n不要丢失它。我已不再有水晶来铸造另一把。\n\n祭坛会认出钥匙的共鸣。踏入其中。终虚渊在等待。",
   "book.void_echo.last_architect.page3": "最后的警告：虚空以记忆为食。你在终虚渊中每多停留一刻，它就多了解你一分。那里的生物——蠕虫、幽魂、守卫——会被记忆吸引，如同飞蛾扑火。\n\n轻装前行。保持警觉。在低语变强的区域，切勿久留。\n\n愿水晶指引你的道路。\n\n——瑟琳",
-
   "book.void_echo.commanders_entry.title": "禁卫队长的最后记录",
   "book.void_echo.commanders_entry.author": "禁卫队长 凯伦",
   "book.void_echo.commanders_entry.page1": "我感觉到了。虚空已经进入了我。\n\n我们击退了第七次虚空潮汐——七波黑暗冲击要塞的城墙，我们守住了。我的士兵们欢呼。艾里昂拥抱了我。但在战斗中，有些东西穿透了防线。我主动吸收了它——否则国王会死。\n\n我以为我能承受。我错了。",
   "book.void_echo.commanders_entry.page2": "三天前开始出现低语。起初，它们像是战术指令——阵型、敌情、地形。我以为那是本能。然后我意识到，这些低语在告诉我如何杀死自己的士兵。\n\n虚空不下命令。它展示可能性。而最坏的可能性往往是最符合战术逻辑的。\n\n今天，我辞去了队长职务。艾里昂不知道真相。我只说我累了。",
   "book.void_echo.commanders_entry.page3": "如果你正在读这段话，我已经不在了。你将要在这座要塞深处面对的怪物——虚空追猎者——就是我的残骸。\n\n请出手果断。不要犹豫。那个仍然是凯伦的我，希望以战士的身份死去，而不是怪物的身份。\n\n艾里昂——如果你能看到这段话——原谅我。你是我族最好的君王。但愿你的封印能比我的意志力支撑更久。\n\n——凯伦",
-
   "book.void_echo.summoning_ritual.title": "召唤仪典",
   "book.void_echo.summoning_ritual.author": "高阶塑晶师 米莉尔",
   "book.void_echo.summoning_ritual.page1": "找到这座圣殿的人，请听好：你面前不是陵墓。这是一座牢笼——也是一道选择题。\n\n国王艾里昂四世将他的意识封入了这座圣殿中央的巨型水晶。四颗小水晶在四个方位放大封印。只要它们不被破坏，虚空的主入口就无法完全开启。",
   "book.void_echo.summoning_ritual.page2": "仪式需要虚空追猎者的心脏——凯伦，我们的禁卫队长。他被腐化的水晶之心能与国王的封印共鸣。将虚空之心放置在回声祭坛上，保持四颗放大型水晶完整——封印将解除，艾里昂将苏醒。\n\n你必须明白这意味着什么：回声守卫不是你的敌人。他已经独自支撑了数个世纪的封印，仅凭意志，困守于此。",
   "book.void_echo.summoning_ritual.page3": "一旦唤醒，艾里昂无法再次封印。封印将永久解除。如果你击败了他，虚空将自由流动——不再受约束。如果他击败了你，虚空将获得一个王者级躯壳。\n\n这里没有胜利。只有不同结局之间的选择。\n\n召唤他吧——如果你做好了准备，承受你创造的那个结局。\n\n——米莉尔，艾洛斯高阶塑晶师",
-
   "enchantment.void_echo.void_affinity": "虚空亲和",
   "enchantment.void_echo.void_affinity.desc": "在终虚渊维度增加伤害",
   "enchantment.void_echo.echo_pulse": "回声脉冲",
@@ -262,18 +231,16 @@
   "enchantment.void_echo.void_leech.desc": "攻击虚空侵蚀目标时治疗使用者",
   "enchantment.void_echo.crystal_shield": "水晶护盾",
   "enchantment.void_echo.crystal_shield.desc": "将弹射物反射回攻击者",
-
   "block.void_echo.crystal_bloom": "暗晶花",
   "block.void_echo.void_forge": "虚空锻炉",
-
   "item.void_echo.void_echo_journal": "虚空回响日志",
   "item.void_echo.rift_fragment": "裂隙碎片",
   "item.void_echo.crystal_sprite_spawn_egg": "暗晶精灵刷怪蛋",
   "item.void_echo.crystal_guardian_spawn_egg": "水晶守卫刷怪蛋",
-
   "entity.void_echo.crystal_sprite": "暗晶精灵",
   "entity.void_echo.crystal_guardian": "水晶守卫",
-
+  "entity.void_echo.void_shade": "虚空之影",
+  "entity.void_echo.void_crab": "暗晶蟹",
   "message.void_echo.crystal_bloom_event": "暗晶花闪烁着焕然一新的能量！",
   "message.void_echo.rift_opened": "一道虚空裂隙在附近撕裂开来！",
   "message.void_echo.rift_closed": "虚空裂隙坍塌了...",

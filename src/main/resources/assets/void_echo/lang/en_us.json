@@ -265,6 +265,8 @@
 
   "entity.void_echo.crystal_sprite": "Crystal Sprite",
   "entity.void_echo.crystal_guardian": "Crystal Guardian",
+  "entity.void_echo.void_shade": "Void Shade",
+  "entity.void_echo.void_crab": "Void Crab",
 
   "message.void_echo.crystal_bloom_event": "The Crystal Blooms shimmer with renewed energy!",
   "message.void_echo.rift_opened": "A Void Rift tears open nearby!",
