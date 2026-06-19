@@ -74,6 +74,18 @@
   "tooltip.void_echo.void_boots": "Part of the Void Alloy set",
   "tooltip.void_echo.void_armor.set_bonus": "Full Set: Immunity to fall and void damage",
 
+  "tooltip.void_echo.forge_header": "Forge Upgrades:",
+  "tooltip.void_echo.echo_upgrade": "  Echo Infusion I",
+  "tooltip.void_echo.echo_strike": "  Echo Strike II",
+  "tooltip.void_echo.echo_guard": "  Echo Guard II",
+  "tooltip.void_echo.void_resonance": "  Void Resonance III",
+  "tooltip.void_echo.rift_upgrade": "  Rift Infusion I",
+  "tooltip.void_echo.rift_walker": "  Rift Walker II",
+  "tooltip.void_echo.rift_fury": "  Rift Fury II",
+  "tooltip.void_echo.crystal_barrier": "  Crystal Barrier III",
+  "tooltip.void_echo.crystal_resonance": "  Crystal Resonance IV",
+  "tooltip.void_echo.forge_repaired": "  Repaired: %1$s×",
+
   "effect.void_echo.void_touched": "Void Touched",
   "effect.void_echo.echo_resonance": "Echo Resonance",
 

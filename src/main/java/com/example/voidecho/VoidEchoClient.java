@@ -40,5 +40,8 @@ public class VoidEchoClient implements ClientModInitializer {
 
         // ---- Dimension Effects (voids_end sky / fog) ----
         ModDimensionEffects.registerEffects();
+
+        // ---- Forge Upgrade Tooltip ----
+        com.example.voidecho.client.ForgeUpgradeTooltip.register();
     }
 }

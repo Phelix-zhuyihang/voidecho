@@ -73,6 +73,18 @@
   "tooltip.void_echo.void_boots": "虚灵合金套装部件",
   "tooltip.void_echo.void_armor.set_bonus": "全套：免疫摔落和虚空伤害",
 
+  "tooltip.void_echo.forge_header": "虚空锻炉升级：",
+  "tooltip.void_echo.echo_upgrade": "  回声注入 I",
+  "tooltip.void_echo.echo_strike": "  回声打击 II",
+  "tooltip.void_echo.echo_guard": "  回声守护 II",
+  "tooltip.void_echo.void_resonance": "  虚空共鸣 III",
+  "tooltip.void_echo.rift_upgrade": "  裂隙注入 I",
+  "tooltip.void_echo.rift_walker": "  裂隙行者 II",
+  "tooltip.void_echo.rift_fury": "  裂隙之怒 II",
+  "tooltip.void_echo.crystal_barrier": "  水晶屏障 III",
+  "tooltip.void_echo.crystal_resonance": "  水晶谐振 IV",
+  "tooltip.void_echo.forge_repaired": "  已修复：%1$s 次",
+
   "item.void_echo.void_key.tooltip": "打开通往虚空的大门",
   "item.void_echo.void_heart.tooltip": "虚空追猎者的结晶精华",
   "item.void_echo.echo_core.tooltip": "古老的共振能量核心",
